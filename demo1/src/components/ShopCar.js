@@ -12,7 +12,7 @@ this.get_shopcar_data(this.props.user_id)
         /*this.props.init_stardata();*/
     }
 
-    columns = [{
+  /*  columns = [{
         title: '资源名称',
         dataIndex: 'name',
         key:"name",
@@ -41,8 +41,38 @@ this.get_shopcar_data(this.props.user_id)
                 ) : null
         ),
     }
-    ];
+    ];*/
 
+    columns = [{
+        title: '资源名称',
+        dataIndex: 'title',
+        key:"name",
+        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+    }, {
+        title: '作者',
+        dataIndex: 'authors',
+        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+    }, {
+        title: '资源类型',
+        dataIndex: 'Type',
+        render: type => (
+            <span>
+      <Tag color={'geekblue'} >{type}</Tag>
+    </span>
+        ),
+    },{
+        title:"操作",
+        dataIndex:"operation",
+        render: (text, record) => (
+            this.props.data.length >= 1
+                ? (
+                    <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record.key)}>
+                        <a href="javascript:;">Delete</a>
+                    </Popconfirm>
+                ) : null
+        ),
+    }
+    ];
     get_shopcar_data=(user_id)=>{
         axios.get(`Http://127.0.0.1:8000/item_cart/${user_id}`, {
             params: {
@@ -51,7 +81,7 @@ this.get_shopcar_data(this.props.user_id)
             .then( (response) =>{
                 console.log(response);
                 //设置购物车数据
-                this.props.get_shopcar_data(response.data.item_list,response.data.num)
+                this.props.get_shopcar_data(response.data.item_list)
             })
             .catch(function (error) {
                 console.log(error);
@@ -68,13 +98,30 @@ this.get_shopcar_data(this.props.user_id)
         console.log("选择项改变后的state长度为"+this.props.data.length)
     }
 
+    //从服务器删除
     handleDelete = (key) => {
         console.log("你想删除"+key);
         console.log("类里面的state：");
         console.log(this.state)
-        /*this.props.delete_stardata(key);
-        console.log("删除后的state");
-        console.log(this.props.data)*/
+        console.log(this.props.data[key])
+        axios.delete(`Http://127.0.0.1:8000/add_item_list/${this.props.user_id}/`, {
+            data: {
+                user_ID: this.props.user_id,
+                item_list: [this.props.data[key].resource_ID]
+            }
+        })
+            .then( (response) =>{
+                console.log(response);
+                //如果删除成功就刷新
+                alert("删除成功");
+                this.get_shopcar_data(this.props.user_id)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
     multiDelete=(selectedRowKeys) => {
 
@@ -144,7 +191,7 @@ get_shopcar_data_test=()=>{
     return{
 
         set_selectedRowKeys:(selectedRowKeys)=>{dispatch({type: "set_shopcar_selectedRowKeys",selectedRowKeys:selectedRowKeys})},
-        get_shopcar_data:(data,num)=>{dispatch({type:"get_shopcar",data:data,num:num})}
+        get_shopcar_data:(data)=>{dispatch({type:"get_shopcar",data:data})}
     }
 }
     ShopCar=connect(mapStateToProps,mapDispatchToProps)(ShopCar)

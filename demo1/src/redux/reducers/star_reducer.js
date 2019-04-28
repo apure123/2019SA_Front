@@ -18,6 +18,17 @@ const star_reducer = ( state={star_data:[],selectedRowKeys:[]},action) => {
                 star_data: newdata
             }
         }
+        case "set_star_data":{
+            var newdata=[];
+            for (let i = 0; i <action.data.length ; i++) {
+                newdata.push(action.data[i])
+                newdata[i].key=action.data[i].rank
+            }
+            return{
+                ...state,
+                star_data:newdata
+            }
+        }
         case "multidelete_stardata":
         {
             let newdata=state.star_data.filter(item => state.selectedRowKeys.indexOf(item.key)=== -1);

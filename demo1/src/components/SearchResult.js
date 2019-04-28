@@ -37,6 +37,28 @@ class SearchPage extends Component{
                 console.log(error);
             })
     }
+
+    //加到购物车
+    add_to_shopcar=(resource_id)=>{
+        axios.post(`Http://127.0.0.1:8000/add_item_list/${this.props.user_id}/`, {
+                user_ID: this.props.user_id,
+                item_list: [resource_id]
+        })
+            .then( (response) =>{
+                console.log(response);
+                //如果删除成功就刷新
+                alert("添加到购物车成功");
+                this.search(this.props.keyword)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
+
+
     componentDidMount() {
         this.search(this.props.keyword)
     }
@@ -61,8 +83,11 @@ class SearchPage extends Component{
                 /*loadMore={loadMore}*/
                 dataSource={this.props.result_list}
                 renderItem={item => (
-                    <List.Item actions={[<a>加入购物车</a>,
-                        <a onClick={()=>{console.log(item);this.star(item.resource_ID)}}>{item.is_star?<Icon type={"star"}theme={"filled"} />:<Icon type={"star"} />}</a>]}>
+                    <List.Item actions={[<a onClick={()=>{this.add_to_shopcar(item.resource_ID)}}>
+                        加入购物车</a>,
+                        <a onClick={()=>{console.log(item);this.star(item.resource_ID);this.search(this.props.keyword)}}>
+                            {item.is_star?<Icon type={"star"}theme={"filled"} />:<Icon type={"star"} />}
+                        </a>]}>
                         <Skeleton avatar title={false} loading={item.loading} active>
                             <p>{item.rank}</p>
                             <List.Item.Meta

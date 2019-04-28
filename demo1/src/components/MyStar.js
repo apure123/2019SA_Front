@@ -15,16 +15,16 @@ class MyStar extends Component{
 
      columns = [{
         title: '资源名称',
-        dataIndex: 'name',
+        dataIndex: 'title',
         key:"name",
         render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
     }, {
         title: '作者',
-        dataIndex: 'author',
-        render: (text,record, index) => <a href={record.author_url} target="_Blank" >{text}</a>
+        dataIndex: 'authors',
+        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
     }, {
         title: '资源类型',
-        dataIndex: 'type',
+        dataIndex: 'Type',
         render: type => (
             <span>
       <Tag color={'geekblue'} >{type}</Tag>
@@ -52,19 +52,29 @@ class MyStar extends Component{
         console.log("选择项改变后的state长度为"+this.props.data.length)
     }
 
+    //真正的从后端删除的方法
      handleDelete = (key) => {
         console.log("你想删除"+key);
         console.log("类里面的state：");
-        console.log(this.state)
-        /*this.setState({selectedRowKeys:[]})
-        let newdata=this.state.data.filter(item => item.key !== key);
-        this.setState({data:newdata});*/
+        console.log(this.props.data[key])
+         axios.delete(`Http://127.0.0.1:8000/star/${this.props.user_id}/`, {
+             data:{user_ID:this.props.user_id,
+                 resource_ID:this.props.data[key].resource_ID}
 
-        this.props.delete_stardata(key);
+         })
+             .then( (response) =>{
+                 console.log(response);
+                 //如果删除成功就刷新
+                 alert("删除成功");
+                 this.get_star_data(this.props.user_id)
+             })
+             .catch(function (error) {
+                 console.log(error);
+             })
+             .then(function () {
+                 // always executed
+             });
 
-
-        console.log("删除后的state");
-         console.log(this.props.data)
     }
     multiDelete=(selectedRowKeys) => {
 
@@ -90,7 +100,7 @@ class MyStar extends Component{
             .then( (response) =>{
                 console.log(response);
                 //设置收藏夹数据
-                this.props.set_star_data(response.data.item_list)
+                this.props.set_star_data(response.data.resource_list)
             })
             .catch(function (error) {
                 console.log(error);
@@ -145,7 +155,8 @@ function mapStateToProps(state)
     return{
         data:state.star.star_data,
         selectedRowKeys:state.star.selectedRowKeys,
-        user_id:state.login.user_id
+        user_id:state.login.user_id,
+
     }
 }
 

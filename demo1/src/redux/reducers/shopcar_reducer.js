@@ -4,17 +4,10 @@ const shopcar_reducer = ( state={data:[],selectedRowKeys:[]},action) => {
         {
             console.log("进入设置购物车的reducer")
             console.log(action)
-            let newdata = [];
-            for (let i = 0; i < action.num; i++) {
-                console.log("进入设置redux的循环")
-                newdata.push({
-                    key: action.data[i].rank,
-                    name: action.data[i].title,
-                    type:action.data[i].type,
-                    author: action.data[i].authors,
-                    url:action.data[i].url,
-                    author_url:"http://space.bilibili.com/123938419/"
-                });
+            var newdata=[];
+            for (let i = 0; i <action.data.length ; i++) {
+                newdata.push(action.data[i])
+                newdata[i].key=action.data[i].rank
             }
             return{
                 ...state,
