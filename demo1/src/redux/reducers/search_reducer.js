@@ -31,6 +31,17 @@ const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:""}
                 search_result_list:state.search_result_list.concat(temp_data)
             }
         }
+        case "search_deloading":{
+            let temp_data=state.search_result_list
+            if(temp_data[temp_data.length-1].loading)
+            {
+                temp_data.pop()
+            }
+            return{
+                ...state,
+                search_result_list:temp_data
+            }
+        }
         default:return state
     }
 

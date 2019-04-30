@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Table, Button, Tag, Popconfirm} from 'antd';
+import {Table, Button, Tag, Popconfirm,message} from 'antd';
 import {connect} from "react-redux";
 import axios from "axios"
 
@@ -51,7 +51,19 @@ this.get_shopcar_data(this.props.user_id)
     }, {
         title: '作者',
         dataIndex: 'authors',
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+        render: (text,record, index) =>(
+            <span style={{maxWidth:"200px"}}>
+                {record.author_IDs.map((author)=><Button size={"small"} style={{maxWidth:"200px",overflow:"hidden"}}
+                                                         onClick={
+                                                             ()=>{
+                                                                 console.log("这里有个可用的作者");
+                                                                 console.log(author.author_ID)
+                                                                 const w=window.open('about:blank');
+                                                                 w.location.href="https://www.baidu.com/";
+                                                             }}
+                                                         disabled={author.author_ID==-1}   >{author.name}</Button>)}
+            </span>
+        )
     }, {
         title: '资源类型',
         dataIndex: 'Type',
@@ -61,6 +73,11 @@ this.get_shopcar_data(this.props.user_id)
     </span>
         ),
     },{
+        title: '价格',
+        dataIndex: 'price',
+        key:"price",
+        render: (text) => <p>{text}</p>
+    }, {
         title:"操作",
         dataIndex:"operation",
         render: (text, record) => (
@@ -101,20 +118,24 @@ this.get_shopcar_data(this.props.user_id)
     //从服务器删除
     handleDelete = (key) => {
         console.log("你想删除"+key);
-        console.log("类里面的state：");
-        console.log(this.state)
+        console.log("你想删除的这个数据是：")
         console.log(this.props.data[key])
+        let list=[];
+        console.log("要删除的资源id：")
+        console.log(this.props.data[key])
+        list.push(this.props.data[key].resource_ID)
         axios.delete(`Http://127.0.0.1:8000/add_item_list/${this.props.user_id}/`, {
-            data: {
-                user_ID: this.props.user_id,
-                item_list: [this.props.data[key].resource_ID]
-            }
+            data:{user_ID:this.props.user_id,
+                item_list:[this.props.data[key].resource_ID]}
         })
             .then( (response) =>{
                 console.log(response);
                 //如果删除成功就刷新
-                alert("删除成功");
-                this.get_shopcar_data(this.props.user_id)
+                message.success("删除成功");
+                //完成删除动作之后需要把选中数组也一起清空
+                this.props.set_selectedRowKeys([]);
+                //然后重新获取
+                this.get_shopcar_data(this.props.user_id);
             })
             .catch(function (error) {
                 console.log(error);
@@ -127,15 +148,75 @@ this.get_shopcar_data(this.props.user_id)
 
         console.log("你想删除");
         console.log(selectedRowKeys)
-        console.log("类里面的state：");
-        console.log(this.state)
-        let newdata=[];
-        //在选中数组里面找不到item.key，其实就是批量删除的筛选器了
-        this.setState({data:this.state.data.filter(item => selectedRowKeys.indexOf(item.key)=== -1)})
-        //完成删除动作之后需要把选中数组也一起清空
-        this.state.selectedRowKeys=[];
+        let select_resource_idlist=[];
+        //把需要删除的资源用key提取resource_ID，然后装进数组
+        for (let i = 0; i <selectedRowKeys.length ; i++) {
+            select_resource_idlist.push(this.props.data[selectedRowKeys[i]].resource_ID)
+            /*console.log("看看里面resource_id有啥问题")
+            console.log(this.props.data[selectedRowKeys[i]])*/
+        }
+        console.log("想要删除的id数组为：");
+        console.log(select_resource_idlist);
+        axios.delete(`Http://127.0.0.1:8000/add_item_list/${this.props.user_id}/`, {
+            data: {
+                user_ID: this.props.user_id,
+                item_list:select_resource_idlist
+            }
+        })
+            .then( (response) =>{
+                console.log(response);
+                //如果删除成功就刷新
+                message.success("删除成功")
+                //完成删除动作之后需要把选中数组也一起清空
+                this.props.set_selectedRowKeys([]);
+                //然后重新获取
+                this.get_shopcar_data(this.props.user_id);
 
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
+    purchase=(selectedRowKeys)=>{
+        console.log("你想支付");
+        console.log(selectedRowKeys)
+        let select_resource_idlist=[];
+        let total_cost=0;
+        //把需要结算的资源用key提取resource_ID，然后装进数组，顺便计算总价格
+        for (let i = 0; i <selectedRowKeys.length ; i++) {
+            select_resource_idlist.push(this.props.data[selectedRowKeys[i]].resource_ID);
+            total_cost=total_cost+this.props.data[selectedRowKeys[i]].price
+            console.log("看看里面price有啥问题")
+            console.log(this.props.data[selectedRowKeys[i]])
+        }
+        console.log("想要支付的id数组为：");
+        console.log(select_resource_idlist);
+        axios.post(`Http://127.0.0.1:8000/purchase/${this.props.user_id}/`, {
+
+                item_list:select_resource_idlist,
+                total_cost:total_cost
+        })
+            .then( (response) =>{
+                console.log(response);
+                //如果结算成功就刷新
+                message.success("结算成功")
+                //完成结算动作之后需要把选中数组也一起清空
+                this.props.set_selectedRowKeys([]);
+                //然后重新获取
+                this.get_shopcar_data(this.props.user_id);
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
+
 get_shopcar_data_test=()=>{
 
 }
@@ -161,15 +242,23 @@ get_shopcar_data_test=()=>{
 
                 <Table  rowSelection={rowSelection} columns={this.columns} dataSource={this.props.data} pagination={{pageSize:7}} />
                 <Button
+
+                    onClick={()=>{this.multiDelete(this.props.selectedRowKeys)}}
+                    disabled={!hasSelected}
+                    /*loading={loading}*/
+                    style={{margin:"auto"}}
+                >
+                    批量删除
+                </Button>
+                <Button
                     type="primary"
-                    onClick={()=>{/*this.props.multidelete_stardata()*/}}
+                    onClick={()=>{this.purchase(this.props.selectedRowKeys)}}
                     disabled={!hasSelected}
                     /*loading={loading}*/
                     style={{margin:"auto"}}
                 >
                     批量结算
                 </Button>
-
                 <button onClick={()=>{console.log(this.props.data)}}>输出state</button>
                 <button onClick={()=>this.get_shopcar_data_test()}>初始化data</button>
 

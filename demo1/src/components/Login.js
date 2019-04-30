@@ -59,7 +59,9 @@ componentDidMount() {
                 if (response.data.status)
                 {
                     console.log("密码正确，开始登录");
-                    this.props.loginsubmit(this.props.form.getFieldValue("loginUserName"),response.data.is_expert,response.data.user_ID);
+                    this.props.loginsubmit(this.props.form.getFieldValue("loginUserName"),
+                    response.data.is_expert,
+                    response.data.user_ID);
                 }
                 else {alert("登录失败")}
             })
@@ -152,7 +154,7 @@ function mapDispatchToProps(dispatch){
     return{
         register:()=>{dispatch(regaction)},
         closeregister:()=>{dispatch(close_regaction)},
-        loginsubmit:(username,is_expert,user_id)=>{
+        loginsubmit:(username,is_expert,user_id,avator_url)=>{
         dispatch({type:"login",username:username,is_expert:is_expert,user_id:user_id});
         }
     }

@@ -1,8 +1,8 @@
-const shopcar_reducer = ( state={data:[],selectedRowKeys:[]},action) => {
+const buyed_reducer = ( state={data:[]},action) => {
     switch(action.type) {
-        case "get_shopcar"://从服务器将购物车全部覆盖本地数据的操作，需要把selectrowkey一起删掉
+        case "set_buyed"://从服务器将已购资源全部覆盖本地数据的操作
         {
-            console.log("进入设置购物车的reducer")
+            console.log("进入设置已购资源的reducer，下面是action")
             console.log(action)
             var newdata=[];
             for (let i = 0; i <action.data.length ; i++) {
@@ -30,20 +30,13 @@ const shopcar_reducer = ( state={data:[],selectedRowKeys:[]},action) => {
             return{
                 ...state,
                 data: newdata,
-                selectedRowKeys:[]
+
             }
         }
 
-        case "set_shopcar_selectedRowKeys":
-        {
-            return{
-                ...state,
-                selectedRowKeys:action.selectedRowKeys
-            }
-        }
         default:return state
     }
 
 }
 
-export default shopcar_reducer
+export default buyed_reducer

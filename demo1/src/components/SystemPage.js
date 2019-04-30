@@ -72,7 +72,7 @@ class SystemPage extends Component{
                         </Menu.Item>
 
                         <Menu.Item key="5" >
-                            <Link to={"/system/resources"}>
+                            <Link to={"/system/buyed"}>
                                 <Icon type="read" />
                                 <span>已购资源</span>
                             </Link>

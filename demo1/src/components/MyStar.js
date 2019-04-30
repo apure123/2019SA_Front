@@ -9,7 +9,7 @@ class MyStar extends Component{
     constructor(props) {
         super(props);
 //构造器的初始化操作
-       /* this.props.init_stardata();*/
+
         this.get_star_data(this.props.user_id)
     }
 
@@ -21,7 +21,19 @@ class MyStar extends Component{
     }, {
         title: '作者',
         dataIndex: 'authors',
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+        render: (text,record, index) =>(
+            <span>
+                {record.author_IDs.map((author)=><Button size={"small"}
+                                                         onClick={
+                    ()=>{
+                        console.log("这里有个可用的作者");
+                        console.log(author.author_ID)
+                        const w=window.open('about:blank');
+                    w.location.href="https://www.baidu.com/";
+                    }}
+                                                          disabled={author.author_ID==-1}   >{author.name}</Button>)}
+            </span>
+        )
     }, {
         title: '资源类型',
         dataIndex: 'Type',
@@ -59,7 +71,7 @@ class MyStar extends Component{
         console.log(this.props.data[key])
          axios.delete(`Http://127.0.0.1:8000/star/${this.props.user_id}/`, {
              data:{user_ID:this.props.user_id,
-                 resource_ID:this.props.data[key].resource_ID}
+                 resource_ID:[this.props.data[key].resource_ID]}
 
          })
              .then( (response) =>{
@@ -81,15 +93,40 @@ class MyStar extends Component{
         console.log("你想删除");
         console.log(selectedRowKeys)
         console.log("类里面的state：");
-        console.log(this.state)
-        let newdata=[];
-        //在选中数组里面找不到item.key，其实就是批量删除的筛选器了
-            this.setState({data:this.state.data.filter(item => selectedRowKeys.indexOf(item.key)=== -1)})
-        //完成删除动作之后需要把选中数组也一起清空
-        this.state.selectedRowKeys=[];
+        console.log(this.props.data)
 
-        /*console.log("删除后的state");
-        console.log(this.state.data)*/
+        let select_resource_idlist=[];
+        //把需要删除的资源用key提取resource_ID，然后装进数组
+        for (let i = 0; i <selectedRowKeys.length ; i++) {
+            select_resource_idlist.push(this.props.data[selectedRowKeys[i]].resource_ID)
+        }
+        console.log("想要删除的id数组为：");
+        console.log(select_resource_idlist);
+
+        var readyData=JSON.stringify({
+            resource_ID:select_resource_idlist
+        });
+        //下面是真正的删除后端数据
+        axios.delete(`Http://127.0.0.1:8000/star/${this.props.user_id}/`,
+            {data:{resource_ID:select_resource_idlist}}
+        )
+            .then( (response) =>{
+                console.log(response);
+                //如果删除成功就刷新
+                alert("删除成功");
+                this.get_star_data(this.props.user_id);
+                //完成删除动作之后需要把选中数组也一起清空
+                this.props.set_selectedRowKeys([]);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+
+
+
     }
 
     get_star_data=(user_id)=>{
@@ -131,7 +168,7 @@ class MyStar extends Component{
                 <Table  rowSelection={rowSelection} columns={this.columns} dataSource={this.props.data} pagination={{pageSize:7}} />
                 <Button
                     type="primary"
-                    onClick={()=>{this.props.multidelete_stardata()}}
+                    onClick={()=>{this.multiDelete(this.props.selectedRowKeys)}}
                     disabled={!hasSelected}
                     /*loading={loading}*/
                     style={{margin:"auto"}}

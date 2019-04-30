@@ -2,7 +2,7 @@ import axios from "axios"
 import {close_regaction, regaction} from "../redux/actions/reg_action";
 import {connect} from "react-redux";
 
-function loginsubmit(loginUserName,loginPassword) {
+function sever_loginsubmit(loginUserName,loginPassword) {
 
     console.log("函数成功调用，参数为")
     console.log(loginUserName)
@@ -49,5 +49,5 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-loginsubmit=connect(mapStateToProps,mapDispatchToProps)(loginsubmit);
-export default loginsubmit()
+sever_loginsubmit=connect(mapStateToProps,mapDispatchToProps)(sever_loginsubmit);
+export default sever_loginsubmit

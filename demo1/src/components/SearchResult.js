@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {Input, List, Skeleton, Avatar, Icon, Tag} from "antd";
+import {Input, List, Skeleton, Avatar, Icon, Tag,message} from "antd";
 import {connect} from "react-redux";
 import axios from "axios"
-
+import "../css/Search_Result.css"
 const count = 3;
 
 class SearchPage extends Component{
-
+    //搜索方法
     search=(keyword)=>{
         this.props.loading();
         axios.get(`Http://127.0.0.1:8000/search/${this.props.user_id}`, {
@@ -17,8 +17,9 @@ class SearchPage extends Component{
             console.log(response);
             this.props.set_res(response.data,keyword)
         })
-            .catch(function (error) {
+            .catch((error)=> {
                 console.log(error);
+                this.props.deloading();
             })
 
     }
@@ -47,11 +48,13 @@ class SearchPage extends Component{
             .then( (response) =>{
                 console.log(response);
                 //如果删除成功就刷新
-                alert("添加到购物车成功");
+                /*alert("添加到购物车成功");*/
+                message.success("添加成功")
                 this.search(this.props.keyword)
             })
             .catch(function (error) {
                 console.log(error);
+                alert("添加失败")
             })
             .then(function () {
                 // always executed
@@ -83,21 +86,26 @@ class SearchPage extends Component{
                 /*loadMore={loadMore}*/
                 dataSource={this.props.result_list}
                 renderItem={item => (
-                    <List.Item actions={[<a onClick={()=>{this.add_to_shopcar(item.resource_ID)}}>
+                    <List.Item
+                        /*style={{float:"left"}}*/
+                        actions={[<a onClick={()=>{this.add_to_shopcar(item.resource_ID)}}>
                         加入购物车</a>,
                         <a onClick={()=>{console.log(item);this.star(item.resource_ID);this.search(this.props.keyword)}}>
                             {item.is_star?<Icon type={"star"}theme={"filled"} />:<Icon type={"star"} />}
                         </a>]}>
                         <Skeleton avatar title={false} loading={item.loading} active>
-                            <p>{item.rank}</p>
-                            <List.Item.Meta
+                            <p style={{margin:"10px",padding:"10px"}}>{item.rank}</p>
+                            <List.Item.Meta style={{width:"60%",float:"left"}}
                                 /*avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}*/
-                                title={<a href={item.url}>{item.title}</a>}
-                                description={<div> <p>{`简介：${item.intro}`}</p></div>}
+                                title={<a href={item.url}>{`标题：${item.title}`}</a>}
+                                description={<div >
+                                    <p className={"line-limit-length"}>{`简介：${item.intro}`}</p>
+                                    <a href={item.url} target="_Blank" style={{margin:"10px",padding:"10px"}}>{item.authors}</a>
+
+                                    <div><p>价格：{item.price}</p></div>
+                                </div>}
                             />
-                            <a href={item.url} target="_Blank" style={{margin:"10px",padding:"10px"}}>{item.authors}</a>
                             <Tag color={'geekblue'} >文章类型</Tag>
-                            <div><p>价格：{item.price}</p></div>
 
                         </Skeleton>
                     </List.Item>
@@ -126,7 +134,8 @@ function mapDispatchToProps(dispatch){
         init:()=>{dispatch({type:"search_init"})},
         set_res:(list,keyword)=>{dispatch({type:"search_load",list:list,keyword:keyword})},
         quit_search:()=>{dispatch({type:"quit_search"})},
-        loading:()=>{dispatch({type:"search_loading"})}
+        loading:()=>{dispatch({type:"search_loading"})},
+        deloading:()=>{dispatch({type:"search_deloading"})}
     }
 }
 SearchPage=connect(mapStateToProps,mapDispatchToProps)(SearchPage)

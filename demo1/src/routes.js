@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import SystemPage from "./components/SystemPage";
 import MyStar from "./components/MyStar";
 import ShopCar from "./components/ShopCar";
+import Buyed from "./components/Buyed";
 
 export const routes=[
 
@@ -38,10 +39,10 @@ export const routes2=[
         path:"/system/account",
         component:MyAccount
     },
-    {
+    /*{
         path:"/system/resources",
         component:MyResources
-    },
+    },*/
     {
         path:"/system/star",
         component:MyStar
@@ -49,5 +50,8 @@ export const routes2=[
     {
     path:"/system/shopcar",
         component:ShopCar
+    },{
+        path:"/system/buyed",
+        component:Buyed
     }
 ]

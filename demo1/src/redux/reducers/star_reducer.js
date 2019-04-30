@@ -1,28 +1,29 @@
 const star_reducer = ( state={star_data:[],selectedRowKeys:[]},action) => {
     switch(action.type) {
-        case "init_stardata":
-        {
-            let newdata = [];
-            for (let i = 0; i < 20; i++) {
-                newdata.push({
-                    key: i,
-                    name: `资源 ${i}`,
-                    type:"论文",
-                    author: `作者. ${i}`,
-                    url:"https://www.jianshu.com/p/9cc2f7696300?from=timeline&isappinstalled=0",
-                    author_url:"http://space.bilibili.com/123938419/"
-                });
-            }
-            return{
-                ...state,
-                star_data: newdata
-            }
-        }
+
         case "set_star_data":{
             var newdata=[];
+            //类型检测与纠正
             for (let i = 0; i <action.data.length ; i++) {
-                newdata.push(action.data[i])
-                newdata[i].key=action.data[i].rank
+                newdata.push(action.data[i]);
+                newdata[i].key=action.data[i].rank;
+                if (action.data[i].type){
+                    if (action.data[i].type=="P1") {
+                        newdata[i].Type="Paper"
+                    }else if(action.data[i].type=="P2"){
+                        newdata[i].Type="Patent"
+                    }else if(action.data[i].type=="P3"){
+                        newdata[i].Type="Project"
+                    }
+                    else {
+                        newdata[i].Type="未知"
+                    }
+                }
+                else {
+                    newdata[i].Type="未指定类型"
+                }
+                //作者划分
+
             }
             return{
                 ...state,
