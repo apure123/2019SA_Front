@@ -1,5 +1,5 @@
 
-const profile_reducer=(state={account:100},action)=>{
+const profile_reducer=(state={account:100,all_data: {user_ID:0,username:'',mail:"",user_type:"",telephone:"",introduction:""}},action)=>{
     switch (action.type) {
         case "profile_set_account": {
             let newdata = action.all_data;

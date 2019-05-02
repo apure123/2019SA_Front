@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import {Button, Col, Row, Statistic} from "antd";
 import {connect} from "react-redux";
 import axios from "axios";
-
+import echart from "./echart";
+import echarts from 'echarts/lib/echarts';
+import EchartsTest from "./echart"
 class MyAccount extends Component{
     constructor(props) {
         super(props);
-        this.get_profile_data()
+        this.get_profile_data();
+
     }
+componentDidMount() {
+
+}
 
     get_profile_data=()=>{
         //profile_set_account
@@ -39,6 +45,11 @@ class MyAccount extends Component{
                     <Button onClick={()=>this.get_profile_data()}>获取数据</Button>
                 </Col>
             </Row>
+            <div >
+                <EchartsTest/>
+
+            </div>
+
         </div>)
     }
 

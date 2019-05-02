@@ -38,7 +38,9 @@ const DescriptionItem = ({ title, content }) => (
 class PersonalInformation extends Component{
     constructor(props) {
         super(props);
-this.get_profile_data()
+this.get_profile_data();
+        console.log("先输出all_data：" );
+        console.log(this.props.all_data)
     }
 
     get_profile_data=()=>{
@@ -64,9 +66,7 @@ render()
     return(
         <div>
         <Card
-            style={{ width:"80%" ,margin:"auto"}}
-            /*cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}*/
-            /*cover={<img alt="example" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2897408807,1190668089&fm=27&gp=0.jpg" />}*/
+            style={{ width:"100%" ,margin:"auto"}}
             actions={[<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]}
         >
             <Meta
@@ -79,59 +79,28 @@ render()
                 <Col span={12}>
                     <DescriptionItem title="用户名" content={this.props.username} />
                 </Col>
-
-            </Row>
-
-            <Row>
                 <Col span={12}>
-                    <DescriptionItem title="Birthday" content="February 2,1900" />
+                    <DescriptionItem title="用户类型" content={this.props.all_data.user_type} />
                 </Col>
-                <Col span={12}>
-                    <DescriptionItem title="Website" content="-" />
-                </Col>
+
             </Row>
             <Row>
                 <Col span={24}>
                     <DescriptionItem
-                        title="Message"
-                        content="Make things as simple as possible but no simpler."
+                        title="简介"
+                        content={this.props.all_data.introduction}
                     />
                 </Col>
             </Row>
+
             <Divider />
-            <p style={pStyle}>Company</p>
+            <p style={pStyle}>联系方式</p>
             <Row>
                 <Col span={12}>
-                    <DescriptionItem title="Position" content="Programmer" />
+                    <DescriptionItem title="邮箱" content={this.props.all_data.mail} />
                 </Col>
                 <Col span={12}>
-                    <DescriptionItem title="Responsibilities" content="Coding" />
-                </Col>
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <DescriptionItem title="Department" content="AFX" />
-                </Col>
-                <Col span={12}>
-                    <DescriptionItem title="Supervisor" content={<a>Lin</a>} />
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <DescriptionItem
-                        title="Skills"
-                        content="C / C + +, data structures, software engineering, operating systems, computer networks, databases, compiler theory, computer architecture, Microcomputer Principle and Interface Technology, Computer English, Java, ASP, etc."
-                    />
-                </Col>
-            </Row>
-            <Divider />
-            <p style={pStyle}>Contacts</p>
-            <Row>
-                <Col span={12}>
-                    <DescriptionItem title="Email" content="AntDesign@example.com" />
-                </Col>
-                <Col span={12}>
-                    <DescriptionItem title="Phone Number" content="+86 181 0000 0000" />
+                    <DescriptionItem title="手机号" content={this.props.all_data.telephone} />
                 </Col>
             </Row>
             <Row>
@@ -146,6 +115,33 @@ render()
                     />
                 </Col>
             </Row>
+
+            <Divider />
+            {this.props.all_data.Type=="E"?
+            <div>
+                <p style={pStyle}>专家信息</p>
+                <Row>
+                    <Col span={12}>
+                        <DescriptionItem title="所属机构" content={this.props.all_data.institute} />
+                    </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="研究领域" content={this.props.all_data.domain} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <DescriptionItem
+                            title="简介"
+                            content={this.props.all_data.introduction}
+                        />
+                    </Col>
+                </Row>
+
+
+            </div>
+            :<div></div>
+            }
+
 
             <hr/>
             <h2>学术动态</h2>

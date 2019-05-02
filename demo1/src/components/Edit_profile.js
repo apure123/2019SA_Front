@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import {Button, Checkbox, Icon, Input,Form,Drawer} from "antd";
+import {Button, Checkbox, Icon, Input,Form,Drawer,message} from "antd";
 
 import "../App.css"
 
 import {connect} from "react-redux";
 import axios from "axios"
+const { TextArea } = Input
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -19,11 +20,11 @@ const tailFormItemLayout = {
     wrapperCol: {
         xs: {
             span: 24,
-            offset: 0,
+            offset: 4,
         },
         sm: {
             span: 16,
-            offset: 4,
+            offset: 8,
         },
     },
 };
@@ -35,6 +36,16 @@ class Edit_profile extends Component{
         confirmDirty: false,
         autoCompleteResult: [],
     };
+
+    //验证老密码
+    comfirmOldPassword=(rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== this.props.all_data.passwd) {
+            callback('原密码输入不正确!');
+        } else {
+            callback();
+        }
+    }
 
     //密码框对应的方法
     validateToNextPassword = (rule, value, callback) => {
@@ -49,7 +60,7 @@ class Edit_profile extends Component{
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('两次新密码输入不一致!');
         } else {
             callback();
         }
@@ -62,19 +73,77 @@ class Edit_profile extends Component{
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
-//修改信息提交的方法
+    //已阅读协议
+    Agreement_read=(rule, value, callback) => {
+        const form = this.props.form;
+        if (!value) {
+            callback('请先阅读用户协议!');
+        } else {
+            callback();
+        }
+    }
+
+    //修改信息提交的方法，包含后续的关闭抽屉和重新加载个人信息
     Edit_Submit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-
+                let newdata={};
+                newdata.user_ID=this.props.user_id;
+                newdata.username=values.username;
+                newdata.passwd=values.password;
+                if(values.mail) {
+                    newdata.mail=values.mail;
+                }else {
+                    newdata.mail=""
+                }
+                newdata.telephone=values.phone;
+                newdata.Type=this.props.all_data.Type;
+                if(this.props.all_data.Type=="E"){
+                    newdata.introduction="";
+                    if(values.introduction) {
+                        newdata.introduction=values.introduction;
+                    }
+                    newdata.institute="";
+                    if(values.institute){
+                        newdata.institute=values.institute;
+                    }
+                    newdata.domain="";
+                    if(values.domain){
+                        newdata.domain=values.domain;
+                    }
+                    newdata.avatar_url="";
+                    newdata.name=null;
+                }else {
+                        newdata.introduction="";
+                        newdata.institute="";
+                        newdata.domain="";
+                        newdata.avatar_url="";
+                        newdata.name=null;
+                }
+                newdata.balance=this.props.all_data.balance;
+                console.log("发送的参数：")
+                console.log(newdata);
+                axios.put(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`,{...newdata})
+                    .then( (response) =>{
+                        console.log(response);
+                        message.success("个人信息设置成功")
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    });
             }
         });
+        //关闭抽屉
+        this.onClose();
+
+        //重新加载
+        this.get_profile_data();
     }
-
-    //注册提交到后端的测试方法
-
 
     showDrawer = () => {
         this.setState({
@@ -82,39 +151,72 @@ class Edit_profile extends Component{
         });
     };
 
+    //关闭抽屉
     onClose = () => {
         this.props.set_visible(false);
     };
+
+    //从后端加载账户数据
+    get_profile_data=()=>{
+        //profile_set_account
+
+        axios.get(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`
+        )
+            .then( (response) =>{
+                console.log(response);
+                this.props.set_profile_account(response.data.balance,response.data)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
         return(
             <div >
                 <Drawer
-                    title="Create a new account"
+                    title="修改个人信息"
                     width={720}
                     onClose={this.onClose}
                     visible={this.props.visible}
                 >
-                <Form {...formItemLayout}  onSubmit={this.registerSubmit_test}>
-                    <h2>注册</h2>
+                <Form {...formItemLayout}  onSubmit={this.Edit_Submit}>
+
                     <Form.Item label={"用户名"} >
-                        {getFieldDecorator('registerUsername', {
+                        {getFieldDecorator('username', {
                             rules: [{
                                 message: '请输入用户名!',
                             }, {
                                 required: true, message: 'Please input your username!',
                             }],
                         })(
-                            <Input />
+                            <Input placeholder={this.props.username} />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="密码"
+                        label="原密码"
+                    >
+                        {getFieldDecorator('oldpassword', {
+                            rules: [{
+                                required: true, message: '请输入原密码!',
+                            }, {
+                                validator: this.comfirmOldPassword,
+                            }],
+                        })(
+                            <Input type="password" />
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label="新密码"
                     >
                         {getFieldDecorator('password', {
                             rules: [{
-                                required: true, message: 'Please input your password!',
+                                required: true, message: '请输入新密码!',
                             }, {
                                 validator: this.validateToNextPassword,
                             }],
@@ -128,7 +230,7 @@ class Edit_profile extends Component{
                     >
                         {getFieldDecorator('confirm', {
                             rules: [{
-                                required: true, message: 'Please confirm your password!',
+                                required: true, message: '请再次输入您的密码!',
                             }, {
                                 validator: this.compareToFirstPassword,
                             }],
@@ -140,23 +242,56 @@ class Edit_profile extends Component{
                         label="手机号"
                     >
                         {getFieldDecorator('phone', {
-                            rules: [{ required: true, message: 'Please input your phone number!' }],
+                            rules: [{ required: true, message: '请输入您的手机号码!' }],
                         })(
-                            <Input  style={{ }} />
+                            <Input  placeholder={this.props.all_data.telephone} ></Input>
                         )}
                     </Form.Item>
+                    <Form.Item
+                        label="邮箱"
+                    >
+                        {getFieldDecorator('mail')(
+                            <Input  placeholder={this.props.all_data.mail} ></Input>
+                        )}
+                    </Form.Item>
+                    {this.props.all_data.Type=="E"?
+                        <div>
+                            <Form.Item
+                            label="简介"
+                        >
+                            {getFieldDecorator('introduction')(
+                                <TextArea rows={4} placeholder={this.props.all_data.introduction} ></TextArea>
+                            )}
+                        </Form.Item>
+                            <Form.Item
+                                label="所属机构"
+                            >
+                                {getFieldDecorator('institute')(
+                                    <Input  placeholder={this.props.all_data.institute} ></Input>
+                                )}
+                            </Form.Item>
+                            <Form.Item
+                                label="研究领域"
+                            >
+                                {getFieldDecorator('domain')(
+                                    <Input  placeholder={this.props.all_data.domain} ></Input>
+                                )}
+                            </Form.Item>
+
+                        </div>
+                    :<div></div>
+                    }
                     <Form.Item {...tailFormItemLayout}>
                         {getFieldDecorator('agreement', {
                             valuePropName: 'checked',//输入框什么的默认是value，但是checkbox必须把值的名字改成checked
+                            rules: [{
+                                validator: this.Agreement_read,
+                            }]
                         })(
-                            <Checkbox>I have read the <a href="">agreement</a></Checkbox>
+                            <Checkbox>我已阅读并同意 <a href="">用户协议</a></Checkbox>
                         )}
                     </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">提交</Button>
-                    </Form.Item>
-                </Form>
-                    //提交与取消
+
                     <div
                         style={{
                             position: 'absolute',
@@ -172,10 +307,12 @@ class Edit_profile extends Component{
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             Cancel
                         </Button>
-                        <Button onClick={this.onClose} type="primary">
+                        <Button  type="primary"  htmlType="submit" >
                             Submit
                         </Button>
                     </div>
+                </Form>
+
                 </Drawer>
 
 
@@ -187,7 +324,10 @@ class Edit_profile extends Component{
 function mapStateToProps(state)
 {
     return{
-        visible:state.editProfile.edit_visible
+        visible:state.editProfile.edit_visible,
+        username:state.login.username,
+        all_data:state.profile.all_data,
+        user_id:state.login.user_id
     }
 }
 
@@ -195,6 +335,9 @@ function mapDispatchToProps(dispatch){
     return{
 
         set_visible:(flag)=>{dispatch({type:"edit_set_visible",visible:flag})},
+        set_profile_account:(account,all_data)=>{dispatch(
+            {type: "profile_set_account",account:account,all_data: all_data}
+        )},
 
     }
 }
