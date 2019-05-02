@@ -78,6 +78,7 @@ class Edit_profile extends Component{
         const form = this.props.form;
         if (!value) {
             callback('请先阅读用户协议!');
+            alert("请先勾选已阅读用户协议")
         } else {
             callback();
         }
@@ -128,7 +129,12 @@ class Edit_profile extends Component{
                 axios.put(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`,{...newdata})
                     .then( (response) =>{
                         console.log(response);
-                        message.success("个人信息设置成功")
+                        message.success("个人信息设置成功");
+                        //关闭抽屉
+                        this.onClose();
+
+                        //重新加载
+                        this.get_profile_data();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -138,11 +144,7 @@ class Edit_profile extends Component{
                     });
             }
         });
-        //关闭抽屉
-        this.onClose();
 
-        //重新加载
-        this.get_profile_data();
     }
 
     showDrawer = () => {
@@ -281,16 +283,6 @@ class Edit_profile extends Component{
                         </div>
                     :<div></div>
                     }
-                    <Form.Item {...tailFormItemLayout}>
-                        {getFieldDecorator('agreement', {
-                            valuePropName: 'checked',//输入框什么的默认是value，但是checkbox必须把值的名字改成checked
-                            rules: [{
-                                validator: this.Agreement_read,
-                            }]
-                        })(
-                            <Checkbox>我已阅读并同意 <a href="">用户协议</a></Checkbox>
-                        )}
-                    </Form.Item>
 
                     <div
                         style={{
@@ -307,9 +299,10 @@ class Edit_profile extends Component{
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             Cancel
                         </Button>
-                        <Button  type="primary"  htmlType="submit" >
+                        <Button  type="primary"  htmlType="submit"  >
                             Submit
                         </Button>
+
                     </div>
                 </Form>
 

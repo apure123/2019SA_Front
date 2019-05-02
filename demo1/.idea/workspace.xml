@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d34fa179-74cb-4373-aa05-1f4b8f0bb9f9" name="Default Changelist" comment="更新部分购物车前端代码">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Edit_profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Edit_profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MyAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyAccount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PersonalInformation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PersonalInformation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/Profile_reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/Profile_reducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MyStar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyStar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ShopCar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ShopCar.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Edit_profile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="114" column="21" lean-forward="true" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
+            <state relative-caret-position="300">
+              <caret line="284" column="21" selection-start-line="284" selection-start-column="21" selection-end-line="284" selection-end-column="21" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
                 <element signature="e#214#363#0" />
@@ -32,8 +29,34 @@
                 <element signature="e#748#940#0" />
                 <element signature="e#1013#1199#0" />
                 <element signature="e#1272#1470#0" />
-                <element signature="e#1735#1888#0" />
                 <element signature="e#7205#7481#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/ShopCar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="863">
+              <caret line="261" selection-start-line="261" selection-end-line="261" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/MyStar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="458">
+              <caret line="143" selection-start-line="143" selection-end-line="143" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#379#1784#0" />
+                <element signature="e#2109#2815#0" />
+                <element signature="e#4083#4556#0" />
               </folding>
             </state>
           </provider>
@@ -42,8 +65,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/SearchResult.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="1" column="56" selection-start-line="1" selection-start-column="49" selection-end-line="1" selection-end-column="56" />
+            <state relative-caret-position="135">
+              <caret line="41" column="4" lean-forward="true" selection-start-line="41" selection-start-column="4" selection-end-line="61" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/redux/store/store.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,44 +89,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Login.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="50" column="47" lean-forward="true" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="29" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/echart.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="980">
-              <caret line="36" column="26" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="26" />
-              <folding>
-                <element signature="e#160#199#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Home.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="29" />
+            <state relative-caret-position="-557">
+              <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -179,13 +181,11 @@
         <option value="$PROJECT_DIR$/src/redux/reducers/search_reducer.js" />
         <option value="$PROJECT_DIR$/src/redux/reducers/login_reducer.js" />
         <option value="$PROJECT_DIR$/src/Service/login.js" />
-        <option value="$PROJECT_DIR$/src/components/MyStar.js" />
         <option value="$PROJECT_DIR$/src/redux/reducers/star_reducer.js" />
         <option value="$PROJECT_DIR$/src/css/Search_Result.css" />
         <option value="$PROJECT_DIR$/src/redux/reducers/shopcar_reducer.js" />
         <option value="$PROJECT_DIR$/src/components/Login.js" />
         <option value="$PROJECT_DIR$/src/components/SearchResult.js" />
-        <option value="$PROJECT_DIR$/src/components/ShopCar.js" />
         <option value="$PROJECT_DIR$/src/redux/reducers/Buyed_Reducer.js" />
         <option value="$PROJECT_DIR$/src/components/Byed.js" />
         <option value="$PROJECT_DIR$/src/components/SystemPage.js" />
@@ -197,6 +197,8 @@
         <option value="$PROJECT_DIR$/src/components/MyAccount.js" />
         <option value="$PROJECT_DIR$/src/redux/reducers/Profile_reducer.js" />
         <option value="$PROJECT_DIR$/src/components/PersonalInformation.js" />
+        <option value="$PROJECT_DIR$/src/components/ShopCar.js" />
+        <option value="$PROJECT_DIR$/src/components/MyStar.js" />
         <option value="$PROJECT_DIR$/src/components/Edit_profile.js" />
       </list>
     </option>
@@ -251,7 +253,7 @@
               <item name="demo1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="redux" type="462c0819:PsiDirectoryNode" />
-              <item name="reducers" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="demo1" type="b2602c69:ProjectViewProjectNode" />
@@ -362,12 +364,12 @@
       <workItem from="1556583447037" duration="18765000" />
       <workItem from="1556608164725" duration="19746000" />
       <workItem from="1556680035194" duration="12574000" />
-      <workItem from="1556756101435" duration="3597000" />
+      <workItem from="1556756101435" duration="8119000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318737000" />
+    <option name="totallyTimeSpent" value="323259000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -382,7 +384,7 @@
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14752372" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14752372" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -396,7 +398,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3253796" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3253796" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -421,16 +423,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/config-overrides.js" />
-    <entry file="file://$PROJECT_DIR$/src/redux/store/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config-overrides.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -534,17 +526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/MyStar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="75" column="11" lean-forward="true" selection-start-line="71" selection-start-column="8" selection-end-line="75" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#379#1784#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/redux/reducers/search_reducer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1148">
@@ -563,20 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret selection-end-line="48" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ShopCar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="224" column="14" lean-forward="true" selection-start-line="224" selection-start-column="14" selection-end-line="224" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#332#1226#0" />
-            <element signature="e#3002#3469#0" />
-            <element signature="e#3786#4517#0" />
-            <element signature="e#5225#6196#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -698,23 +665,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="50" column="47" lean-forward="true" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SearchResult.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="56" selection-start-line="1" selection-start-column="49" selection-end-line="1" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/PersonalInformation.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="710">
@@ -726,10 +676,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/store/store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-557">
+          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SearchResult.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="41" column="4" lean-forward="true" selection-start-line="41" selection-start-column="4" selection-end-line="61" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ShopCar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="863">
+          <caret line="261" selection-start-line="261" selection-end-line="261" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MyStar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#379#1784#0" />
+            <element signature="e#2109#2815#0" />
+            <element signature="e#4083#4556#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Edit_profile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="114" column="21" lean-forward="true" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
+        <state relative-caret-position="300">
+          <caret line="284" column="21" selection-start-line="284" selection-start-column="21" selection-end-line="284" selection-end-column="21" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
             <element signature="e#214#363#0" />
@@ -737,7 +740,6 @@
             <element signature="e#748#940#0" />
             <element signature="e#1013#1199#0" />
             <element signature="e#1272#1470#0" />
-            <element signature="e#1735#1888#0" />
             <element signature="e#7205#7481#0" />
           </folding>
         </state>

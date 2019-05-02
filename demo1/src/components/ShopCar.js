@@ -259,8 +259,7 @@ get_shopcar_data_test=()=>{
                 >
                     批量结算
                 </Button>
-                <button onClick={()=>{console.log(this.props.data)}}>输出state</button>
-                <button onClick={()=>this.get_shopcar_data_test()}>初始化data</button>
+
 
             </div>
         );
