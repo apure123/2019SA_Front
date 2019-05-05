@@ -7,6 +7,7 @@ import SystemPage from "./components/SystemPage";
 import MyStar from "./components/MyStar";
 import ShopCar from "./components/ShopCar";
 import Buyed from "./components/Buyed";
+import Expert_Home from "./components/Expert_Home";
 
 export const routes=[
 
@@ -53,5 +54,9 @@ export const routes2=[
     },{
         path:"/system/buyed",
         component:Buyed
+    },
+    {
+        path:"/system/experthome",
+        component:Expert_Home
     }
 ]

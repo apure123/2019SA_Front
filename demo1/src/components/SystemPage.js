@@ -79,7 +79,7 @@ class SystemPage extends Component{
                         </Menu.Item>
 
                         <Menu.Item key="6"disabled={!this.props.is_expert} title={ this.props.is_expert? "": "此功能只向专家用户开放"}>
-                            <Link to={"/system/account"}>
+                            <Link to={"/system/experthome"}>
                                 <Icon type="solution" />
                                 <span>个人门户</span>
                             </Link>
