@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Button, Checkbox, Icon, Input,Form,Drawer,message} from "antd";
-
 import "../App.css"
-
 import {connect} from "react-redux";
 import axios from "axios"
+import Upload_avatar from "./Upload_avatar";
+
+
 const { TextArea } = Input
 const formItemLayout = {
     labelCol: {
@@ -73,16 +74,6 @@ class Edit_profile extends Component{
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
-    //已阅读协议
-    Agreement_read=(rule, value, callback) => {
-        const form = this.props.form;
-        if (!value) {
-            callback('请先阅读用户协议!');
-            alert("请先勾选已阅读用户协议")
-        } else {
-            callback();
-        }
-    }
 
     //修改信息提交的方法，包含后续的关闭抽屉和重新加载个人信息
     Edit_Submit = (e) => {
@@ -187,6 +178,7 @@ class Edit_profile extends Component{
                     onClose={this.onClose}
                     visible={this.props.visible}
                 >
+                    <Upload_avatar/>
                 <Form {...formItemLayout}  onSubmit={this.Edit_Submit}>
 
                     <Form.Item label={"用户名"} >

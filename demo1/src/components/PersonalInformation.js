@@ -67,7 +67,9 @@ render()
         <div>
         <Card
             style={{ width:"100%" ,margin:"auto"}}
-            actions={[<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]}
+            actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
+                [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>,
+                    <a onClick={()=>alert("即将进入专家申请页")}> <Icon type="arrow-up" /> 申请成为专家</a>]}
         >
             <Meta
                 avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
@@ -116,9 +118,10 @@ render()
                 </Col>
             </Row>
 
-            <Divider />
+
             {this.props.all_data.Type=="E"?
             <div>
+                <Divider />
                 <p style={pStyle}>专家信息</p>
                 <Row>
                     <Col span={12}>
