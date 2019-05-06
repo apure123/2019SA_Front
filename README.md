@@ -20,8 +20,28 @@ npm install -g yarn
  
  2.事先在本地启动后端的server
  
- 3.在FrontEnd\demo1\src\redux\store\store.js 文件中删除这一行代码：
+ 3.在FrontEnd\demo1\src\redux\store\store.js 文件中删除这一行代码：()
  ![enter description here](./images/redux工具删除.png)
+ 
+
+``` javascript
+export const store=createStore(rootReducer,
+    compose(
+        applyMiddleware(...[thunk]), // 需要使用的中间件数组
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    ))
+
+```
+把这里从注释前的逗号开始删除，改成下面这样：
+
+``` javascript
+export const store=createStore(rootReducer,
+    compose(
+        applyMiddleware(...[thunk]) // 需要使用的中间件数组
+    ))
+```
+
+ 
  
  4.执行 **yarn start** 或者 **npm start** 启动项目
 
