@@ -178,7 +178,9 @@ class Edit_profile extends Component{
                     onClose={this.onClose}
                     visible={this.props.visible}
                 >
+                    <div style={{margin:"auto"}}>
                     <Upload_avatar/>
+                    </div>
                 <Form {...formItemLayout}  onSubmit={this.Edit_Submit}>
 
                     <Form.Item label={"用户名"} >

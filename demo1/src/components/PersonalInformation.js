@@ -6,8 +6,8 @@ import Edit_profile from "./Edit_profile";
 import axios from "axios";
 
 const pStyle = {
-    fontSize: 16,
-    color: 'rgba(0,0,0,0.85)',
+    fontSize: 18,
+    color: 'rgba(0,0,0,0.95)',
     lineHeight: '24px',
     display: 'block',
     marginBottom: 16,
@@ -20,6 +20,7 @@ const DescriptionItem = ({ title, content }) => (
             lineHeight: '22px',
             marginBottom: 7,
             color: 'rgba(0,0,0,0.65)',
+            float:"left"
         }}
     >
         <p
@@ -27,6 +28,7 @@ const DescriptionItem = ({ title, content }) => (
                 marginRight: 8,
                 display: 'inline-block',
                 color: 'rgba(0,0,0,0.85)',
+                float:"left"
             }}
         >
             {title}:
@@ -65,6 +67,7 @@ render()
     const { Meta } = Card;
     return(
         <div>
+            <div >
         <Card
             style={{ width:"100%" ,margin:"auto"}}
             actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
@@ -74,39 +77,51 @@ render()
             <Meta
                 avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                 title={`${this.props.username}的个人信息`}
-                description="This is the description"
+
             />
+            <br/>
+            <br/>
 
-            <Row>
-                <Col span={12}>
+            <Col span={12} >
+            <Card  style={{height:"220px"}}>
+                <p style={pStyle}>基本信息</p>
+                <Row >
                     <DescriptionItem title="用户名" content={this.props.username} />
-                </Col>
-                <Col span={12}>
-                    <DescriptionItem title="用户类型" content={this.props.all_data.user_type} />
-                </Col>
-
             </Row>
             <Row>
-                <Col span={24}>
+                    <DescriptionItem title="用户类型" content={this.props.all_data.user_type} />
+            </Row>
+            </Card>
+            </Col>
+
+            <Col span={12}>
+            <Card style={{height:"220px",background: '#ECECEC'}}>
+                <p style={pStyle}>简介</p>
+            <Row >
                     <DescriptionItem
                         title="简介"
                         content={this.props.all_data.introduction}
                     />
-                </Col>
-            </Row>
 
-            <Divider />
+            </Row>
+            </Card>
+            </Col>
+
+            {/*<Divider />*/}
+            <Col span={12} >
+            <Card style={{display:"block",background: '#ECECEC',height:"220px"}}>
             <p style={pStyle}>联系方式</p>
             <Row>
-                <Col span={12}>
+
                     <DescriptionItem title="邮箱" content={this.props.all_data.mail} />
-                </Col>
-                <Col span={12}>
-                    <DescriptionItem title="手机号" content={this.props.all_data.telephone} />
-                </Col>
+
             </Row>
             <Row>
-                <Col span={24}>
+
+                    <DescriptionItem title="手机号" content={this.props.all_data.telephone} />
+
+            </Row>
+            <Row>
                     <DescriptionItem
                         title="Github"
                         content={(
@@ -115,41 +130,40 @@ render()
                             </a>
                         )}
                     />
-                </Col>
             </Row>
-
+            </Card>
+            </Col>
 
             {this.props.all_data.Type=="E"?
             <div>
-                <Divider />
-                <p style={pStyle}>专家信息</p>
+                <Col span={12} >
+                <Card style={{display:"block",height:"220px"}}>
+                    <p style={pStyle}>专家信息</p>
                 <Row>
-                    <Col span={12}>
                         <DescriptionItem title="所属机构" content={this.props.all_data.institute} />
-                    </Col>
-                    <Col span={12}>
-                        <DescriptionItem title="研究领域" content={this.props.all_data.domain} />
-                    </Col>
                 </Row>
                 <Row>
-                    <Col span={24}>
+                        <DescriptionItem title="研究领域" content={this.props.all_data.domain} />
+                </Row>
+                <Row>
                         <DescriptionItem
                             title="简介"
                             content={this.props.all_data.introduction}
                         />
-                    </Col>
                 </Row>
-
-
+                </Card>
+                </Col>
             </div>
             :<div></div>
             }
-
+        </Card>
+            </div>
 
             <hr/>
             <h2>学术动态</h2>
             <a ref={""}>震惊！99.99%的人都不知道的死法！</a><Icon type="star" />
-        </Card>
+
+
         <Edit_profile/>
         </div>
     )

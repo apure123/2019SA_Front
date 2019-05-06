@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Avatar } from 'antd';
+import { Card } from 'antd';
 import "../css/Home.css"
 import {connect} from "react-redux";
 import SearchPage from "./SearchResult";
 import  "../css/Expert_Home.css"
+import Expert_echart from "./Echarts/Expert_echart";
+import Coworkers_echart from "./Echarts/Coworkers_echart";
 class Expert_Home extends Component{
     constructor(props) {
         super(props);
@@ -18,26 +20,29 @@ class Expert_Home extends Component{
 
                 <h2>专家门户</h2>
                 <hr/>
-                    <div style={{width:"100%"}}>
                 <h2>这里是专家简介</h2>
-                <div style={{display:"inline-block",width:"40%"}}>
+
+                    <div style={{width:"100%",display:"flex"}}>
+                <Card style={{display:"inline-block",width:"50%",float:"left"}}>
                 <img   src={"http://img4.imgtn.bdimg.com/it/u=648251558,316969232&fm=26&gp=0.jpg"}
                       className={"intro"}
                 />
-                </div>
-                <div style={{float:"right",width:"50%"}}>
                     <p>名字</p>
                     <p>研究领域</p>
                     <p>所属机构</p>
-                </div>
+                </Card>
+                        <Card style={{width:"50%",float:"right"}}>
+                            <Expert_echart/>
+                        </Card>
                     </div>
                 <hr/>
-                <div style={{float:"left",width:"50%"}}>
+                <Card style={{float:"left",width:"50%"}}>
                     <h2>资源</h2>
-                </div>
-                <div style={{float:"right",width:"50%"}}>
+                </Card>
+                <Card style={{float:"right",width:"50%"}}>
                     <h2>合作者</h2>
-                </div>
+                    <Coworkers_echart/>
+                </Card>
             </div>
         )
     }

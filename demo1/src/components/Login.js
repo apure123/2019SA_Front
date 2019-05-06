@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, Layout, Menu, Icon, Button, Form, Input, Checkbox, Avatar} from 'antd';
+import {Card, Layout, Menu, Icon, Button, Form, Input, Checkbox, Avatar,message} from 'antd';
 import {Redirect }from "react-router-dom"
 import logo from '../image/logo.png';
 import {connect} from "react-redux"
@@ -63,10 +63,11 @@ componentDidMount() {
                     response.data.is_expert,
                     response.data.user_ID);
                 }
-                else {alert("登录失败")}
+                else message.error("登录失败,密码错误")
             })
             .catch(function (error) {
                 console.log(error);
+                message.error("该用户名不存在")
             })
             .then(function () {
                 // always executed
