@@ -4,6 +4,7 @@ import {quit_action} from "../redux/actions/reg_action";
 import {connect} from "react-redux";
 import Edit_profile from "./Edit_profile";
 import axios from "axios";
+import User2Expert from "./User2Expert";
 
 const pStyle = {
     fontSize: 18,
@@ -40,7 +41,7 @@ const DescriptionItem = ({ title, content }) => (
 class PersonalInformation extends Component{
     constructor(props) {
         super(props);
-this.get_profile_data();
+        this.get_profile_data();
         console.log("先输出all_data：" );
         console.log(this.props.all_data)
     }
@@ -48,7 +49,7 @@ this.get_profile_data();
     get_profile_data=()=>{
         //profile_set_account
 
-        axios.get(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`
+        axios.get(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`
         )
             .then( (response) =>{
                 console.log(response);
@@ -72,7 +73,7 @@ render()
             style={{ width:"100%" ,margin:"auto"}}
             actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
                 [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>,
-                    <a onClick={()=>alert("即将进入专家申请页")}> <Icon type="arrow-up" /> 申请成为专家</a>]}
+                    <a onClick={()=>this.props.set_u2e_visible(true)}> <Icon type="arrow-up" /> 申请成为专家</a>]}
         >
             <Meta
                 avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
@@ -113,7 +114,7 @@ render()
             <p style={pStyle}>联系方式</p>
             <Row>
 
-                    <DescriptionItem title="邮箱" content={this.props.all_data.mail} />
+                    <DescriptionItem title="邮箱" content={this.props.all_data.email} />
 
             </Row>
             <Row>
@@ -165,6 +166,7 @@ render()
 
 
         <Edit_profile/>
+        <User2Expert/>
         </div>
     )
 }
@@ -177,7 +179,7 @@ function mapStateToProps(state)
         username:state.login.username,
         all_data:state.profile.all_data,
         account:state.profile.account,
-        user_id:state.login.user_id
+        token:state.login.token,
     }
 }
 
@@ -186,6 +188,7 @@ function mapDispatchToProps(dispatch){
 
         quit:()=>{dispatch(quit_action)},
         set_visible:(flag)=>{dispatch({type:"edit_set_visible",visible:flag})},
+        set_u2e_visible:(flag)=>{dispatch({type:"u2e_set_visible",visible:flag})},
         set_profile_account:(account,all_data)=>{dispatch(
             {type: "profile_set_account",account:account,all_data: all_data}
         )}

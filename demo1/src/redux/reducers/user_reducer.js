@@ -6,4 +6,5 @@ const user_reducer=(state={username:"",usertype:0},action)=>{
         default: return state
     }
 }
-export default user_reducer
+/*
+export default user_reducer*/

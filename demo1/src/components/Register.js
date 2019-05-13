@@ -76,20 +76,21 @@ class Register extends Component{
     //注册提交到后端的测试方法
     registerSubmit_test=(e)=>{
         e.preventDefault();
-        axios.get('Http://127.0.0.1:8000/register', {
-            params: {
+        axios.post('Http://127.0.0.1:8000/api/register/', {
+            data:{
                 username: this.props.form.getFieldValue("registerUsername"),
-                passwd:this.props.form.getFieldValue("password"),
-                telephone:this.props.form.getFieldValue("phone")
-            }
+                password:this.props.form.getFieldValue("password"),
+                telephone:this.props.form.getFieldValue("phone"),
+                email:" ",
+                Type:"U"}
         })
             .then(function (response) {
                 console.log(response);
-                if(response.data.status){
-                    alert("注册成功，快去登录吧！")
+                if(response.data.msg){
+                    alert("注册失败:"+response.data.msg)
                 }
                 else {
-                    alert("注册失败，似乎除了点问题")
+                    alert("注册成功，可以去登录了")
                 }
             })
             .catch(function (error) {

@@ -77,7 +77,7 @@ function mapDispatchToProps(dispatch){
     return{
 
         dis_res:(keyword)=>{dispatch({type:"search",keyword:keyword})},
-init:()=>{dispatch({type:"search_init"})}
+        init:()=>{dispatch({type:"search_init"})}
     }
 }
 Home=connect(mapStateToProps,mapDispatchToProps)(Home)

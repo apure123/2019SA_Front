@@ -8,15 +8,21 @@ import {Redirect }from "react-router-dom"
 import "../css/SysPage.css"
 import axios from "axios";
 
+
 const { Header, Sider, Content } = Layout;
 class SystemPage extends Component{
     constructor(props) {
         super(props);
-        this.get_avator_url();
+        /*this.get_avator_url();*/
+
     }
     state = {
         collapsed: false,
     };
+componentDidMount() {
+    console.log(this.props.token)
+    this.get_profile_data(this.props.token);
+}
 
     toggle = () => {
         this.setState({
@@ -41,6 +47,27 @@ class SystemPage extends Component{
         console.log("从后端获取完成之后的redux内的头像url");
         console.log(this.props.avator_url);
     }
+
+    //从后端获取账户信息(包含用户id)
+    get_profile_data=(token)=>{
+        //profile_set_account
+
+        axios.get(`Http://127.0.0.1:8000/api/profile?token=${token}`
+        )
+            .then( (response) =>{
+                console.log(response);
+                this.props.set_profile_account(response.data.balance,response.data)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
+
+
     render() {
         if (!this.props.loginflag)
         {
@@ -151,7 +178,8 @@ function mapStateToProps(state)
         username:state.login.username,
         is_expert:state.login.is_expert,
         avator_url:state.avator.avator_url,
-        user_id:state.login.user_id
+        user_id:state.login.user_id,
+        token:state.login.token
     }
 }
 
@@ -159,7 +187,10 @@ function mapDispatchToProps(dispatch){
     return{
 
         quit:()=>{dispatch(quit_action)},
-        set_avator_url:(url)=>{dispatch({type:"set_avator",url:url})}
+        set_avator_url:(url)=>{dispatch({type:"set_avator",url:url})},
+        set_profile_account:(account,all_data)=>{dispatch(
+            {type: "profile_set_account",account:account,all_data: all_data}
+        )}
     }
 }
 SystemPage=connect(mapStateToProps,mapDispatchToProps)(SystemPage)

@@ -6,13 +6,14 @@ const star_reducer = ( state={star_data:[],selectedRowKeys:[]},action) => {
             //类型检测与纠正
             for (let i = 0; i <action.data.length ; i++) {
                 newdata.push(action.data[i]);
-                newdata[i].key=action.data[i].rank;
-                if (action.data[i].type){
-                    if (action.data[i].type=="P1") {
+                newdata[i].key=i;
+                newdata[i].authors=[];
+                if (action.data[i].Type){
+                    if (action.data[i].Type=="P1") {
                         newdata[i].Type="Paper"
-                    }else if(action.data[i].type=="P2"){
+                    }else if(action.data[i].Type=="P2"){
                         newdata[i].Type="Patent"
-                    }else if(action.data[i].type=="P3"){
+                    }else if(action.data[i].Type=="P3"){
                         newdata[i].Type="Project"
                     }
                     else {
@@ -53,6 +54,16 @@ const star_reducer = ( state={star_data:[],selectedRowKeys:[]},action) => {
             return{
                 ...state,
                 selectedRowKeys:action.selectedRowKeys
+            }
+        }
+        case "set_star_detail":{
+            let newdata=state.star_data;
+            newdata[action.key].authors=action.authors;
+            newdata[action.key].buyed=action.buyed;
+            newdata[action.key].detail_flag=true;
+            return{
+                ...state,
+                star_data:newdata
             }
         }
         default:return state

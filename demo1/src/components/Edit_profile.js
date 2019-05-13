@@ -41,7 +41,7 @@ class Edit_profile extends Component{
     //验证老密码
     comfirmOldPassword=(rule, value, callback) => {
         const form = this.props.form;
-        if (value && value !== this.props.all_data.passwd) {
+        if (value && value !== this.props.all_data.password) {
             callback('原密码输入不正确!');
         } else {
             callback();
@@ -82,45 +82,46 @@ class Edit_profile extends Component{
             if (!err) {
                 console.log('Received values of form: ', values);
                 let newdata={};
-                newdata.user_ID=this.props.user_id;
+                let au_data={};
                 newdata.username=values.username;
-                newdata.passwd=values.password;
+                newdata.password=values.password;
                 if(values.mail) {
-                    newdata.mail=values.mail;
+                    newdata.email=values.mail;
                 }else {
-                    newdata.mail=""
+                    newdata.email=""
                 }
                 newdata.telephone=values.phone;
                 newdata.Type=this.props.all_data.Type;
                 if(this.props.all_data.Type=="E"){
-                    newdata.introduction="";
+                    au_data.introduction="";
                     if(values.introduction) {
-                        newdata.introduction=values.introduction;
+                        au_data.introduction=values.introduction;
                     }
-                    newdata.institute="";
+                    au_data.institute="";
                     if(values.institute){
-                        newdata.institute=values.institute;
+                        au_data.institute=values.institute;
                     }
-                    newdata.domain="";
+                    au_data.domain="";
                     if(values.domain){
-                        newdata.domain=values.domain;
+                        au_data.domain=values.domain;
                     }
-                    newdata.avatar_url="";
+
                     newdata.name=null;
                 }else {
-                        newdata.introduction="";
-                        newdata.institute="";
-                        newdata.domain="";
-                        newdata.avatar_url="";
-                        newdata.name=null;
+
                 }
-                newdata.balance=this.props.all_data.balance;
+                /*newdata.balance=this.props.all_data.balance;*/
                 console.log("发送的参数：")
                 console.log(newdata);
-                axios.put(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`,{...newdata})
+                axios.post(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`,{data:newdata})
                     .then( (response) =>{
                         console.log(response);
-                        message.success("个人信息设置成功");
+                        if(response.data.detail)
+                        {
+                            message.error(response.data.detail)
+                        }else {
+                            message.success("个人信息设置成功");
+                        }
                         //关闭抽屉
                         this.onClose();
 
@@ -151,21 +152,20 @@ class Edit_profile extends Component{
 
     //从后端加载账户数据
     get_profile_data=()=>{
-        //profile_set_account
 
-        axios.get(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`
-        )
-            .then( (response) =>{
-                console.log(response);
-                this.props.set_profile_account(response.data.balance,response.data)
+            axios.get(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`
+            )
+                .then( (response) =>{
+                    console.log(response);
+                    this.props.set_profile_account(response.data.balance,response.data)
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
     }
 
     render() {
@@ -200,8 +200,6 @@ class Edit_profile extends Component{
                         {getFieldDecorator('oldpassword', {
                             rules: [{
                                 required: true, message: '请输入原密码!',
-                            }, {
-                                validator: this.comfirmOldPassword,
                             }],
                         })(
                             <Input type="password" />
@@ -314,7 +312,7 @@ function mapStateToProps(state)
         visible:state.editProfile.edit_visible,
         username:state.login.username,
         all_data:state.profile.all_data,
-        user_id:state.login.user_id
+        token:state.login.token,
     }
 }
 

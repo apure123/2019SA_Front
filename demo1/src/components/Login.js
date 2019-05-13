@@ -48,22 +48,22 @@ componentDidMount() {
         console.log(this.props.form.getFieldValue("loginUserName"))
         console.log(this.props.form.getFieldValue("loginPassword"))
 
-        axios.get('Http://127.0.0.1:8000/login/', {
-            params: {
+        axios.post('Http://127.0.0.1:8000/api/login/', {
+            /*params: {*/
                 username: this.props.form.getFieldValue("loginUserName"),
-                passwd:this.props.form.getFieldValue("loginPassword")
-            }
+                password:this.props.form.getFieldValue("loginPassword")
+            /*}*/
         })
             .then( (response) =>{
                 console.log(response);
-                if (response.data.status)
+                if (response.data.code==1000)
                 {
                     console.log("密码正确，开始登录");
                     this.props.loginsubmit(this.props.form.getFieldValue("loginUserName"),
-                    response.data.is_expert,
-                    response.data.user_ID);
+                    response.data.type=="E",
+                    response.data.token);
                 }
-                else message.error("登录失败,密码错误")
+                else message.error("登录失败:"+response.data.msg)
             })
             .catch(function (error) {
                 console.log(error);
@@ -155,9 +155,9 @@ function mapDispatchToProps(dispatch){
     return{
         register:()=>{dispatch(regaction)},
         closeregister:()=>{dispatch(close_regaction)},
-        loginsubmit:(username,is_expert,user_id,avator_url)=>{
-        dispatch({type:"login",username:username,is_expert:is_expert,user_id:user_id});
-        }
+        loginsubmit:(username,type,token)=>{
+        dispatch({type:"login",username:username,is_expert:type,token:token});
+        },
     }
 }
 

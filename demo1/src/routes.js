@@ -8,6 +8,7 @@ import MyStar from "./components/MyStar";
 import ShopCar from "./components/ShopCar";
 import Buyed from "./components/Buyed";
 import Expert_Home from "./components/Expert_Home";
+import Rsource_Detail from "./components/Rsource_Detail";
 
 export const routes=[
 
@@ -58,5 +59,9 @@ export const routes2=[
     {
         path:"/system/experthome",
         component:Expert_Home
+    },
+    {
+        path:"/system/resource",
+        component:Rsource_Detail
     }
 ]

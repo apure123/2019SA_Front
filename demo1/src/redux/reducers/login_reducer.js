@@ -5,17 +5,18 @@ const login_reducer=(state={loginflag:false,is_expert: true,},action)=>{
             return{...state,
                 username:action.username,
                 is_expert:false,
-                user_id:action.user_id,
+                token:action.token,
                 loginflag:true
         }
             else return{...state,
                 username:action.username,
                 is_expert:true,
-                user_id:action.user_id,
+                token:action.token,
                 loginflag:true
             }
         }
         case "quit":return{...state,loginflag:false}
+
         default: return state
     }
 }

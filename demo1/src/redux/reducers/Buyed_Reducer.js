@@ -9,12 +9,12 @@ const buyed_reducer = ( state={data:[]},action) => {
                 newdata.push(action.data[i]);
                 newdata[i].key=action.data[i].rank;
                 //类型检测与纠正
-                if (action.data[i].type){
-                    if (action.data[i].type=="P1") {
+                if (action.data[i].Type){
+                    if (action.data[i].Type=="P1") {
                         newdata[i].Type="Paper"
-                    }else if(action.data[i].type=="P2"){
+                    }else if(action.data[i].Type=="P2"){
                         newdata[i].Type="Patent"
-                    }else if(action.data[i].type=="P3"){
+                    }else if(action.data[i].Type=="P3"){
                         newdata[i].Type="Project"
                     }
                     else {

@@ -28,7 +28,7 @@ componentDidMount() {
 
 }
 
-    get_profile_data=()=>{
+  get_profile_data=()=>{
         //profile_set_account
 
         axios.get(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`
