@@ -127,7 +127,7 @@ class Upload_avatar extends React.Component {
             </div>
         );
         return (
-            <div style={{margin:"auto"}}>
+            <div style={{margin:"auto"}} align="center">
                 <Upload {...props}>
                     <Button>
                         <Icon type="upload" /> 点击上传头像

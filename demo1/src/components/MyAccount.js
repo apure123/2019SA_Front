@@ -74,12 +74,14 @@ componentDidMount() {
     }
     render() {
         return(<div>
-            <p>我的账户</p>
+            <h2>我的账户</h2>
             <Row gutter={16}>
                 <Col span={12}>
                     <Statistic title="积分" value={this.props.account} />
                 </Col>
-                <Col span={12}>
+            </Row>
+            <Row>
+                <Col span={24}>
                     {/*<Statistic title="用户余额 (CNY)" value={112893} precision={2} />*/}
                     <Button style={{ marginTop: 16 }} type="primary" onClick={this.showModal}>充值</Button>
                     <Button onClick={()=>this.get_profile_data()}>获取数据</Button>
@@ -106,10 +108,6 @@ componentDidMount() {
                     <Button  onClick={()=>this.recharge()}  >兑换卡密</Button>
                 </Form>
             </Modal>
-            <div >
-                <EchartsTest/>
-
-            </div>
 
         </div>)
     }

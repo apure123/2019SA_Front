@@ -7,9 +7,11 @@ import {connect} from "react-redux";
 import {Redirect }from "react-router-dom"
 import "../css/SysPage.css"
 import axios from "axios";
+import HeaderBar from "./HeaderBar/HeaderBar";
 
 
-const { Header, Sider, Content } = Layout;
+
+const { Header, Sider, Content ,Footer} = Layout;
 class SystemPage extends Component{
     constructor(props) {
         super(props);
@@ -69,26 +71,30 @@ componentDidMount() {
 
 
     render() {
-        if (!this.props.loginflag)
+        /*if (!this.props.loginflag)
         {
             return<Redirect to={"/"}/>
-        }
+        }*/
         return(<div>
-            <Layout style={{height:"100%",minHeight:"720px",background: "rgb(32,96,79)"}}>
+            <Layout style={{height:"100%"}}>
                 <Sider
-                    trigger={null}
+                    /*trigger={null}
                     collapsible
-                    collapsed={this.state.collapsed}
-                    style={{background: "rgb(32,96,79)",height:"100%"}}
+                    collapsed={this.state.collapsed}*/
+                    style={{background: "#20604F",
+                        overflow: 'auto',
+                        height: '100vh',
+                        position: 'fixed',
+                        left: 0,
+                    }}
                 >
                     <div className="logo" />
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} style={{background: "rgb(32,96,79)"}}>
-                        <Avatar  size={64} src={this.props.avator_url} style={{display:"inline-block",margin:"10px"}}/>
-                        <br/>
 
-                        <p style={{padding:"10px"}}>{`${this.props.username}你好`}</p>
-                        <a onClick={this.props.quit}>注销登录</a>
-                        <div style={{margin:"10%",padding:"10%"}}></div>
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} style={{background: "#20604F"}}>
+
+                        <div style={{
+                            margin:"10%",padding:"10%"
+                        }}></div>
                         <Menu.Item key="1" >
                             <Link to={"/system/"}>
                             <Icon type="home"/>
@@ -99,11 +105,11 @@ componentDidMount() {
                         <Menu.Item key="2">
                             <Link to={"/system/personalinformation"}>
                             <Icon type="user" />
-                            <span>个人信息</span>
+                            <span>我的</span>
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key="3">
+                       {/* <Menu.Item key="3">
                             <Link to={"/system/star"}>
                             <Icon type="star" />
                             <span>我的收藏</span>
@@ -122,33 +128,44 @@ componentDidMount() {
                                 <Icon type="read" />
                                 <span>已购资源</span>
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item>*/}
 
                         <Menu.Item key="6"disabled={!this.props.is_expert} title={ this.props.is_expert? "": "此功能只向专家用户开放"}>
                             <Link to={"/system/experthome"}>
                                 <Icon type="solution" />
-                                <span>个人门户</span>
+                                <span>专家门户</span>
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key="7" >
+                        {/*<Menu.Item key="7" >
                             <Link to={"/system/shopcar"}>
                                 <Icon type="shopping-cart" />
                                 <span>购物车</span>
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item>*/}
                     </Menu>
                 </Sider>
-                <Layout>
+
+                <Layout style={{ marginLeft: 200 }}>
                     <Header style={{ background: '#ffffff', padding: 0 }}>
-                        <Icon
+                        {/*<Icon
                             className="trigger"
                             type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                             onClick={this.toggle}
-                        />
+                        />*/}
+                       {/* <Avatar   src={this.props.avator_url} style={{display:"inline-block",margin:"10px"}}/>*/}
+                       {/* <div style={{display:"flex",float:"right"}}>
+                            <p>用户你好</p>
+                            <p>nihao</p>
+                            <p>nih  </p>
+                            <p style={padding:"10px"}>{`${this.props.username}你好`}</p>
+                            <a onClick={this.props.quit}>注销登录</a>
+                        </div>*/}
+                        <HeaderBar/>
+
                     </Header>
                     <Content style={{
-                        margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280
+                        /*margin: '24px 16px',*/ padding: 24, background: '#eff1f4', minHeight: 280, overflow: 'initial'
                     }}
                     >
                         {
@@ -162,6 +179,7 @@ componentDidMount() {
                         })
                         }
                     </Content>
+                    <Footer style={{ textAlign: 'center' }}>学术资源平台 ©2019 Created by ta说要划啊划 </Footer>
                 </Layout>
             </Layout>
 

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Icon, Avatar,Row,Col,Divider } from 'antd';
+import { Card, Icon, Avatar,Row,Col,Divider,Layout,Breadcrumb,Menu } from 'antd';
 import {quit_action} from "../redux/actions/reg_action";
 import {connect} from "react-redux";
+import {BrowserRouter as Router,Route,Link}from "react-router-dom"
 import Edit_profile from "./Edit_profile";
 import axios from "axios";
 import User2Expert from "./User2Expert";
+import {routes3} from "../routes";
 
+const { Header, Content, Footer } = Layout;
 const pStyle = {
     fontSize: 18,
     color: 'rgba(0,0,0,0.95)',
@@ -70,21 +73,21 @@ render()
         <div>
             <div >
         <Card
-            style={{ width:"100%" ,margin:"auto"}}
+            style={{ width:"28%" ,float:"left",marginRight:"2%"}}
             actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
                 [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>,
                     <a onClick={()=>this.props.set_u2e_visible(true)}> <Icon type="arrow-up" /> 申请成为专家</a>]}
         >
             <Meta
-                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                title={`${this.props.username}的个人信息`}
-
+                /*avatar={<Avatar size={64} icon="user"  style={{margin:"auto"}}/>}*/
+                /*title={`${this.props.username}的个人信息`}*/
             />
-            <br/>
+            <Avatar size={100} icon="user"  style={{margin:"auto"}}/>
             <br/>
 
-            <Col span={12} >
-            <Card  style={{height:"220px"}}>
+
+            <Col span={24} >
+            <Card  /*style={{height:"220px"}}*/ bordered={false}>
                 <p style={pStyle}>基本信息</p>
                 <Row >
                     <DescriptionItem title="用户名" content={this.props.username} />
@@ -95,8 +98,8 @@ render()
             </Card>
             </Col>
 
-            <Col span={12}>
-            <Card style={{height:"220px",background: '#ECECEC'}}>
+            <Col span={24}>
+            <Card style={{}} bordered={false}>
                 <p style={pStyle}>简介</p>
             <Row >
                     <DescriptionItem
@@ -109,8 +112,8 @@ render()
             </Col>
 
             {/*<Divider />*/}
-            <Col span={12} >
-            <Card style={{display:"block",background: '#ECECEC',height:"220px"}}>
+            <Col span={24} >
+            <Card style={{display:"block"/*,background: '#ECECEC'*/}} bordered={false}>
             <p style={pStyle}>联系方式</p>
             <Row>
 
@@ -122,7 +125,7 @@ render()
                     <DescriptionItem title="手机号" content={this.props.all_data.telephone} />
 
             </Row>
-            <Row>
+            {/*<Row>
                     <DescriptionItem
                         title="Github"
                         content={(
@@ -131,14 +134,14 @@ render()
                             </a>
                         )}
                     />
-            </Row>
+            </Row>*/}
             </Card>
             </Col>
 
             {this.props.all_data.Type=="E"?
             <div>
-                <Col span={12} >
-                <Card style={{display:"block",height:"220px"}}>
+                <Col span={24} >
+                <Card style={{display:"block"}}>
                     <p style={pStyle}>专家信息</p>
                 <Row>
                         <DescriptionItem title="所属机构" content={this.props.all_data.institute} />
@@ -158,11 +161,49 @@ render()
             :<div></div>
             }
         </Card>
+                <Card style={{ width:"70%", float:"right",margin:"auto"}}>
+                    <Layout>
+                        <Header style={{  zIndex: 1, width: '100%',padding:"0px" }}>
+
+                            <Menu
+                                theme="light"
+                                mode="horizontal"
+                                defaultSelectedKeys={['1']}
+                                style={{ lineHeight: '64px',width:"100%" }}
+                            >
+                                <Menu.Item key="1">
+                                    <Link to={"/system/personalinformation/star"}>
+                                        <span>我的收藏</span>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item key="2"><Link to={"/system/personalinformation/buyed"}>
+                                    <span>已购买</span>
+                                </Link></Menu.Item>
+                                <Menu.Item key="3">
+                                    <Link to={"/system/personalinformation/profile"}>
+                                        <span>账户信息</span>
+                                    </Link>
+                                </Menu.Item>
+                            </Menu>
+                        </Header>
+                        <Content style={{ padding: '0 0px', marginTop: 0 }}>
+                            {
+                                routes3.map((route,key)=>{
+                                    if(route.exact){
+                                        return <Route key={key} exact path={route.path} component={route.component} />
+                                    }
+                                    else {
+                                        return <Route key={key}  path={route.path} component={route.component} />
+                                    }
+                                })
+                            }
+
+                        </Content>
+                    </Layout>
+                </Card>
             </div>
 
-            <hr/>
-            <h2>学术动态</h2>
-            <a ref={""}>震惊！99.99%的人都不知道的死法！</a><Icon type="star" />
+
 
 
         <Edit_profile/>

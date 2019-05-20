@@ -3,3 +3,121 @@
    width: 60%;
     size: auto;
 }
+.body {
+    color: #505961;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft YaHei","微软雅黑";
+    font-size: 13px;
+    line-height: 1.54;
+    word-wrap: break-word;
+    word-break: normal;
+    min-width: 1200px;
+    _width: 1400px;
+}
+.person_image {
+    width: 125px;
+    float: left;
+    text-align: center;
+    margin-right: 35px;
+    margin-left: 5px;
+}
+.p_name {
+    font-size: 28px;
+    line-height: 30px;
+    color: #333;
+    margin-bottom: 8px;
+    float: left;
+}
+.p_volume {
+    font-size: 14px;
+    color: #999;
+    margin-top: 10px;
+    margin-left: 20px;
+    float: left;
+}
+ .p_scholarID {
+    width: 192px;
+    height: 24px;
+    background-color: #fafafa;
+    padding: 3px;
+    float: right;
+}
+ .p_affiliate {
+    clear: both;
+     display: flex;
+}
+ .person_portraitwr {
+    position: relative;
+    display: inline-block;
+    width: 112px;
+    height: 112px;
+    border: 6px solid #fff;
+    overflow: hidden;
+    -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 1px 6px rgba(0,0,0,.25);
+    -ms-box-shadow: 0 1px 6px rgba(0,0,0,.25);
+    box-shadow: 0 1px 6px rgba(0,0,0,.25);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+}
+ .person_baseinfo {
+    float: left;
+    width: 555px;
+    margin-right: 30px;
+    margin-top: 20px;
+     display: block;
+}
+.p_ach_wr {
+
+    width: 355px;
+    display: flex;
+    margin: 20px 0 18px;
+    overflow: hidden;
+    height: 55px;
+    padding: 0px;
+}
+ul,li {
+    list-style: none;
+}
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+.p_ach_item {
+    float: left;
+    border-right: 1px solid #9da49b;
+    margin-right: 10px;
+    font-size: 20px;
+    width: 78px;
+}
+.p_ach_type {
+    font-size: 12px;
+}
+.p_ach_num {
+    /*font-size: 20px;*/
+}
+.person_editinfo {
+    word-break: break-all;
+    line-height: 25px;
+    float: left;
+}
+.prefix_label {
+    float: left;
+}
+.person_domain person_text{
+    font-size: 13px;
+}
+.person_domain a {
+    text-decoration: underline;
+    display: inline-block;
+}

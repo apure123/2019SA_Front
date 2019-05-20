@@ -1,9 +1,42 @@
 import React, { Component } from 'react';
-import {Input, List, Skeleton, Avatar, Icon, Tag,message,Button,Collapse} from "antd";
+import {Input, List, Skeleton, Avatar, Icon, Tag, message, Button, Collapse, Card, Form, Menu,Row,Col,Select} from "antd";
 import {connect} from "react-redux";
 import axios from "axios"
 import "../css/Search_Result.css"
 const count = 3;
+
+
+const owners = [
+    {
+        id: 'wzj',
+        name: '我自己',
+    },
+    {
+        id: 'wjh',
+        name: '吴家豪',
+    },
+    {
+        id: 'zxx',
+        name: '周星星',
+    },
+    {
+        id: 'zly',
+        name: '赵丽颖',
+    },
+    {
+        id: 'ym',
+        name: '姚明',
+    },
+];
+const FormItem = Form.Item;
+const formItemLayout = {
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 24 },
+        md: { span: 12 },
+    },
+};
+
 
 class SearchPage extends Component{
 
@@ -128,9 +161,21 @@ class SearchPage extends Component{
                 size="large"
                 defaultValue={this.props.keyword}
                 onSearch={value => {console.log(value);this.search(value)}}
-                style={{width:'100%'}}
+                style={{width:'40%'}}
             />
             <h2>搜索结果</h2>
+
+            <Card
+                style={{ marginTop: 24 }}
+                bordered={false}
+                bodyStyle={{ padding: '8px 32px 32px 32px' }}
+            >
+                123
+            </Card>
+
+            <Card/>
+
+
             <List
                 className="demo-loadmore-list"
                 itemLayout="horizontal"

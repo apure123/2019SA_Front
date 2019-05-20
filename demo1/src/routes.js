@@ -9,6 +9,7 @@ import ShopCar from "./components/ShopCar";
 import Buyed from "./components/Buyed";
 import Expert_Home from "./components/Expert_Home";
 import Rsource_Detail from "./components/Rsource_Detail";
+import ArticleDetail from "./components/ArticleDetail/ArticleDetail";
 
 export const routes=[
 
@@ -63,5 +64,25 @@ export const routes2=[
     {
         path:"/system/resource",
         component:Rsource_Detail
+    },
+    {
+        path:"/system/article",
+        component:ArticleDetail
+    }
+]
+
+export const routes3=[
+
+    {
+        path:"/system/personalinformation/star",
+        component:MyStar
+    },
+    {
+        path:"/system/personalinformation/profile",
+        component:MyAccount
+    },
+    {
+        path:"/system/personalinformation/buyed",
+        component:Buyed
     }
 ]

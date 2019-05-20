@@ -1,0 +1,234 @@
+.body {
+    color: #000;
+    font: 14px/22px Microsoft YaHei,Arial,Helvetica,sans-serif;
+    padding: 20px;
+    margin: 0;
+    min-width: 1180px;
+    float: left;
+}
+#top_hint {
+    margin-bottom: 10px;
+}
+#dtl_l {
+    width: 760px;
+    float: left;
+    padding-top: 35px;
+}
+/*.detail_article_hint {
+    color: #999;
+    font-size: 13px;
+}*/
+.detail_article_hint a {
+    color: #666;
+    text-decoration: underline!important;
+}
+.c_content {
+    line-height: 24px;
+    text-align: left;
+    color: #333;
+    margin-top: 5px;
+}
+.love_wr {
+    font-size: 13px;
+    overflow: hidden;
+    line-height: 15px;
+    margin: 17px 0 25px;
+    display: flex;;
+
+}
+.love_wr .label-ll {
+    margin-right: 10px;
+    color: #999;
+    /*border-right: 1px solid #9da49b;*/
+}
+.love_wr .label-l {
+    margin-right: 20px;
+}
+.love-wr-link {
+    display: block;
+    color: #333;
+}
+.love_wr .label-r {
+    color: #666;
+}
+#dtl_l .c_content .author_wr, #dtl_l .c_content .publish_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .ref_wr, #dtl_l .c_content .doi_wr {
+    width: 100%;
+    overflow: hidden;
+    color: #999;
+}
+#dtl_l .c_content .label {
+    width: 52px;
+    color: #999;
+}
+.author_text {
+    width: 658px;
+    color: #06c;
+}
+.c_content .abstract_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .doi_wr, #dtl_l .c_content .ref_wr {
+    margin-top: 4px;
+}
+#dtl_l #top_hint {
+    margin-bottom: 10px;
+}
+#dtl_l #top_hint .detail_article_hint {
+    color: #999;
+    font-size: 13px;
+}
+#dtl_l #top_hint .detail_article_hint a {
+    color: #666;
+    text-decoration: underline!important;
+}
+#dtl_l .c_content {
+    line-height: 24px;
+    text-align: left;
+    color: #333;
+    margin-top: 5px;
+}
+#dtl_l .love_wr {
+    font-size: 13px;
+    overflow: hidden;
+    line-height: 15px;
+    margin: 17px 0 25px;
+}
+#dtl_l .love_wr .label-ll {
+    margin-right: 10px;
+    color: #999;
+}
+#dtl_l .love_wr .label-l {
+    margin-right: 20px;
+}
+#dtl_l .love_wr .label-r {
+    color: #666;
+}
+#dtl_l .c_content .abstract_wr, #dtl_l .c_content .author_wr, #dtl_l .c_content .publish_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .ref_wr, #dtl_l .c_content .doi_wr {
+    width: 100%;
+    overflow: hidden;
+    color: #999;
+}
+#dtl_l .c_content .label {
+    width: 52px;
+    color: #999;
+}
+#dtl_l .c_content .author_text {
+    width: 658px;
+    color: #06c;
+}
+#dtl_l .c_content .abstract_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .doi_wr, #dtl_l .c_content .ref_wr {
+    margin-top: 4px;
+}
+#dtl_l .c_content .abstract {
+    width: 708px;
+    color: #666;
+}
+#dtl_l .c_content .abstract_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .doi_wr, #dtl_l .c_content .ref_wr {
+    margin-top: 4px;
+}
+#dtl_l .c_content .kw_main {
+    width: 658px;
+    color: #666;
+}
+#dtl_l .c_content .kw_main span {
+    display: inline-block;
+    padding-right: 5px;
+}
+#dtl_l .c_content .abstract_wr, #dtl_l .c_content .kw_wr, #dtl_l .c_content .doi_wr, #dtl_l .c_content .ref_wr {
+    margin-top: 4px;
+}
+#dtl_l .c_content p {
+    float: left;
+    font-size: 13px;
+}
+#dtl_l .dtl_subinfo {
+    line-height: 25px;
+    padding-bottom: 20px;
+
+    float: left;
+}
+#dtl_l .dtl_subinfo .subinfo_tool {
+    float: none;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+#dtl_l .dtl_subinfo .subinfo_tool .paper_collect, #dtl_l .dtl_subinfo .subinfo_tool .paper_q, #dtl_l .dtl_subinfo .subinfo_tool .paper_batch, #dtl_l .dtl_subinfo .subinfo_tool .paper_share, #dtl_l .dtl_subinfo .subinfo_tool .sc_batch, #dtl_l .dtl_subinfo .subinfo_tool .feedback {
+    transition: background-color .1s,color .1s,border .1s;
+    text-decoration: none;
+    cursor: pointer;
+    outline: 0;
+    text-align: center;
+    border-radius: 2px;
+    color: #06c;
+    background-color: #edf9ff;
+    border: 1px solid #edf9ff;
+    -webkit-border-radius: 14px;
+    -moz-border-radius: 14px;
+    -ms-border-radius: 14px;
+    border-radius: 14px;
+    padding: 0 15px;
+    line-height: 25px;
+}
+#dtl_l .dtl_subinfo .subinfo_tool a {
+    margin-right: 12px;
+}
+.paper_src_wr .paper_src_tab {
+    border-bottom: 1px solid #f1f1f1;
+    height: 45px;
+    border: 1px solid #f1f1f1;
+    background-color: #f8f8f8;
+    border-bottom: 0;
+}
+.paper_src_wr .src_tabitem.tab_cur {
+    background-color: #fff;
+    height: 45px;
+    text-decoration: none;
+}
+.paper_src_wr .src_tabitem {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    width: 114px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    -webkit-border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    -ms-border-radius: 2px 2px 0 0;
+    border-radius: 2px 2px 0 0;
+}
+.paper_src_wr .paper_src_content {
+    padding: 15px 30px;
+    border: 1px solid #f1f1f1;
+    border-top: 0;
+    -webkit-border-radius: 0 2px 2px;
+    -moz-border-radius: 0 2px 2px;
+    -ms-border-radius: 0 2px 2px;
+    border-radius: 0 2px 2px;
+}
+#allversion_wr, #download_wr, #paper_r, #help_r, #eshop_wr, #savelink_wr, #purchase_wr {
+    display: none;
+}
+.paper_src_wr .allversion_content {
+    position: relative;
+    overflow: hidden;
+}
+.paper_src_wr .dl_item_span {
+    display: inline-block;
+    height: 30px;
+    width: 300px;
+    line-height: 30px;
+}
+.paper_src_wr .dl_item {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.paper_src_wr {
+    font-size: 13px;
+    margin-top: 20px;
+    margin-bottom: 23px;
+}
