@@ -1,5 +1,5 @@
 
-const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",detail_flag:[]},action) => {
+const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",detail_flag:[],super_search_flag:false},action) => {
     switch(action.type) {
         case "search":
             return{
@@ -74,12 +74,17 @@ const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",
                 search_result_list:newdata
             }
         }
-        case "star":{
+        /*case "star":{
             let newdata=state.search_result_list;
             newdata[action.key].starred=true;
             return{
                 ...state,
                 search_result_list:newdata
+            }
+        }*/
+        case "switch_super_search":{
+            return{...state,
+                super_search_flag:!state.super_search_flag
             }
         }
         default:return state

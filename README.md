@@ -1,5 +1,21 @@
 ## 2019SA 前端说明文档
 
+ ** 一些说明：**
+ 
+ 高级搜索的表单还没写，先用注册框代替
+ 接口订好了的话可以帮忙改改专家页和文章页
+ 启动之后不用登录，直接在url后面加/systerm进入系统页
+ 点击“专家门户”就能看到专家页(输url访问也行)
+ ![enter description here](./images/f45f4fb3c511c90bbd1f0de6fc7c05a.png)
+ 
+ 文章页：链接是/systerm/article
+ 
+![c064ea18fa32e080e8e98e5171f3ac7](./images/c064ea18fa32e080e8e98e5171f3ac7.png)
+
+
+----------
+
+
 * 运行环境依赖（装好nodejs和yarn的可以跳过）
 
 1. 安装nodejs：点击[安装教程](https://www.runoob.com/nodejs/nodejs-install-setup.html)去安装nodejs

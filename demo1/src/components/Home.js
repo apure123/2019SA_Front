@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Input,Carousel,Card, Col, Row } from 'antd';
+import { Input,Carousel,Card, Col, Row,Switch } from 'antd';
 import "../css/Home.css"
 import {connect} from "react-redux";
 import SearchPage from "./SearchResult";
+import Register from "./Register";
 
 class Home extends Component{
     constructor(props) {
@@ -26,17 +27,31 @@ search=(value)=>{
         }
         return(<div style={{/*background: '#ECECEC'*/}}>
 
-
-                <h2>资源检索</h2>
-            <Input.Search
-                placeholder="这里是搜索测试，请输入你想获取几条数据，必须是数字"
-                enterButton="Search"
-                size="large"
-                onSearch={value => this.search(value)}
-                style={{width:'50%'}}
-            />
-            <br/>
-            <br/>
+                <div style={{backgroundColor:"#fff",width:"95%",margin:"auto",padding:"36px"}}>
+                    <h2>资源检索</h2>
+                    <Input.Search
+                        placeholder="这里是搜索测试，请输入你想获取几条数据，必须是数字"
+                        enterButton="检索"
+                        size="large"
+                        onSearch={value => this.search(value)}
+                        style={{width:'50%'}}
+                    />
+                    <div style={{width:"10%",float:"right"}}>
+                        <Row>
+                            <Col span={20}>
+                                <p>高级搜索：</p>
+                            </Col>
+                            <Col span={1}>
+                                <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={false}
+                                        onChange={()=>{this.props.switch_super_search()}}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
+                    {this.props.super_search_flag?<div>
+                        <Register/>
+                    </div>:<div></div>}
+                </div>
             <h2>资讯推荐</h2>
                 <div style={{width:"95%", margin:"auto"}}>
             <Carousel autoplay >
@@ -112,6 +127,7 @@ function mapStateToProps(state)
 {
     return{
         dissearch_flag:state.search.dis_flag,
+        super_search_flag:state.search.super_search_flag
     }
 }
 
@@ -119,7 +135,8 @@ function mapDispatchToProps(dispatch){
     return{
 
         dis_res:(keyword)=>{dispatch({type:"search",keyword:keyword})},
-        init:()=>{dispatch({type:"search_init"})}
+        init:()=>{dispatch({type:"search_init"})},
+        switch_super_search:()=>{dispatch({type:"switch_super_search"})}
     }
 }
 Home=connect(mapStateToProps,mapDispatchToProps)(Home)

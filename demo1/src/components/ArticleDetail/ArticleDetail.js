@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import  "./ArticleDetail.css"
-import {Card, Layout, Tag,Menu} from "antd"
+import {Card, Layout, Tag, Menu, Row, Col, Button} from "antd"
 
 import {Link} from "react-router-dom";
 import {routes3} from "../../routes";
+import Similar_Article_list from "./Similar_Article_list";
 const { Header, Content, Footer } = Layout;
 
 class ArticleDetail extends Component{
@@ -105,8 +106,7 @@ class ArticleDetail extends Component{
                     </div>
 
                     <br/>
-                    <br/>
-                    <br/>
+
                     <Card style={{ width:"100%", float:"left",margin:"auto",padding:"0"}} bordered={false}>
                         <Layout style={{padding:"0",margin:"0",paddingLeft:"0px"}}>
                             <Header  style={{  zIndex: 1, width: '100%',padding:"0px" ,height:'24px'}}>
@@ -156,6 +156,7 @@ class ArticleDetail extends Component{
 
                         </Layout>
                     </Card>
+                    <br/>
                    {/* <div className="paper_src_wr">
 
 
@@ -294,12 +295,43 @@ class ArticleDetail extends Component{
                             </div>
                         </div>
                     </div>*/}
-                   {/* <i className="reqdata" style="display:none;" urlmd="7e61000ed2bf4eb342903dfb59133198"
-                       url="http://www.cqvip.com/QK/72137X/201501/667162866.html"
-                       longsign="5f06ac08957ed7d0eff6ad866f412b7e" diversion=""></i>
-*/}
-                </div>
+                    <Card style={{ width:"100%", float:"left",marginTop:"24px",padding:"0",backgroundColor:"#fff"}} bordered={false}>
+                        <Layout style={{padding:"0",margin:"0",paddingLeft:"0px"}}>
+                            <Header  style={{  zIndex: 1, width: '100%',padding:"0px" ,height:'24px'}}>
 
+                                <Menu
+
+                                    mode="horizontal"
+                                    defaultSelectedKeys={['1']}
+                                    style={{ lineHeight: '24px',width:"100%" }}
+                                >
+                                    <Menu.Item key="1">
+                                        <span>相似文献</span>
+                                    </Menu.Item>
+                                </Menu>
+                            </Header>
+                            <Content style={{ padding: '0 0px', marginTop: 0 ,backgroundColor:"#fff"}}>
+                                <Similar_Article_list/>
+                            </Content>
+
+                        </Layout>
+                    </Card>
+                </div>
+                <div style={{width:"23%",float:"right",backgroundColor:"#fff",margin:"10px",marginTop:"35px",padding:"24px"}}>
+                    <h2>研究点分析</h2>
+                    <Row>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                        <Col span={12}><Button icon="bar-chart">Search</Button></Col>
+                    </Row>
+                </div>
             </div>
         )
     }

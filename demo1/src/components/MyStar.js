@@ -259,7 +259,9 @@ class MyStar extends Component{
     }
     //获取概要收藏数据
     get_star_data=()=>{
-        axios.get(`Http://127.0.0.1:8000/api/star/?token=${this.props.token}`)
+        axios.get(`Http://127.0.0.1:8000/api/star`,{headers:{
+                Authorization:`Token ${this.props.token}`
+            }})
             .then( (response) =>{
                 console.log(response);
                 //设置收藏夹数据

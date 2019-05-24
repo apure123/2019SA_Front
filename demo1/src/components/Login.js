@@ -48,7 +48,8 @@ componentDidMount() {
         console.log(this.props.form.getFieldValue("loginUserName"))
         console.log(this.props.form.getFieldValue("loginPassword"))
 
-        axios.post('Http://127.0.0.1:8000/api/login/', {
+        //此处修改
+        axios.post('Http://127.0.0.1:8000/api/api-token-auth/', {
             /*params: {*/
                 username: this.props.form.getFieldValue("loginUserName"),
                 password:this.props.form.getFieldValue("loginPassword")
@@ -56,18 +57,23 @@ componentDidMount() {
         })
             .then( (response) =>{
                 console.log(response);
-                if (response.data.code==1000)
+                if (response.data.token){
+                    this.props.loginsubmit(this.props.form.getFieldValue("loginUserName"),
+                        response.data.type=="E",
+                        response.data.token);
+                }
+               /* if (response.data.code==1000)
                 {
                     console.log("密码正确，开始登录");
                     this.props.loginsubmit(this.props.form.getFieldValue("loginUserName"),
                     response.data.type=="E",
                     response.data.token);
                 }
-                else message.error("登录失败:"+response.data.msg)
+                else message.error("登录失败:"+response.data.msg)*/
             })
             .catch(function (error) {
                 console.log(error);
-                message.error("该用户名不存在")
+                message.error("登录失败")
             })
             .then(function () {
                 // always executed
@@ -90,8 +96,7 @@ componentDidMount() {
                 {this.props.loginflag?<Redirect to={"/system"}/>:""}
                 {/*左边注册部分*/}
                 <div style={{width:"75%",float:"left",margin:"0"}}>
-                <h2>hello</h2>
-                    <img src={logo} className={"logo"}/>
+                    <img src={logo} className={"logo1"}/>
 
                     {
                         this.props.registerFlag ?

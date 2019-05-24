@@ -23,7 +23,7 @@ class SystemPage extends Component{
     };
 componentDidMount() {
     console.log(this.props.token)
-    this.get_profile_data(this.props.token);
+    this.get_profile_data();
 }
 
     toggle = () => {
@@ -51,10 +51,12 @@ componentDidMount() {
     }
 
     //从后端获取账户信息(包含用户id)
-    get_profile_data=(token)=>{
+    get_profile_data=()=>{
         //profile_set_account
-
-        axios.get(`Http://127.0.0.1:8000/api/profile?token=${token}`
+                                                        //?token=${token}
+        axios.get(`Http://127.0.0.1:8000/api/profile`,{headers:{
+            Authorization:`Token ${this.props.token}`
+            }}
         )
             .then( (response) =>{
                 console.log(response);

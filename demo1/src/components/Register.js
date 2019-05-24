@@ -80,14 +80,14 @@ class Register extends Component{
             data:{
                 username: this.props.form.getFieldValue("registerUsername"),
                 password:this.props.form.getFieldValue("password"),
-                telephone:this.props.form.getFieldValue("phone"),
+                /*telephone:this.props.form.getFieldValue("phone"),
                 email:" ",
-                Type:"U"}
+                Type:"U"*/}
         })
             .then(function (response) {
                 console.log(response);
                 if(response.data.msg){
-                    alert("注册失败:"+response.data.msg)
+                    alert(response.data.msg)
                 }
                 else {
                     alert("注册成功，可以去登录了")
@@ -95,6 +95,7 @@ class Register extends Component{
             })
             .catch(function (error) {
                 console.log(error);
+                alert("注册失败，似乎遇到了点问题")
             })
             .then(function () {
                 // always executed

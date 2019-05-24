@@ -5,14 +5,22 @@
     margin: 0;
     min-width: 1180px;
     float: left;
+    width: 100%;
+    background-color: #eef0f3;
+}
+.main-info{
+    background-color: #ffffff;
+
+    padding: 24px;
 }
 #top_hint {
     margin-bottom: 10px;
 }
 #dtl_l {
-    width: 760px;
+    width: 75%;
     float: left;
     padding-top: 35px;
+    background-color: #edeff2;
 }
 /*.detail_article_hint {
     color: #999;

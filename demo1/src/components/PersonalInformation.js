@@ -7,6 +7,7 @@ import Edit_profile from "./Edit_profile";
 import axios from "axios";
 import User2Expert from "./User2Expert";
 import {routes3} from "../routes";
+import {Redirect }from "react-router-dom"
 
 const { Header, Content, Footer } = Layout;
 const pStyle = {
@@ -52,7 +53,9 @@ class PersonalInformation extends Component{
     get_profile_data=()=>{
         //profile_set_account
 
-        axios.get(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`
+        axios.get(`Http://127.0.0.1:8000/api/profile`,{headers:{
+                Authorization:`Token ${this.props.token}`
+            }}
         )
             .then( (response) =>{
                 console.log(response);
@@ -68,6 +71,10 @@ class PersonalInformation extends Component{
     }
 render()
 {
+    if (!this.props.loginflag)
+    {
+        return<Redirect to={"/"}/>
+    }
     const { Meta } = Card;
     return(
         <div>
@@ -217,6 +224,7 @@ render()
 function mapStateToProps(state)
 {
     return{
+        loginflag:state.login.loginflag,
         username:state.login.username,
         all_data:state.profile.all_data,
         account:state.profile.account,

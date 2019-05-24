@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
-import {Input, List, Skeleton, Avatar, Icon, Tag, message, Button, Collapse, Card, Form, Menu,Row,Col,Select} from "antd";
+import {
+    Input,
+    List,
+    Skeleton,
+    Avatar,
+    Icon,
+    Tag,
+    message,
+    Button,
+    Collapse,
+    Card,
+    Form,
+    Menu,
+    Row,
+    Col,
+    Select,
+    Switch
+} from "antd";
 import {connect} from "react-redux";
 import axios from "axios"
 import "../css/Search_Result.css"
+import Register from "./Register";
+
 const count = 3;
 
 
-const owners = [
-    {
-        id: 'wzj',
-        name: '我自己',
-    },
-    {
-        id: 'wjh',
-        name: '吴家豪',
-    },
-    {
-        id: 'zxx',
-        name: '周星星',
-    },
-    {
-        id: 'zly',
-        name: '赵丽颖',
-    },
-    {
-        id: 'ym',
-        name: '姚明',
-    },
-];
+
 const FormItem = Form.Item;
 const formItemLayout = {
     wrapperCol: {
@@ -42,7 +40,7 @@ class SearchPage extends Component{
 
     constructor(props) {
         super(props);
-        this.search(this.props.keyword)
+        /*this.search(this.props.keyword)*/
     }
 
     //搜索方法，已经加入具体搜索！，具体搜索的时候不能有假数据！！！
@@ -155,14 +153,41 @@ class SearchPage extends Component{
         return(<div>
             <Icon type="close" className={"close"} onClick={this.props.quit_search}  />
             <p>搜索框</p>
-            <Input.Search
+            {/*<Input.Search
                 placeholder="input search text"
                 enterButton="Search"
                 size="large"
                 defaultValue={this.props.keyword}
                 onSearch={value => {console.log(value);this.search(value)}}
                 style={{width:'40%'}}
-            />
+            />*/}
+            <div style={{backgroundColor:"#fff",width:"95%",margin:"auto",padding:"36px"}}>
+                <h2>资源检索</h2>
+                <Input.Search
+                    placeholder="这里是搜索测试，请输入你想获取几条数据，必须是数字"
+                    enterButton="检索"
+                    size="large"
+
+                    onSearch={value => this.search(value)}
+                    style={{width:'50%'}}
+                />
+                <div style={{width:"10%",float:"right"}}>
+                    <Row>
+                        <Col span={20}>
+                            <p>高级搜索：</p>
+                        </Col>
+                        <Col span={1}>
+                            <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={false}
+                                    onChange={()=>{this.props.switch_super_search()}}
+                            />
+                        </Col>
+                    </Row>
+                </div>
+                {this.props.super_search_flag?<div>
+                    <Register/>
+                </div>:<div></div>}
+            </div>
+
             <h2>搜索结果</h2>
 
             <Card
@@ -222,7 +247,8 @@ function mapStateToProps(state)
         keyword:state.search.keyword,
         user_id:state.login.user_id,
         token:state.login.token,
-        detail_flag:state.search.detail_flag
+        detail_flag:state.search.detail_flag,
+        super_search_flag:state.search.super_search_flag
 
     }
 }
@@ -238,7 +264,8 @@ function mapDispatchToProps(dispatch){
         deloading:()=>{dispatch({type:"search_deloading"})},
         search_detail:(authors,starred,key)=>{dispatch({type:"search_detail",
             authors:authors,starred:starred,key:key})},
-            star:(key)=>{dispatch({type:"star",key:key})}
+            star:(key)=>{dispatch({type:"star",key:key})},
+        switch_super_search:()=>{dispatch({type:"switch_super_search"})}
     }
 }
 SearchPage=connect(mapStateToProps,mapDispatchToProps)(SearchPage)
