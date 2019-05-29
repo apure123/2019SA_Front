@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link}from "react-router-dom"
 import {
     Input,
     List,
@@ -21,6 +22,7 @@ import {connect} from "react-redux";
 import axios from "axios"
 import "../css/Search_Result.css"
 import Register from "./Register";
+import Super_Search from "./Super_Search";
 
 const count = 3;
 
@@ -43,10 +45,10 @@ class SearchPage extends Component{
         /*this.search(this.props.keyword)*/
     }
 
-    //搜索方法，已经加入具体搜索！，具体搜索的时候不能有假数据！！！
+   /* //搜索方法，已经加入具体搜索！，具体搜索的时候不能有假数据！！！
     search=(keyword)=>{
         console.log("！！！！！！！！！！！执行搜索方法！！！！！！！！！！！")
-        /*this.props.loading();*/
+        /!*this.props.loading();*!/
         axios.get(`Http://127.0.0.1:8000/api/search/`, {params:{
             token:this.props.token,
                 keyword:keyword
@@ -97,7 +99,7 @@ class SearchPage extends Component{
         for (let i = 0; i <this.props.result_list.length-1 ; i++) {
             this.search_detail(this.props.result_list[i].id,this.props.result_list[i].key)
         }
-}
+}*/
 
     //收藏方法,收藏后修改本地数据，不再搜索
     star=(resource_id,key)=>{
@@ -148,44 +150,13 @@ class SearchPage extends Component{
     render() {
 
         console.log("搜索页渲染！")
-        console.log(this.props.result_list)
+        //console.log(this.props.result_list)
 
         return(<div>
             <Icon type="close" className={"close"} onClick={this.props.quit_search}  />
-            <p>搜索框</p>
-            {/*<Input.Search
-                placeholder="input search text"
-                enterButton="Search"
-                size="large"
-                defaultValue={this.props.keyword}
-                onSearch={value => {console.log(value);this.search(value)}}
-                style={{width:'40%'}}
-            />*/}
-            <div style={{backgroundColor:"#fff",width:"95%",margin:"auto",padding:"36px"}}>
-                <h2>资源检索</h2>
-                <Input.Search
-                    placeholder="这里是搜索测试，请输入你想获取几条数据，必须是数字"
-                    enterButton="检索"
-                    size="large"
 
-                    onSearch={value => this.search(value)}
-                    style={{width:'50%'}}
-                />
-                <div style={{width:"10%",float:"right"}}>
-                    <Row>
-                        <Col span={20}>
-                            <p>高级搜索：</p>
-                        </Col>
-                        <Col span={1}>
-                            <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={false}
-                                    onChange={()=>{this.props.switch_super_search()}}
-                            />
-                        </Col>
-                    </Row>
-                </div>
-                {this.props.super_search_flag?<div>
-                    <Register/>
-                </div>:<div></div>}
+            <div style={{backgroundColor:"#fff",width:"95%",margin:"auto",padding:"36px"}}>
+                <Super_Search/>
             </div>
 
             <h2>搜索结果</h2>
@@ -195,44 +166,68 @@ class SearchPage extends Component{
                 bordered={false}
                 bodyStyle={{ padding: '8px 32px 32px 32px' }}
             >
-                123
+                <List
+                    className="demo-loadmore-list"
+                    /*itemLayout="horizontal"*/
+                    dataSource={this.props.result_list}
+                    header={<div style={{display:"flex",textAlign:"center"}}>
+                        <p style={{width:"40%"}}>标题</p>
+                        <p style={{width:"20%"}}>作者</p>
+                        <p style={{width:"20%"}}>发表时间</p>
+                        <p style={{width:"10%"}}>价格</p>
+                        <p style={{width:"10%"}}>操作</p>
+                    </div>}
+                    renderItem={item => (
+                        <List.Item
+                            /*actions={[
+                            <a onClick={
+                                ()=>{console.log(item);
+                                    this.star(item.id,item.key);
+                                }
+                            }>
+                                {item.starred?<Icon type={"star"}theme={"filled"} />:<Icon type={"star"} />}
+                            </a>
+                            ]}*/
+                        >
+                            <Skeleton  title={false} loading={item.loading} active>
+
+                                <p style={{margin:"10px",padding:"10px"}}>{item.key}</p>
+                                <List.Item.Meta style={{width:"40%",float:"left"}}
+                                                title={<Link to={`/system/article?uid=${item.uid}`} /*target={"_blank"}*/><p> {`${item.name}`}</p></Link>}
+                                                /*description={
+                                                    <div >
+                                                        <p className={"line-limit-length"}>{`简介：${item.intro}`}</p>
+                                                        <p>{`发表时间：${item.year}`}</p>
+                                                       <Row> <p>第一作者：</p><Button size={"small"} >{`${item.author1[0].name}`}</Button></Row>
+                                                        <div><p>价格：{item.price}</p></div>
+                                                    </div>}*/
+                                />
+                                <div style={{width:"20%"}}>{item.authors.map(function (value,key) {
+                                    return(<Link to={`/system/experthome?uid=${value.uid}`}><Button size={"small"} onClick={()=>console.log(item)} style={{margin:"2px"}}>{value.name}</Button></Link>)
+                                })}</div>
+
+                                <div style={{width:"20%"}}>
+                                    <p>{`发表时间：${item.year}`}</p>
+                                </div>
+                                {/*<Tag color={'geekblue'} >{item.Type}</Tag>*/}
+                                <div style={{width:"10%"}}>
+                                    <p>价格：{item.price}</p>
+                                </div>
+                                <div style={{width:"10%"}}>
+                                    <Button onClick={()=>{this.star(item.id,item.key)}}>收藏</Button>
+                                </div>
+
+
+                            </Skeleton>
+                        </List.Item>
+                    )}
+                />
             </Card>
 
             <Card/>
 
 
-            <List
-                className="demo-loadmore-list"
-                itemLayout="horizontal"
-                dataSource={this.props.result_list}
-                renderItem={item => (
-                    <List.Item
-                        /*actions={[
-                        <a onClick={
-                            ()=>{console.log(item);
-                                this.star(item.id,item.key);
-                            }
-                        }>
-                            {item.starred?<Icon type={"star"}theme={"filled"} />:<Icon type={"star"} />}
-                        </a>
-                        ]}*/
-                    >
-                        <Skeleton  title={false} loading={item.loading} active>
-                            <p style={{margin:"10px",padding:"10px"}}>{item.key}</p>
-                            <List.Item.Meta style={{width:"60%",float:"left"}}
-                                title={<a href={item.url}>{`标题：${item.title}`}</a>}
-                                description={
-                                    <div >
-                                    <p className={"line-limit-length"}>{`简介：${item.intro}`}</p>
-                                    <div><p>价格：{item.price}</p></div>
-                                    </div>}
-                            />
-                            <Tag color={'geekblue'} >{item.Type}</Tag>
-                            <Button onClick={()=>{this.star(item.id,item.key)}}>收藏</Button>
-                        </Skeleton>
-                    </List.Item>
-                )}
-            />
+
 
         </div>)
     }

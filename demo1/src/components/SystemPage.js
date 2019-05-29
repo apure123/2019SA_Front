@@ -98,7 +98,7 @@ componentDidMount() {
                             margin:"10%",padding:"10%"
                         }}></div>
                         <Menu.Item key="1" >
-                            <Link to={"/system/"}>
+                            <Link to={"/system"}>
                             <Icon type="home"/>
                             <span >首页</span>
                             </Link>
@@ -196,7 +196,7 @@ function mapStateToProps(state)
     return{
         loginflag:state.login.loginflag,
         username:state.login.username,
-        is_expert:state.login.is_expert,
+        is_expert:state.profile.all_data.is_expert,
         avator_url:state.avator.avator_url,
         user_id:state.login.user_id,
         token:state.login.token

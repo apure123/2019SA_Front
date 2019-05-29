@@ -19,7 +19,7 @@ export const routes=[
         exact:true
     },
     {
-        path:"/system/",
+        path:"/system",
         component:SystemPage
     }
 

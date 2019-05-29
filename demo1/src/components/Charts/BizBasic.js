@@ -64,7 +64,7 @@ class BizBasic extends React.Component {
             }
         };
         return (
-            <div style={{width:"50%", float:"left"}}>
+            <div style={{width:"100%", float:"left"}}>
                 <Chart height={400}  data={data} scale={cols} forceFit>
                     <Axis name="year" />
                     <Axis name="value" />

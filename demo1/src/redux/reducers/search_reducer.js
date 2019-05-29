@@ -1,5 +1,13 @@
 
-const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",detail_flag:[],super_search_flag:false},action) => {
+const search_reducer = ( state={
+    dis_flag:false,
+    search_result_list:[],
+    keyword:"",
+    detail_flag:[],
+    super_search_flag:false,
+    super_search_filed:{title:"",author:"",type:"P1",keyword:"",time_low:"",time_high:""},
+    search_type:"title"
+},action) => {
     switch(action.type) {
         case "search":
             return{
@@ -11,8 +19,8 @@ const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",
             ...state,
             dis_flag:false
         }
+        //将数据加载到结果数据里面
         case "search_load":{
-
 
             //数据监测与纠正
             let newlist=[];
@@ -33,15 +41,17 @@ const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",
                     }
                 }
                 else {
-                    perdata.Type="未指定类型"
+                    perdata.Type="未指定类型(reducer里的修正)"
                 }
-                perdata.detail_flag=false;
+                /*perdata.detail_flag=false;*/
+
+                //将第一作者加进作者里面
+                perdata.authors=perdata.author1.concat(perdata.authors)
                 newlist.push(perdata);
             }
             return{
             ...state,
-                search_result_list: newlist,
-                keyword:action.keyword
+                search_result_list: newlist
         }}
         case "quit_search":return{
             ...state,
@@ -82,10 +92,19 @@ const search_reducer = ( state={dis_flag:false,search_result_list:[],keyword:"",
                 search_result_list:newdata
             }
         }*/
-        case "switch_super_search":{
+        case "open_super_search":{
             return{...state,
-                super_search_flag:!state.super_search_flag
+                super_search_flag:true
             }
+        }
+        case "close_super_search":{
+            return{...state,
+                super_search_flag:false
+            }
+        }
+        case "set_search_type":return{
+            ...state,
+            search_type:action.search_type
         }
         default:return state
     }

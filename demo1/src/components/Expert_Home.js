@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, Avatar, Table, Tag} from 'antd';
+import {Card, Avatar, Table, Tag, List, Skeleton, Button,Drawer} from 'antd';
 import "../css/Home.css"
 import {connect} from "react-redux";
 import SearchPage from "./SearchResult";
@@ -8,31 +8,66 @@ import Expert_echart from "./Echarts/Expert_echart";
 import Coworkers_echart from "./Echarts/Coworkers_echart";
 import BizTest from "./Charts/BizTest";
 import BizBasic from "./Charts/BizBasic";
+import axios from "axios"
+import {Link} from "react-router-dom";
 class Expert_Home extends Component{
     constructor(props) {
         super(props);
-
+        const query = props.location.search// '?uid=123'
+        const arr = query.split('=')
+        const uid=arr[1]
+        console.log(uid)
+        //保存uid
+        this.state={uid:uid,visible: false}
+        this.props.set_uid(uid)
+        this.get_expert_data(uid);
     }
-    columns = [{
-        title: '资源名称',
-        dataIndex: 'title',
+    componentDidMount() {
+        console.log("mount完成")
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("组件已经更新")
+    }
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        console.log("组件即将更新")
+    }
+
+    columns = [
+        {
+        title: '发布过的资源',
+        dataIndex: 'name',
         key:"name",
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+        render: (text,record, index) => <Link to={`/system/article?uid=${record.uid}`} target={"_blank"}>
+            <p> {text}</p></Link>
     },  {
-        title: '资源类型',
-        dataIndex: 'Type',
-        render: type => (
-            <span>
-      <Tag color={'geekblue'} >{type}</Tag>
-    </span>
-        ),
-    },{
-        title: '价格',
-        dataIndex: 'price',
-        key:"price",
-        render: (text) => <p>{text}</p>
+        title: '发布时间',
+        dataIndex: 'year',
+            render: (text) => <p>{text}</p>
     }
     ];
+
+    showDrawer = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    onClose = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    get_expert_data=(uid)=>{
+        axios.get(`http://127.0.0.1:8000/api/au_profile/?uid=${uid}`)
+            .then((response) =>{
+                console.log(response);
+                this.props.set_expert(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     render() {
 
@@ -71,40 +106,95 @@ class Expert_Home extends Component{
             </a>
                 </div>
                 <div className="person_baseinfo" >
-                    <div className="p_name">胡晓峰</div>
-                    <div className="p_volume">9191人看过</div>
-                    <div className="p_scholarID">
-                        <div className="p_scholarID_all">ScholarID:<span className="p_scholarID_id">CN-BG739SGJ</span>
+                    <div className="p_name">{this.props.expert.name}</div>
+                    {/*<div className="p_volume">9191人看过</div>*/}
+                    {/*<div className="p_scholarID">
+                        <div className="p_scholarID_all">本站学术ID:<span className="p_scholarID_id">{this.props.expert.uid}</span>
                         </div>
-                    </div>
-                    <div className="p_affiliate" >国防大学信息作战与指挥训练教研部</div>
+                    </div>*/}
+                    <div className="p_affiliate" ></div>
                     <ul className="p_ach_wr">
                         <li className="p_ach_item"><p className="p_ach_type c_gray">被引频次</p>
                             <p className="p_ach_num">4275</p></li>
                         <li className="p_ach_item"><p className="p_ach_type c_gray">成果数</p><p
-                            className="p_ach_num">395</p></li>
+                            className="p_ach_num">{this.props.expert.publishes.length}</p></li>
                         <li className="p_ach_item"><p className="p_ach_type c_gray">H指数</p><p
-                            className="p_ach_num">31</p></li>
+                            className="p_ach_num">{this.props.expert.h_index}</p></li>
                         <li className="p_ach_item"><p className="p_ach_type c_gray">G指数</p><p
-                            className="p_ach_num">51</p></li>
+                            className="p_ach_num">{this.props.expert.g_index}</p></li>
                     </ul>
 
                     <div className="person_editinfo">
-                        <div className=""><span className="c_gray prefix_label">领域:</span><span
-                            className="person_domain person_text"><a
-                            href="//xueshu.baidu.com/s?wd=%E6%88%98%E7%95%A5%E3%80%81%E6%88%98%E5%BD%B9%E3%80%81%E6%88%98%E6%9C%AF%E5%AD%A6&amp;tn=SE_baiduxueshu_c1gjeupa&amp;ie=utf-8"
-                            target="_blank">战略、战役、战术学</a></span></div>
+                        <div style={{display:"flex"}}>
+                            <span style={{marginRight:"5px"}}>领域:</span>
+                            <span >
+                            {this.props.expert.domains.map(function (value,key) {
+                                return(<Tag >{value.name}</Tag>)
+                            })}
+                        </span>
+                        </div>
                     </div>
                 </div>
                 </div>
                 </Card>
 
             <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
+                <div style={{width:"70%",float:"left"}}>
                 <BizBasic/>
-                <BizTest/>
+                </div>
+                <div    style={{width:"20%",float:"right"}}>
+                    <List
+
+                        /*itemLayout="horizontal"*/
+                        dataSource={this.props.expert.short_coworkers}
+                        header={<div style={{display:"flex",textAlign:"center"}}>
+                            <p style={{width:"100%"}}>合作者</p>
+
+                        </div>}
+                        /*footer={<div>
+                            {this.props.expert.detail_coworkers_flag?<Button
+                                onClick={()=>this.props.close_detail_coworkers}
+                            >收起</Button>:
+                            <Button onClick={this.props.open_detail_coworkers}>查看全部</Button>
+                            }
+                        </div>}*/
+                        split={false}
+                        renderItem={item => (
+                            <List.Item
+
+                            >
+                                    <List.Item.Meta style={{width:"100%",float:"left"}}
+                                                    title={<div style={{float:"left"}}>
+                                                        <Link to={`/system/experthome?uid=${item.uid}`}
+                                                            target={"_blank"}>
+                                                        <p> {`${item.name}`}</p>
+                                                    </Link></div>}
+                                                    avatar={<Avatar shape={"square"} icon="user" />}
+
+                                    />
+
+
+
+                            </List.Item>
+                        )}
+                    />
+                </div>
+                <div style={{height:"100%"}}><BizTest uid={this.state.uid}/></div>
             </Card>
+                <Drawer
+                    title="Basic Drawer"
+                    placement="top"
+                    height={"700px"}
+                    closable={true}
+                    onClose={this.onClose}
+                    visible={this.state.visible}
+                >
+
+
+
+                </Drawer>
             <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
-                <Table  columns={this.columns} dataSource={this.props.data} pagination={{pageSize:7}} />
+                <Table  columns={this.columns} dataSource={this.props.expert.publishes} pagination={{pageSize:7}} />
             </Card>
             </div>
         )
@@ -114,15 +204,17 @@ class Expert_Home extends Component{
 function mapStateToProps(state)
 {
     return{
-        dissearch_flag:state.search.dis_flag,
+        expert:state.expert.expert
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
+            set_expert:(expert_data)=>{dispatch({type:"set_expert",expert:expert_data})},
+        set_uid:(uid)=>{dispatch({type:"set_expert_uid",uid:uid})},
+        open_detail_coworkers:()=>{dispatch({type:"open_detail_coworkers"})},
+        close_detail_coworkers:()=>{dispatch({type:"close_detail_coworkers"})}
 
-        dis_res:(keyword)=>{dispatch({type:"search",keyword:keyword})},
-        init:()=>{dispatch({type:"search_init"})}
     }
 }
 Expert_Home=connect(mapStateToProps,mapDispatchToProps)(Expert_Home)

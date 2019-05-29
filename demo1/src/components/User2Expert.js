@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Checkbox, Icon, Input,Form,Drawer,message} from "antd";
+import {Button, Checkbox, Icon, Input, Form, Drawer, message, Col, Row} from "antd";
 import "../App.css"
 import {connect} from "react-redux";
 import axios from "axios"
@@ -38,7 +38,33 @@ class User2Expert extends Component{
         autoCompleteResult: [],
     };
 
+    //发送验证码
+    send_code=()=>{
+        this.props.form.validateFields((err, values) => {
 
+                console.log('Received values of form: ', values);
+                axios({
+                    method:"put",
+                    url:"http://127.0.0.1:8000/api/profile/",
+                    data:{"name":values.name},
+                    headers:{
+                        "Authorization":`Token ${this.props.token}`,
+                        "Content-Type":"application/json"
+                    }
+                })
+                    .then( (response) =>{
+                        console.log(response);
+                        if (response.data.email){
+                            message.success("验证码已发送至您的邮箱:"+response.data.email)
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+
+        });
+    }
 
     //修改信息提交的方法，包含后续的关闭抽屉和重新加载个人信息
     u2e_Submit = (e) => {
@@ -46,28 +72,19 @@ class User2Expert extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                let newdata={};
-                let au_data={};
-                newdata.name=values.name;
-                newdata.instituition=values.instituition;
-                newdata.domain=values.domain;
 
-                console.log("发送的参数：")
-                console.log(newdata);
-                axios.put(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`,{data:newdata})
+                axios.post("http://127.0.0.1:8000/api/verify/",{data:{
+                        email:values.email,
+                        token:values.code,
+                        username:this.props.username
+                    }})
                     .then( (response) =>{
                         console.log(response);
-                        if(response.data.detail)
-                        {
-                            message.error(response.data.detail)
-                        }else {
-                            message.success("个人信息设置成功");
+                        if(response.data.msg=="申请成功"){
+                            message.success("申请成功，重新登录即可开启专家功能");
+                            this.onClose();
                         }
-                        //关闭抽屉
-                        this.onClose();
 
-                        //重新加载
-                        this.get_profile_data();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -135,20 +152,10 @@ class User2Expert extends Component{
                                 <Input  />
                             )}
                         </Form.Item>
-                        <Form.Item label={"所属机构"} >
-                            {getFieldDecorator('instituition', {
-                                rules: [{
-                                    message: '所属机构!',
-                                }, {
-                                    required: true, message: 'Please input !',
-                                }],
-                            })(
-                                <Input  />
-                            )}
-                        </Form.Item><Form.Item label={"研究领域"} >
-                        {getFieldDecorator('domain', {
+                        <Form.Item label={"邮箱"} >
+                        {getFieldDecorator('email', {
                             rules: [{
-                                message: '请输入!',
+                                message: '所属机构!',
                             }, {
                                 required: true, message: 'Please input !',
                             }],
@@ -157,7 +164,21 @@ class User2Expert extends Component{
                         )}
                     </Form.Item>
 
+                        <div style={{margin:"auto"}} align="ceter">
+                            <Button onClick={()=>{this.send_code()}}>获取验证码</Button>
+                        </div>
 
+                        <Form.Item label={"验证码"} >
+                            {getFieldDecorator('code', {
+                                rules: [{
+                                    message: '请输入我们发送至您邮箱的验证码!',
+                                }, {
+                                    required: true, message: '请输入我们发送至您邮箱的验证码 !',
+                                }],
+                            })(
+                                <Input  />
+                            )}
+                        </Form.Item>
                         <div
                             style={{
                                 position: 'absolute',
@@ -171,15 +192,15 @@ class User2Expert extends Component{
                             }}
                         >
                             <Button onClick={this.onClose} style={{ marginRight: 8 }}>
-                                Cancel
+                                取消
                             </Button>
                             <Button  type="primary"  htmlType="submit"  >
-                                Submit
+                                提交
                             </Button>
 
                         </div>
+                    {/*</Form.Item>*/}
                     </Form>
-
                 </Drawer>
 
 

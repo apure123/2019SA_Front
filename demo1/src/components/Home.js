@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Input,Carousel,Card, Col, Row,Switch } from 'antd';
+import { Input,Carousel,Card, Col, Row,Switch ,Select} from 'antd';
 import "../css/Home.css"
 import {connect} from "react-redux";
 import SearchPage from "./SearchResult";
 import Register from "./Register";
+import Super_Search from "./Super_Search";
+const Option = Select.Option;
 
 class Home extends Component{
     constructor(props) {
@@ -11,13 +13,6 @@ class Home extends Component{
         this.props.init();
     }
 
-search=(value)=>{
-    console.log(value);
-    //非空检查
-    if(value!="")
-    this.props.dis_res(value)
-    else console.log("搜索框的输入不能为空")
-}
     render() {
         if (this.props.dissearch_flag)
         {
@@ -28,7 +23,14 @@ search=(value)=>{
         return(<div style={{/*background: '#ECECEC'*/}}>
 
                 <div style={{backgroundColor:"#fff",width:"95%",margin:"auto",padding:"36px"}}>
-                    <h2>资源检索</h2>
+                    {/*<h2>资源检索</h2>
+                    <Select defaultValue="Title" style={{ width: 120 }} onChange={this.handleChange}
+                    size={"large"}>
+                        <Option value="Title">标题</Option>
+                        <Option value="Author">作者</Option>
+                        <Option value="Super">高级</Option>
+
+                    </Select>
                     <Input.Search
                         placeholder="这里是搜索测试，请输入你想获取几条数据，必须是数字"
                         enterButton="检索"
@@ -50,14 +52,14 @@ search=(value)=>{
                     </div>
                     {this.props.super_search_flag?<div>
                         <Register/>
-                    </div>:<div></div>}
+                    </div>:<div></div>}*/}
+                    <Super_Search/>
                 </div>
             <h2>资讯推荐</h2>
                 <div style={{width:"95%", margin:"auto"}}>
             <Carousel autoplay >
-                <div><h3>4不敢相信！动态调控元件在微生物学中竟有这种应用</h3></div>
-                <div className={"zhenjing"} ><h3>1震惊！99.99%的人都不知道的死法！</h3></div>
-                <div className={"zhenjing2"}><h3>2深度揭秘！美国总统看到后都惊呆了！</h3></div>
+                <div className={"zhenjing"} ><h3>New Pacemaker Harvests Energy from the Heart</h3></div>
+                <div className={"zhenjing2"}><h3>Investigating the fit between phonological feature systems and brain responses to speech using EEG</h3></div>
                 <div className={"zhenjing3"}><h3>3全世界80万人疯传的机器学习算法</h3></div>
             </Carousel>
                 </div>
@@ -136,7 +138,8 @@ function mapDispatchToProps(dispatch){
 
         dis_res:(keyword)=>{dispatch({type:"search",keyword:keyword})},
         init:()=>{dispatch({type:"search_init"})},
-        switch_super_search:()=>{dispatch({type:"switch_super_search"})}
+        open_super_search:()=>{dispatch({type:"open_super_search"})},
+        close_super_search:()=>{dispatch({type:"close_super_search"})}
     }
 }
 Home=connect(mapStateToProps,mapDispatchToProps)(Home)

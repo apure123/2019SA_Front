@@ -1,10 +1,12 @@
 
-const profile_reducer=(state={account:100,all_data: {user_ID:0,username:'',mail:"",user_type:"",telephone:"",introduction:""}},action)=>{
+const profile_reducer=(state={account:100,all_data: {user_ID:0,username:'',mail:"",user_type:"",telephone:"",introduction:"",is_expert: false}},action)=>{
     switch (action.type) {
         case "profile_set_account": {
             let newdata = action.all_data;
+            newdata.is_expert=false;
             if (newdata.Type == "E") {
                 newdata.user_type="专家用户"
+                newdata.is_expert=true
             }else if (newdata.Type == "U") {
                 newdata.user_type="普通用户"
             }else if (newdata.Type == "A"){

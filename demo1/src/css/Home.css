@@ -15,13 +15,13 @@
 
 
 .zhenjing{
-    background-image: url("../image/zhenjing.jpg");
+    background-image: url("../image/首页3.jpg");
 }
 .zhenjing2{
-    background-image: url("../image/zhenjing2.png");
+    background-image: url("../image/首页2.jpg");
 }
 .zhenjing3{
-    background-image: url("../image/zhenjing3.png");
-    background-size:auto,100%;
+    background: url("../image/首页4.jpg");
+    background-color: rgba(255,255,255,0.5);
 
 }

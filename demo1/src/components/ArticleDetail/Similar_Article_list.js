@@ -2,6 +2,7 @@ import { List, Avatar, Button, Skeleton } from 'antd';
 import React, { Component } from 'react';
 
 import axios from "axios"
+import {connect} from "react-redux";
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat&noinfo`;
 
@@ -17,27 +18,28 @@ class Similar_Article_list extends React.Component {
         this.getData(res => {
             this.setState({
                 initLoading: false,
-                data: res.results,
-                list: res.results,
+                list: res.result,
             });
         });
     }
 
     getData = callback => {
-        /*reqwest({
-            url: fakeDataUrl,
-            type: 'json',
-            method: 'get',
-            contentType: 'application/json',
-            success: res => {
-                callback(res);
-            },
-        });*/
-        axios.get(fakeDataUrl)
+        /*axios.get(fakeDataUrl)
             .then((response)=>{
-                console.log(response)
+                //console.log(response)
                 callback(response.data);
+            })*/
+        if(this.props.article.keyword_list[0]!=""){
+            axios.post(`http://127.0.0.1:8000/api/search/`, {
+                field:"Title",
+                content:this.props.article.keyword_list[0],
+                type:"P1"
             })
+                .then( (response) =>{
+                    callback(response.data);
+                })
+                .catch((err)=>console.log(err))
+        }
     };
 
     onLoadMore = () => {
@@ -62,7 +64,21 @@ class Similar_Article_list extends React.Component {
             );
         });
     };
-
+//按标题搜索
+    search_title=(value)=>{
+        axios.post(`http://127.0.0.1:8000/api/search/`, {
+            field:"Title",
+            content:value,
+            type:"P1"
+        })
+            .then( (response) =>{
+                console.log(response);
+                this.props.set_search_result_data(response.data.result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
     render() {
         const { initLoading, loading, list } = this.state;
         const loadMore =
@@ -84,17 +100,15 @@ class Similar_Article_list extends React.Component {
                 className="demo-loadmore-list"
                 loading={initLoading}
                 itemLayout="horizontal"
-                loadMore={loadMore}
+                /*loadMore={loadMore}*/
                 dataSource={list}
                 renderItem={item => (
-                    <List.Item actions={[<a>edit</a>, <a>more</a>]}>
+                    <List.Item >
                         <Skeleton  title={false} loading={item.loading} active>
                             <List.Item.Meta
-
-                                title={<a href="https://ant.design" style={{color:"#1da57a"}}>{item.name.last}</a>}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                title={<a href="https://ant.design" style={{color:"#1da57a",float:"left",marginLeft:"50px"}}>{item.name}</a>}
                             />
-                            <div>content</div>
+
                         </Skeleton>
                     </List.Item>
                 )}
@@ -103,4 +117,28 @@ class Similar_Article_list extends React.Component {
     }
 }
 
-export default Similar_Article_list
+
+function mapStateToProps(state)
+{
+    return{
+
+        username:state.login.username,
+        token:state.login.token,
+        article:state.article.article,
+        loginflag:state.login.loginflag
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+
+
+        set_profile_account:(account,all_data)=>{dispatch(
+            {type: "profile_set_account",account:account,all_data: all_data}
+        )},
+        set_article_data:(article_data)=>{dispatch({type:"set_article",article:article_data})}
+
+    }
+}
+Similar_Article_list=connect(mapStateToProps,mapDispatchToProps)(Similar_Article_list)
+export default Similar_Article_list;
