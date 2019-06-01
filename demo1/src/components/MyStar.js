@@ -3,100 +3,32 @@ import {Table, Button, Tag, Popconfirm, message,Badge, Menu, Dropdown,Icon} from
 import {quit_action} from "../redux/actions/reg_action";
 import {connect} from "react-redux";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
-
-
-//拓展行
-const expandedRowRender = (record, index, indent, expanded) => {
-        const columns = [
-            {
-                title: '作者',
-                dataIndex: 'authors',
-                render: (text,record, index) =>(
-                    <span>
-{record.authors.map((author)=><Button size={"small"}
-                                         onClick={
-                                             ()=>{
-                                                 console.log("这里有个可用的作者");
-                                                 console.log(author.name)
-                                                 const w=window.open('about:blank');
-                                                 w.location.href="https://www.baidu.com/";
-                                             }}
-                                         disabled={author.id==-1}   >{author.name}</Button>)}
-</span>
-                )
-            },
-            { title: '是否已购', dataIndex: 'buyed', key: 'buyed',
-                render: () => <span><Badge status="success" />状态</span> },
-            {
-                title: 'Action',
-                dataIndex: 'operation',
-                key: 'operation',
-                render: () => (
-                    <span className="table-operation">
-            <a href="javascript:;">Pause</a>
-            <a href="javascript:;">Stop</a>
-
-          </span>
-                ),
-            },
-            <Button onClick={()=>console.log(record)}>输出这里的record</Button>
-        ];
-
-        return (
-        <div>
-            <Table
-                columns={columns}
-                dataSource={[record]}
-                pagination={false}
-            />
-        </div>
-    )
-    };
 
 class MyStar extends Component{
     constructor(props) {
         super(props);
 //构造器的初始化操作
 
-        this.get_star_data(this.props.user_id)
+        this.get_star_data()
     }
-
-
-
-
-
-/*
-{
-    title: '作者',
-    dataIndex: 'authors',
-    render: (text,record, index) =>(
-<span>
-{record.author_IDs.map((author)=><Button size={"small"}
-                                         onClick={
-                                             ()=>{
-                                                 console.log("这里有个可用的作者");
-                                                 console.log(author.author_ID)
-                                                 const w=window.open('about:blank');
-                                                 w.location.href="https://www.baidu.com/";
-                                             }}
-                                         disabled={author.author_ID==-1}   >{author.name}</Button>)}
-</span>
-)
-},*/
-
 
      columns = [{
         title: '资源名称',
-        dataIndex: 'title',
+        dataIndex: 'name',
         key:"name",
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+        render: (text,record, index) => <Link to={`/system/article?uid=${this.props.data[index].uid}=${this.props.data[index].article_type}`} >
+            <p> {text}</p></Link>
     },  {
         title: '资源类型',
         dataIndex: 'Type',
-        render: type => (
+        render: text => (
             <span>
-      <Tag color={'geekblue'} >{type}</Tag>
+                {
+                    text==="专利"?<Tag color={'geekblue'} >{text}</Tag>:<Tag color="cyan">{text}</Tag>
+                }
+
     </span>
         ),
     },{
@@ -106,10 +38,7 @@ class MyStar extends Component{
             this.props.data.length >= 1
                 ? (
                     <div>
-                        <Popconfirm title="确认购买?" onConfirm={() => this.buy(record.id)}>
-                            <Button type="primary">购买</Button>
-                        </Popconfirm>
-                    <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record.key)}>
+                    <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record.uid)}>
                         <Button>取消收藏</Button>
                     </Popconfirm>
 
@@ -119,15 +48,6 @@ class MyStar extends Component{
     }
     ];
 
-     //展开执行的方法
-     onexpand=(expanded, record)=>{
-         console.log("有表项被展开，下面输出它的expand和record")
-         console.log(expanded);
-         console.log(record);
-         //获取具体数据
-         this.get_star_detail(record.id,record.key);
-         this.render()
-     }
 
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -135,39 +55,31 @@ class MyStar extends Component{
         this.props.set_selectedRowKeys(selectedRowKeys);
         console.log("选择项改变后的state长度为"+this.props.data.length)
     }
-    expandchange=(expandedRows)=>{
 
-    }
 
-    //真正的从后端删除的方法
-     handleDelete = (key) => {
-        console.log("你想删除"+key);
-        console.log("类里面的state：");
-        console.log(this.props.data[key])
-         axios.delete(`Http://127.0.0.1:8000/api/star/?token=${this.props.token}`, {
-             data:{
-                 data:{
-                 item_list:[this.props.data[key].id]
-                 }
+    //取消收藏的方法
+     handleDelete = (uid) => {
+        console.log("你想删除"+uid);
+
+         axios({
+             method:"delete",
+             url:"http://127.0.0.1:8000/api/star/",
+             data:{data:{item_list:uid}},
+             headers:{
+                 "Authorization":`Token ${this.props.token}`,
+                 "Content-Type":"application/json"
              }
          })
              .then( (response) =>{
                  console.log(response);
-                 //如果删除成功就刷新
-                 if(response.data.msg=="已取消收藏"){
-                     message.success("已取消收藏");
-                     this.get_star_data(this.props.user_id)
-                 }else {
-                     message.error(response.data.msg)
-                 }
+                 if(response.data.msg==="已取消收藏"){
+                     message.success("已取消收藏")
+                     this.get_star_data()
+                 }else {message.error(response.data.msg)}
              })
              .catch(function (error) {
                  console.log(error);
-                 message.error("取消收藏操作出现错误")
              })
-             .then(function () {
-                 // always executed
-             });
 
     }
     multiDelete=(selectedRowKeys) => {
@@ -213,32 +125,7 @@ class MyStar extends Component{
 
 
     }
-    //加到购物车
-    add_to_shopcar=(selectedRowKeys)=>{
-        let select_resource_idlist=[];
-        //把需要操作的资源用key提取resource_ID，然后装进数组
-        for (let i = 0; i <selectedRowKeys.length ; i++) {
-            select_resource_idlist.push(this.props.data[selectedRowKeys[i]].id)
-        }
-        axios.post(`Http://127.0.0.1:8000/api/buy/?token=/${this.props.token}`, {
-            user_ID: this.props.user_id,
-            item_list: select_resource_idlist
-        })
-            .then( (response) =>{
-                console.log(response);
-                //如果删除成功就刷新
-                /*alert("添加到购物车成功");*/
-                message.success("添加成功")
 
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("添加失败")
-            })
-            .then(function () {
-                // always executed
-            });
-    }
 
     //购买
     buy=(id)=>{
@@ -257,47 +144,28 @@ class MyStar extends Component{
                 alert("购买失败")
             })
     }
-    //获取概要收藏数据
+    //获取收藏数据
     get_star_data=()=>{
-        axios.get(`Http://127.0.0.1:8000/api/star`,{headers:{
-                Authorization:`Token ${this.props.token}`
-            }})
+        console.log(this.props.token)
+        axios({
+            method:"get",
+            url:"http://127.0.0.1:8000/api/star/",
+            headers:{
+                "Authorization":`Token ${this.props.token}`
+            }
+        })
             .then( (response) =>{
                 console.log(response);
-                //设置收藏夹数据
-                this.props.set_star_data(response.data)
+                this.props.set_star_data(response.data.star)
+
             })
             .catch(function (error) {
                 console.log(error);
             })
-            .then(function () {
-                // always executed
-            });
+
+
     }
-    //获取某个资源的具体收藏数据
-    get_star_detail=(resource_id,key)=>{
-         console.log("开始向后台获取具体数据")
-        axios.get(`Http://127.0.0.1:8000/api/star_detail`,{params:{
-            token:this.props.token,
-                id:resource_id
-            }})
-            .then( (response) =>{
-                console.log(response);
-                if(response.data.msg){
-                    message.error(response.data.msg);
-                }else{
-                //设置收藏夹数据
-                this.props.set_star_detail(response.data.authors,response.data.buyed,key)
-                    this.render()
-                    }
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-}
+
     render()  {
 
          console.log("页面渲染！");
@@ -305,10 +173,7 @@ class MyStar extends Component{
             selectedRowKeys:this.props.selectedRowKeys,
             onChange: this.onSelectChange,
         };
-        const expandedRowKeys={
-            expandedRowKeys:this.props.expandedRowKeys,
-            onChange: this.expandchange
-        }
+
         const hasSelected = this.props.selectedRowKeys.length > 0;
 
         return (
@@ -321,22 +186,14 @@ class MyStar extends Component{
 
                 <br/>
 
-                <Table  rowSelection={rowSelection}
+                <Table
+                    /*rowSelection={rowSelection}*/
                         columns={this.columns}
                         dataSource={this.props.data}
                         pagination={{pageSize:7}}
-                        expandedRowRender={expandedRowRender}
-                        onExpand={this.onexpand}
+
                 />
-                <Button
-                    type="primary"
-                    onClick={()=>{this.multiDelete(this.props.selectedRowKeys)}}
-                    disabled={!hasSelected}
-                    /*loading={loading}*/
-                    style={{margin:"auto"}}
-                >
-                    批量删除
-                </Button>
+
 
 
 
@@ -355,6 +212,7 @@ function mapStateToProps(state)
         selectedRowKeys:state.star.selectedRowKeys,
         user_id:state.login.user_id,
         token:state.login.token,
+
     }
 }
 

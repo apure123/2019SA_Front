@@ -71,10 +71,7 @@ class PersonalInformation extends Component{
     }
 render()
 {
-    if (!this.props.loginflag)
-    {
-        return<Redirect to={"/"}/>
-    }
+
     const { Meta } = Card;
     return(
         <div>
@@ -83,7 +80,8 @@ render()
             style={{ width:"28%" ,float:"left",marginRight:"2%"}}
             actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
                 [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>,
-                    <a onClick={()=>this.props.set_u2e_visible(true)}> <Icon type="arrow-up" /> 申请成为专家</a>]}
+                    <a onClick={()=>this.props.set_u2e_visible(true)}> <Icon type="arrow-up" /> 申请成为专家</a>
+                ]}
         >
             <Meta
                 /*avatar={<Avatar size={64} icon="user"  style={{margin:"auto"}}/>}*/
@@ -105,7 +103,7 @@ render()
             </Card>
             </Col>
 
-            <Col span={24}>
+            {/*<Col span={24}>
             <Card style={{}} bordered={false}>
                 <p style={pStyle}>简介</p>
             <Row >
@@ -116,7 +114,7 @@ render()
 
             </Row>
             </Card>
-            </Col>
+            </Col>*/}
 
             {/*<Divider />*/}
             <Col span={24} >
@@ -127,11 +125,7 @@ render()
                     <DescriptionItem title="邮箱" content={this.props.all_data.email} />
 
             </Row>
-            <Row>
 
-                    <DescriptionItem title="手机号" content={this.props.all_data.telephone} />
-
-            </Row>
             {/*<Row>
                     <DescriptionItem
                         title="Github"
@@ -183,10 +177,13 @@ render()
                                         <span>我的收藏</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="2"><Link to={"/system/personalinformation/buyed"}>
-                                    <span>已购买</span>
+                                <Menu.Item key="2"><Link to={"/system/personalinformation/user_interest"}>
+                                    <span>已发送消息</span>
                                 </Link></Menu.Item>
-                                <Menu.Item key="3">
+                                <Menu.Item key="3"><Link to={"/system/personalinformation/author_interest"}>
+                                    <span>收到消息</span>
+                                </Link></Menu.Item>
+                                <Menu.Item key="4">
                                     <Link to={"/system/personalinformation/profile"}>
                                         <span>账户信息</span>
                                     </Link>

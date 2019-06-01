@@ -79,76 +79,9 @@ componentDidMount() {
         }*/
         return(<div>
             <Layout style={{height:"100%"}}>
-                <Sider
-                    /*trigger={null}
-                    collapsible
-                    collapsed={this.state.collapsed}*/
-                    style={{background: "#20604F",
-                        overflow: 'auto',
-                        height: '100vh',
-                        position: 'fixed',
-                        left: 0,
-                    }}
-                >
-                    <div className="logo" />
 
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} style={{background: "#20604F"}}>
 
-                        <div style={{
-                            margin:"10%",padding:"10%"
-                        }}></div>
-                        <Menu.Item key="1" >
-                            <Link to={"/system"}>
-                            <Icon type="home"/>
-                            <span >首页</span>
-                            </Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="2">
-                            <Link to={"/system/personalinformation"}>
-                            <Icon type="user" />
-                            <span>我的</span>
-                            </Link>
-                        </Menu.Item>
-
-                       {/* <Menu.Item key="3">
-                            <Link to={"/system/star"}>
-                            <Icon type="star" />
-                            <span>我的收藏</span>
-                            </Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="4" >
-                            <Link to={"/system/account"}>
-                            <Icon type="wallet" />
-                            <span>我的账户</span>
-                            </Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="5" >
-                            <Link to={"/system/buyed"}>
-                                <Icon type="read" />
-                                <span>已购资源</span>
-                            </Link>
-                        </Menu.Item>*/}
-
-                        <Menu.Item key="6"disabled={!this.props.is_expert} title={ this.props.is_expert? "": "此功能只向专家用户开放"}>
-                            <Link to={"/system/experthome"}>
-                                <Icon type="solution" />
-                                <span>专家门户</span>
-                            </Link>
-                        </Menu.Item>
-
-                        {/*<Menu.Item key="7" >
-                            <Link to={"/system/shopcar"}>
-                                <Icon type="shopping-cart" />
-                                <span>购物车</span>
-                            </Link>
-                        </Menu.Item>*/}
-                    </Menu>
-                </Sider>
-
-                <Layout style={{ marginLeft: 200 }}>
+                <Layout style={{  }}>
                     <Header style={{ background: '#ffffff', padding: 0 }}>
                         {/*<Icon
                             className="trigger"
@@ -163,7 +96,7 @@ componentDidMount() {
                             <p style={padding:"10px"}>{`${this.props.username}你好`}</p>
                             <a onClick={this.props.quit}>注销登录</a>
                         </div>*/}
-                        <HeaderBar/>
+                        <HeaderBar  />
 
                     </Header>
                     <Content style={{

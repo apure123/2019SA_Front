@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {quit_action} from "../redux/actions/reg_action";
 import {connect} from "react-redux";
-import {Select, Input, message, Form} from "antd";
+import {Select, Input, message, Form,Radio} from "antd";
 import Register from "./Register";
 import {isDimensionStacked} from "echarts/src/data/helper/dataStackHelper";
 import axios from "axios";
@@ -46,7 +46,7 @@ class Super_Search extends Component{
         axios.post(`http://127.0.0.1:8000/api/search/`, {
             field:"Title",
             content:value,
-            type:"P1"
+            type:this.props.article_type
         })
             .then( (response) =>{
                 console.log(response);
@@ -61,7 +61,7 @@ class Super_Search extends Component{
         axios.post(`http://127.0.0.1:8000/api/search/`, {
             field:"Author",
             content:value,
-            type:"P1"
+            type:this.props.article_type
         })
             .then( (response) =>{
                 console.log(response);
@@ -76,7 +76,7 @@ class Super_Search extends Component{
         axios.post(`http://127.0.0.1:8000/api/advsearch/`, {
             title:this.props.form.getFieldValue("title")?this.props.form.getFieldValue("title"):"",
             author:this.props.form.getFieldValue("author")?this.props.form.getFieldValue("author"):"",
-            type:"P1",
+            type:this.props.article_type,
             keyword:this.props.form.getFieldValue("keyword")?this.props.form.getFieldValue("keyword"):"",
             time_low:this.props.form.getFieldValue("time_low")?this.props.form.getFieldValue("time_low"):"",
             time_high:this.props.form.getFieldValue("time_high")?this.props.form.getFieldValue("time_high"):""
@@ -100,7 +100,9 @@ class Super_Search extends Component{
         }
         this.props.set_search_type(value);
     }
-
+    handle_radioChange=(e)=>{
+        this.props.set_article_type(e.target.value)
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -108,7 +110,7 @@ class Super_Search extends Component{
         <h2>资源检索</h2>
         <Select defaultValue={this.props.search_type} style={{ width: 120 }} onChange={this.handleChange}
                 size={"large"}>
-            <Option value="title">标题</Option>
+            <Option value="title">简单搜索</Option>
             <Option value="author">作者</Option>
             <Option value="super">高级</Option>
 
@@ -121,9 +123,20 @@ class Super_Search extends Component{
             onSearch={value => this.search(value)}
             style={{width:'50%'}}
         />
+            <br/>
+            <br/>
+
+
         <div style={{width:"10%",float:"right"}}>
 
         </div>
+
+            <Radio.Group onChange={this.handle_radioChange} value={this.props.article_type}>
+                <Radio value={"P1"}>搜论文</Radio>
+                <Radio value={"P2"}>搜专利</Radio>
+
+            </Radio.Group>
+
         {this.props.super_search_flag?<div>
             <Form {...formItemLayout}  >
                 <br/>
@@ -178,7 +191,8 @@ function mapStateToProps(state)
         dissearch_flag:state.search.dis_flag,
         super_search_flag:state.search.super_search_flag,
         super_search_filed:state.search.super_search_filed,
-        search_type:state.search.search_type
+        search_type:state.search.search_type,
+        article_type:state.search.article_type
     }
 }
 
@@ -190,7 +204,8 @@ function mapDispatchToProps(dispatch){
         open_super_search:()=>{dispatch({type:"open_super_search"})},
         close_super_search:()=>{dispatch({type:"close_super_search"})},
         set_search_type:(search_type)=>{dispatch({type:"set_search_type",search_type:search_type})},
-        set_search_result_data:(list)=>{dispatch({type:"search_load",list:list})}
+        set_search_result_data:(list)=>{dispatch({type:"search_load",list:list})},
+        set_article_type:(article_type)=>{dispatch({type:"article_type",article_type:article_type})}
     }
 }
 Super_Search=connect(mapStateToProps,mapDispatchToProps)(Super_Search)

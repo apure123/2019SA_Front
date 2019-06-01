@@ -5,26 +5,18 @@ const star_reducer = ( state={star_data:[],selectedRowKeys:[]},action) => {
             var newdata=[];
             //类型检测与纠正
             for (let i = 0; i <action.data.length ; i++) {
-                newdata.push(action.data[i]);
-                newdata[i].key=i;
-                newdata[i].authors=[];
-                if (action.data[i].Type){
-                    if (action.data[i].Type=="P1") {
-                        newdata[i].Type="Paper"
-                    }else if(action.data[i].Type=="P2"){
-                        newdata[i].Type="Patent"
-                    }else if(action.data[i].Type=="P3"){
-                        newdata[i].Type="Project"
-                    }
-                    else {
-                        newdata[i].Type="未知"
-                    }
+                let perdata=action.data[i]
+                /*newdata.push(action.data[i]);*/
+                perdata.key=i;
+                if(perdata.patent_id){
+                    //如果是专利
+                    perdata.article_type="P2";
+                    perdata.Type="专利"
+                }else {
+                    perdata.article_type="P1";
+                    perdata.Type="论文"
                 }
-                else {
-                    newdata[i].Type="未指定类型"
-                }
-                //作者划分
-
+                newdata.push(perdata)
             }
             return{
                 ...state,

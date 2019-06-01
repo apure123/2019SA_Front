@@ -20,13 +20,6 @@ import {connect} from "react-redux";
 import axios from "axios"
 let data;
 
-/*
-$.ajax({
-    url: "https://alifd.alibabausercontent.com/materials/@bizcharts/relation-chord/0.2.8/mock.json",
-    async : false,
-    success: (iData) => { data = iData }
-});
-*/
 data={
     "nodes":[
         {"id":0,"name":"0","value":40},{"id":1,"name":"1","value":40}
@@ -48,14 +41,12 @@ class BizTest extends React.Component {
         const uid=arr[1]*/
         console.log("输出bizchart里面的props")
         console.log(props)
-        /*this.get_graph(this.props.uid)
-        data=this.props.graph;*/
+        this.get_graph(this.props.uid)
+        /*data=this.props.graph;*/
     }
 
-    componentDidMount() {
-        this.get_graph(this.props.uid)
-        data=this.props.graph;
-    }
+
+
 
     get_graph=(uid)=>{
         console.log("将要获取关系图数据 ")
@@ -70,56 +61,12 @@ class BizTest extends React.Component {
             })
     }
     render() {
+
         const ds = new DataSet();
         const dv = ds.createView().source(this.props.graph, {
             type: "graph",
             edges: d => d.links
         });
-
-        /*dv.transform({
-            type: "diagram.arc",
-            marginRatio: 0.5 // sortBy: 'frequency' // id, weight, frequency, {function}
-        });
-        return (
-            <div>
-                <Chart data={data} forceFit={true} height={window.innerHeight}>
-                    <Tooltip showTitle={false} />
-                    <View data={dv.edges} axis={false}>
-                        <Geom
-                            type="edge"
-                            position="x*y"
-                            shape="arc"
-                            color="source"
-                            opacity={0.5}
-                            tooltip={"source*target"}
-                        />
-                    </View>
-                    <View data={dv.nodes} axis={false}>
-                        <Geom
-                            type="point"
-                            position="x*y"
-                            shape="circle"
-                            size="value"
-                            color="id"
-                            opacity={0.5}
-                            style={{
-                                stroke: "grey"
-                            }}
-                        >
-                            <Label
-                                content="name"
-                                offset={-10}
-                                textStyle={{
-                                    textAlign: "left",
-                                    rotate: 90,
-                                    fill: "black"
-                                }}
-                            />
-                        </Geom>
-                    </View>
-                </Chart>
-            </div>
-        );*/
         dv.transform({
             type: "diagram.arc",
             sourceWeight: e => e.sourceWeight,

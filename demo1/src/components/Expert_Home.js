@@ -10,6 +10,10 @@ import BizTest from "./Charts/BizTest";
 import BizBasic from "./Charts/BizBasic";
 import axios from "axios"
 import {Link} from "react-router-dom";
+import User2Expert from "./PersonalInformation";
+import User2Expert_inExpertHome from "./User2Expert_inExpertHome";
+
+
 class Expert_Home extends Component{
     constructor(props) {
         super(props);
@@ -34,10 +38,10 @@ class Expert_Home extends Component{
 
     columns = [
         {
-        title: '发布过的资源',
+        title: '发布过的论文',
         dataIndex: 'name',
         key:"name",
-        render: (text,record, index) => <Link to={`/system/article?uid=${record.uid}`} target={"_blank"}>
+        render: (text,record, index) => <Link to={`/system/article?uid=${record.uid}=P1`} >
             <p> {text}</p></Link>
     },  {
         title: '发布时间',
@@ -45,18 +49,21 @@ class Expert_Home extends Component{
             render: (text) => <p>{text}</p>
     }
     ];
+    columns2 = [
+        {
+            title: '发布过的专利',
+            dataIndex: 'name',
+            key:"name",
+            render: (text,record, index) => <Link to={`/system/article?uid=${record.uid}=P2`} >
+                <p> {text}</p></Link>
+        },  {
+            title: '发布时间',
+            dataIndex: 'year',
+            render: (text) => <p>{text}</p>
+        }
+    ];
 
-    showDrawer = () => {
-        this.setState({
-            visible: true,
-        });
-    };
 
-    onClose = () => {
-        this.setState({
-            visible: false,
-        });
-    };
 
     get_expert_data=(uid)=>{
         axios.get(`http://127.0.0.1:8000/api/au_profile/?uid=${uid}`)
@@ -67,6 +74,26 @@ class Expert_Home extends Component{
             .catch(function (error) {
                 console.log(error);
             })
+    }
+    get_graph=(uid)=>{
+        console.log("将要获取关系图数据 ")
+        console.log(uid)
+        axios.post("http://127.0.0.1:8000/api/CoGraph/",{uid:uid})
+            .then((response) =>{
+                console.log(response);
+                this.props.set_relation_graph(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    comfirm_button=()=>{
+        if(this.props.loginflag){
+            this.props.set_u2e_ine_visible(true)
+        }else {
+            alert("请先登录您的账号")
+        }
     }
 
     render() {
@@ -95,6 +122,7 @@ class Expert_Home extends Component{
                     <h2>合作者</h2>
                     <Coworkers_echart/>
                 </Card>*/}
+                <div style={{width:"78%",float:"left"}}>
                 <Card bordered={false} style={{backgroundColor:"#fff"}}>
                 <div className={"body"}>
                 <div className={"person_image"}>
@@ -104,7 +132,9 @@ class Expert_Home extends Component{
                 height="112" />*/}
                 <Avatar size={100} icon="user" />
             </a>
+                    <Button style={{marginTop:"20px"}} onClick={()=>this.comfirm_button()}>我要认证</Button>
                 </div>
+
                 <div className="person_baseinfo" >
                     <div className="p_name">{this.props.expert.name}</div>
                     {/*<div className="p_volume">9191人看过</div>*/}
@@ -115,7 +145,7 @@ class Expert_Home extends Component{
                     <div className="p_affiliate" ></div>
                     <ul className="p_ach_wr">
                         <li className="p_ach_item"><p className="p_ach_type c_gray">被引频次</p>
-                            <p className="p_ach_num">4275</p></li>
+                            <p className="p_ach_num">{this.props.expert.ci_count_total}</p></li>
                         <li className="p_ach_item"><p className="p_ach_type c_gray">成果数</p><p
                             className="p_ach_num">{this.props.expert.publishes.length}</p></li>
                         <li className="p_ach_item"><p className="p_ach_type c_gray">H指数</p><p
@@ -136,66 +166,71 @@ class Expert_Home extends Component{
                     </div>
                 </div>
                 </div>
+
                 </Card>
 
             <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
-                <div style={{width:"70%",float:"left"}}>
+                <div style={{width:"70%",float:"left",display:"block"}}>
                 <BizBasic/>
                 </div>
-                <div    style={{width:"20%",float:"right"}}>
-                    <List
 
-                        /*itemLayout="horizontal"*/
-                        dataSource={this.props.expert.short_coworkers}
-                        header={<div style={{display:"flex",textAlign:"center"}}>
-                            <p style={{width:"100%"}}>合作者</p>
+                <div style={{height:"100%"}}>
+                    <BizTest uid={this.state.uid}/>
+                </div>
+            </Card>
 
-                        </div>}
-                        /*footer={<div>
-                            {this.props.expert.detail_coworkers_flag?<Button
-                                onClick={()=>this.props.close_detail_coworkers}
-                            >收起</Button>:
-                            <Button onClick={this.props.open_detail_coworkers}>查看全部</Button>
-                            }
-                        </div>}*/
-                        split={false}
-                        renderItem={item => (
-                            <List.Item
+            <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
+                <Table  columns={this.columns} dataSource={this.props.expert.publishes} pagination={{pageSize:7}} />
+            </Card>
+                    <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
+                        <Table  columns={this.columns2} dataSource={this.props.expert.patent} pagination={{pageSize:7}} />
+                    </Card>
 
-                            >
+                </div >
+                <div style={{width:"20%",float:"right"}}>
+                    <div   style={{backgroundColor:"#fff",padding:"24px"}} >
+
+                        <List
+
+                            /*itemLayout="horizontal"*/
+                            dataSource={this.props.expert.coworkers}
+                            header={<div style={{display:"flex",textAlign:"center"}}>
+                                <p style={{width:"100%"}}>合作者</p>
+
+                            </div>}
+                            /*footer={<div>
+                                {this.props.expert.detail_coworkers_flag?<Button
+                                        onClick={()=>this.props.close_detail_coworkers}
+                                    >收起</Button>:
+                                    <Button onClick={this.props.open_detail_coworkers}>查看全部</Button>
+                                }
+                            </div>}*/
+                            split={false}
+                            renderItem={item => (
+                                <List.Item
+
+                                >
                                     <List.Item.Meta style={{width:"100%",float:"left"}}
-                                                    title={<div style={{float:"left"}}>
-                                                        <Link to={`/system/experthome?uid=${item.uid}`}
-                                                            target={"_blank"}>
-                                                        <p> {`${item.name}`}</p>
-                                                    </Link></div>}
+                                                    title={<span style={{float:"left"}}>
+
+                                                        <a onClick={()=>{
+                                                            this.get_expert_data(item.uid)
+                                                            this.setState({uid:item.uid})
+                                                            this.get_graph(item.uid)
+                                                        }}> {`${item.name}`}</a>
+                                                    </span>}
                                                     avatar={<Avatar shape={"square"} icon="user" />}
 
                                     />
 
 
 
-                            </List.Item>
-                        )}
-                    />
+                                </List.Item>
+                            )}
+                        />
+                    </div>
                 </div>
-                <div style={{height:"100%"}}><BizTest uid={this.state.uid}/></div>
-            </Card>
-                <Drawer
-                    title="Basic Drawer"
-                    placement="top"
-                    height={"700px"}
-                    closable={true}
-                    onClose={this.onClose}
-                    visible={this.state.visible}
-                >
-
-
-
-                </Drawer>
-            <Card bordered={false} style={{backgroundColor:"#fff",marginTop:"24px"}}>
-                <Table  columns={this.columns} dataSource={this.props.expert.publishes} pagination={{pageSize:7}} />
-            </Card>
+                <User2Expert_inExpertHome/>
             </div>
         )
     }
@@ -204,7 +239,11 @@ class Expert_Home extends Component{
 function mapStateToProps(state)
 {
     return{
-        expert:state.expert.expert
+        expert:state.expert.expert,
+        loginflag:state.login.loginflag,
+        token:state.login.token,
+        article_type:state.search.article_type,
+        graph_expert_uid:state.relation_graph.uid
     }
 }
 
@@ -213,7 +252,12 @@ function mapDispatchToProps(dispatch){
             set_expert:(expert_data)=>{dispatch({type:"set_expert",expert:expert_data})},
         set_uid:(uid)=>{dispatch({type:"set_expert_uid",uid:uid})},
         open_detail_coworkers:()=>{dispatch({type:"open_detail_coworkers"})},
-        close_detail_coworkers:()=>{dispatch({type:"close_detail_coworkers"})}
+        close_detail_coworkers:()=>{dispatch({type:"close_detail_coworkers"})},
+        //用来显示升级为专家的抽屉
+        set_u2e_ine_visible:(flag)=>{dispatch({type:"u2e_ine_set_visible",visible:flag})},
+        set_relation_graph:(graph)=>{
+            dispatch({type:"set_relation_graph",graph:graph})
+        }
 
     }
 }

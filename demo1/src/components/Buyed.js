@@ -13,12 +13,12 @@ class Buyed extends Component{
 
 
     columns = [{
-        title: '资源名称',
+        title: '专利名称',
         dataIndex: 'title',
         key:"name",
         render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
     },  {
-        title: '资源类型',
+        title: '专利消息',
         dataIndex: 'Type',
         render: type => (
             <span>
@@ -26,7 +26,7 @@ class Buyed extends Component{
     </span>
         ),
     },{
-        title: '价格',
+        title: '消息状态',
         dataIndex: 'price',
         key:"price",
         render: (text) => <p>{text}</p>

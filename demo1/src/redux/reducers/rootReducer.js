@@ -11,6 +11,14 @@ import avator_reducer from "./Avator_reducer";
 import article_reducer from "./article_reducer";
 import expert_reducer from "./expert_reducer";
 import relation_graph_reducer from "./relation_graph_reducer";
+import recom1_reducer from "./recom1_reducer";
+import recom2_reducer from "./recom2_reducer";
+import u2e_ine_reducer from "./u2e_ine_reducer";
+import interest_reducer from "../../components/User_interest/User_interest_reducer";
+import interest_receive_reducer from "../../components/Author_interest/Author_interest_reducer";
+import reply_reducer from "./Reply_reducer";
+
+
 const rootReducer=combineReducers({
     reg:regreducer,
     login:login_reducer,
@@ -23,6 +31,12 @@ const rootReducer=combineReducers({
     avator:avator_reducer,
     article:article_reducer,
     expert:expert_reducer,
-    relation_graph:relation_graph_reducer
+    relation_graph:relation_graph_reducer,
+    recom1:recom1_reducer,
+    recom2:recom2_reducer,
+    u2e_ine:u2e_ine_reducer,
+    interest:interest_reducer,
+    interest_recive:interest_receive_reducer,
+    reply:reply_reducer
 })
 export default rootReducer

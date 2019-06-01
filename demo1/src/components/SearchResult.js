@@ -24,10 +24,6 @@ import "../css/Search_Result.css"
 import Register from "./Register";
 import Super_Search from "./Super_Search";
 
-const count = 3;
-
-
-
 const FormItem = Form.Item;
 const formItemLayout = {
     wrapperCol: {
@@ -45,112 +41,45 @@ class SearchPage extends Component{
         /*this.search(this.props.keyword)*/
     }
 
-   /* //搜索方法，已经加入具体搜索！，具体搜索的时候不能有假数据！！！
-    search=(keyword)=>{
-        console.log("！！！！！！！！！！！执行搜索方法！！！！！！！！！！！")
-        /!*this.props.loading();*!/
-        axios.get(`Http://127.0.0.1:8000/api/search/`, {params:{
-            token:this.props.token,
-                keyword:keyword
-            }})
-    .then( (response) =>{
-            console.log(response);
-        if(response.data.detail){
-            message.error("获取搜索结果错误："+response.data.detail);
-            this.props.deloading();
-        }else {
-            //先删除假数据
-            this.props.deloading();
-            this.props.set_res(response.data,keyword);
-            //接下来遍历搜索结果，为每个搜索结果进行具体搜索
-
-            this.all_search_detail();
-
-
-        }
-        })
-            .catch((error)=> {
-                console.log(error);
-                this.props.deloading();
-            })
-
-    }
-
-    //具体搜索方法（加载更多）
-    search_detail=(id,key)=>{
-
-        axios.get(`Http://127.0.0.1:8000/api/search_detail`, {params:{
-                token:this.props.token,
-                id:id
-            }})
-            .then( (response) =>{
-                if(response.data.detail){
-                    message.error("获取搜索结果错误："+response.data.detail);
-                }else {
-                    this.props.search_detail(response.data.authors,response.data.starred,key)
-                }
-            })
-            .catch((error)=> {
-                console.log(error);
-            })
-    }
-    //具体搜索的时候有假数据
-    all_search_detail=()=>{
-        for (let i = 0; i <this.props.result_list.length-1 ; i++) {
-            this.search_detail(this.props.result_list[i].id,this.props.result_list[i].key)
-        }
-}*/
-
-    //收藏方法,收藏后修改本地数据，不再搜索
+    //收藏方法
     star=(resource_id,key)=>{
-        axios.post(`Http://127.0.0.1:8000/api/star/?token=${this.props.token}`, {
-        data:{item_list:[resource_id]}
-        })
-            .then( (response) =>{
-                console.log(response);
-                if(response.data.msg=="添加成功"){
-                    message.success("添加成功");
-                    this.props.star(key);
 
+        if(this.props.loginflag){
+            axios({
+                method:"post",
+                url:"http://127.0.0.1:8000/api/star/",
+                data:{data:{"item_list":resource_id,
+                    "type_list":this.props.article_type}},
+                headers:{
+                    "Authorization":`Token ${this.props.token}`,
+                    "Content-Type":"application/json"
                 }
-                else message.error(response.data.msg);
             })
-            .catch(function (error) {
-                console.log(error);
-                message.error("收藏失败");
-            })
+                .then( (response) =>{
+                    console.log(response);
+                    if(response.data.msg==="收藏成功"){
+                        message.success("收藏成功")
+                    }else {message.error(response.data.msg)}
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    message.error("收藏失败")
+                })
+
+        }else {
+            alert("请先登录您的账号，再进行收藏")
+        }
     }
 
-    //加到购物车
-    add_to_shopcar=(resource_id)=>{
-        axios.post(`Http://127.0.0.1:8000/add_item_list/${this.props.user_id}/`, {
-                user_ID: this.props.user_id,
-                item_list: [resource_id]
-        })
-            .then( (response) =>{
-                console.log(response);
-                //如果删除成功就刷新
-                /*alert("添加到购物车成功");*/
-                message.success("添加成功")
-                this.search(this.props.keyword)
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("添加失败")
-            })
-            .then(function () {
-                // always executed
-            });
-    }
+
 
 
     componentDidMount() {
-        //组件加载完毕就进行默认搜索，会将详情顶掉
+
     }
     render() {
 
         console.log("搜索页渲染！")
-        //console.log(this.props.result_list)
 
         return(<div>
             <Icon type="close" className={"close"} onClick={this.props.quit_search}  />
@@ -174,7 +103,7 @@ class SearchPage extends Component{
                         <p style={{width:"40%"}}>标题</p>
                         <p style={{width:"20%"}}>作者</p>
                         <p style={{width:"20%"}}>发表时间</p>
-                        <p style={{width:"10%"}}>价格</p>
+                        <p style={{width:"10%"}}></p>
                         <p style={{width:"10%"}}>操作</p>
                     </div>}
                     renderItem={item => (
@@ -193,15 +122,10 @@ class SearchPage extends Component{
 
                                 <p style={{margin:"10px",padding:"10px"}}>{item.key}</p>
                                 <List.Item.Meta style={{width:"40%",float:"left"}}
-                                                title={<Link to={`/system/article?uid=${item.uid}`} /*target={"_blank"}*/><p> {`${item.name}`}</p></Link>}
-                                                /*description={
-                                                    <div >
-                                                        <p className={"line-limit-length"}>{`简介：${item.intro}`}</p>
-                                                        <p>{`发表时间：${item.year}`}</p>
-                                                       <Row> <p>第一作者：</p><Button size={"small"} >{`${item.author1[0].name}`}</Button></Row>
-                                                        <div><p>价格：{item.price}</p></div>
-                                                    </div>}*/
+                                                title={<Link to={`/system/article?uid=${item.uid}=${this.props.article_type}`} /*target={"_blank"}*/><p> {`${item.name}`}</p></Link>}
+
                                 />
+                                {/*作者*/}
                                 <div style={{width:"20%"}}>{item.authors.map(function (value,key) {
                                     return(<Link to={`/system/experthome?uid=${value.uid}`}><Button size={"small"} onClick={()=>console.log(item)} style={{margin:"2px"}}>{value.name}</Button></Link>)
                                 })}</div>
@@ -211,10 +135,11 @@ class SearchPage extends Component{
                                 </div>
                                 {/*<Tag color={'geekblue'} >{item.Type}</Tag>*/}
                                 <div style={{width:"10%"}}>
-                                    <p>价格：{item.price}</p>
+                                    {item.patent_id?<p>{`专利号:${item.patent_id}`}</p>:<p></p>}
                                 </div>
+                               {/* 收藏按钮*/}
                                 <div style={{width:"10%"}}>
-                                    <Button onClick={()=>{this.star(item.id,item.key)}}>收藏</Button>
+                                    <Button onClick={()=>{this.star(item.uid,item.key)}}>收藏</Button>
                                 </div>
 
 
@@ -243,7 +168,12 @@ function mapStateToProps(state)
         user_id:state.login.user_id,
         token:state.login.token,
         detail_flag:state.search.detail_flag,
-        super_search_flag:state.search.super_search_flag
+        super_search_flag:state.search.super_search_flag,
+        article_type:state.search.article_type,
+        //用来收藏的时候判断
+        loginflag:state.login.loginflag,
+
+
 
     }
 }

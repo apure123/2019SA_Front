@@ -10,26 +10,27 @@ const expert_reducer = ( state={
     switch(action.type) {
         case "set_expert":{
             let tempdata=action.expert;
-            //加key
-            console.log("开始修改key")
+            //计算被引频次,顺便给文章加key
+            tempdata.ci_count_total=0
             for (let i = 0; i <tempdata.publishes.length ; i++) {
-                    tempdata.publishes[i].key=i
-                //
+                    tempdata.publishes[i].key=i;
+                    tempdata.ci_count_total+=tempdata.publishes[i].ci_count
                 console.log("正在修改key")
             }
             for (let i = 0; i <tempdata.coworkers.length ; i++) {
                 tempdata.coworkers[i].key=i
-                //
-                console.log("正在修改合作者的key")
             }
             //长度裁剪
-            if(tempdata.coworkers.length>4){
+           /* if(tempdata.coworkers.length>4){
                 let short_coworkers=tempdata.coworkers.slice(0,3)
                 tempdata.short_coworkers=short_coworkers
             }else {
                 let short_coworkers=tempdata.coworkers
                 tempdata.short_coworkers=short_coworkers
-            }
+            }*/
+
+
+
             return{
                 ...state,
                 expert: tempdata
@@ -62,6 +63,13 @@ const expert_reducer = ( state={
                 expert:tempdata
             }
         }
+        case "set_expert_email":{
+            let tempdata=state.expert;
+            tempdata.email=action.email
+            return{
+            ...state,
+            expert:tempdata
+        }}
 
         default:return state
     }

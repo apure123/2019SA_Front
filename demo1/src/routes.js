@@ -10,6 +10,8 @@ import Buyed from "./components/Buyed";
 import Expert_Home from "./components/Expert_Home";
 import Rsource_Detail from "./components/Rsource_Detail";
 import ArticleDetail from "./components/ArticleDetail/ArticleDetail";
+import Author_interest from "./components/Author_interest/Author_interest";
+import User_interest from "./components/User_interest/User_interest";
 
 export const routes=[
 
@@ -82,7 +84,11 @@ export const routes3=[
         component:MyAccount
     },
     {
-        path:"/system/personalinformation/buyed",
-        component:Buyed
+        path:"/system/personalinformation/user_interest",
+        component:User_interest
+    },
+    {
+        path:"/system/personalinformation/author_interest",
+        component:Author_interest
     }
 ]

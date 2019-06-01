@@ -31,7 +31,7 @@ const tailFormItemLayout = {
 };
 
 
-class User2Expert extends Component{
+class User2Expert_inExpertHome extends Component{
 
     state = {
         confirmDirty: false,
@@ -42,25 +42,27 @@ class User2Expert extends Component{
     send_code=()=>{
         this.props.form.validateFields((err, values) => {
 
-                console.log('Received values of form: ', values);
-                axios({
-                    method:"put",
-                    url:"http://127.0.0.1:8000/api/profile/",
-                    data:{"name":values.name},
-                    headers:{
-                        "Authorization":`Token ${this.props.token}`,
-                        "Content-Type":"application/json"
+            console.log('Received values of form: ', values);
+            axios({
+                method:"put",
+                url:"http://127.0.0.1:8000/api/profile/",
+                data:{"uid":this.props.expert_uid},
+                headers:{
+                    "Authorization":`Token ${this.props.token}`,
+                    "Content-Type":"application/json"
+                }
+            })
+                .then( (response) =>{
+                    console.log(response);
+                    if (response.data.email){
+                        message.success("验证码已发送至您的邮箱:"+response.data.email)
+                        this.props.set_expert_email(response.data.email)
                     }
                 })
-                    .then( (response) =>{
-                        console.log(response);
-                        if (response.data.email){
-                            message.success("验证码已发送至您的邮箱:"+response.data.email)
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
+                .catch(function (error) {
+                    console.log(error);
+                    message.error("验证码发送失败")
+                })
 
 
         });
@@ -74,20 +76,21 @@ class User2Expert extends Component{
                 console.log('Received values of form: ', values);
 
                 axios.post("http://127.0.0.1:8000/api/verify/",{data:{
-                        email:values.email,
+                        email:this.props.expert_email,
                         token:values.code,
                         username:this.props.username
                     }})
                     .then( (response) =>{
                         console.log(response);
                         if(response.data.msg=="申请成功"){
-                            message.success("申请成功，重新登录即可开启专家功能");
+                            message.success("申请成功");
                             this.onClose();
-                        }
+                        }else {message.error(response.data.msg)}
 
                     })
                     .catch(function (error) {
                         console.log(error);
+                        message.error("验证码错误，请重新输入！")
                     })
                     .then(function () {
                         // always executed
@@ -97,34 +100,12 @@ class User2Expert extends Component{
 
     }
 
-    showDrawer = () => {
-        this.setState({
-            visible: true,
-        });
-    };
 
     //关闭抽屉
     onClose = () => {
         this.props.set_visible(false);
     };
 
-    //从后端加载账户数据
-    get_profile_data=()=>{
-
-        axios.get(`Http://127.0.0.1:8000/api/profile/?token=${this.props.token}`
-        )
-            .then( (response) =>{
-                console.log(response);
-                this.props.set_profile_account(response.data.balance,response.data)
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-    }
 
     render() {
 
@@ -133,43 +114,16 @@ class User2Expert extends Component{
         return(
             <div >
                 <Drawer
-                    title="申请升级为专家"
+                    title="认证为专家"
                     width={720}
                     onClose={this.onClose}
                     visible={this.props.visible}
                 >
-                    <div style={{margin:"auto"}}>
-                        <Upload_avatar/>
+
+                    <div style={{margin:"auto"}} align="ceter">
+                        <Button onClick={()=>{this.send_code()}}>获取验证码</Button>
                     </div>
                     <Form {...formItemLayout}  onSubmit={this.u2e_Submit}>
-
-                        <Form.Item label={"名字"} >
-                            {getFieldDecorator('name', {
-                                rules: [{
-                                    message: '请输入用户名!',
-                                }, {
-                                    required: true, message: 'Please input your name!',
-                                }],
-                            })(
-                                <Input  />
-                            )}
-                        </Form.Item>
-                        <Form.Item label={"邮箱"} >
-                        {getFieldDecorator('email', {
-                            rules: [{
-                                message: '所属机构!',
-                            }, {
-                                required: true, message: 'Please input !',
-                            }],
-                        })(
-                            <Input  />
-                        )}
-                    </Form.Item>
-
-                        <div style={{margin:"auto"}} align="ceter">
-                            <Button onClick={()=>{this.send_code()}}>获取验证码</Button>
-                        </div>
-
                         <Form.Item label={"验证码"} >
                             {getFieldDecorator('code', {
                                 rules: [{
@@ -201,7 +155,7 @@ class User2Expert extends Component{
                             </Button>
 
                         </div>
-                    {/*</Form.Item>*/}
+                        {/*</Form.Item>*/}
                     </Form>
                 </Drawer>
 
@@ -214,22 +168,25 @@ class User2Expert extends Component{
 function mapStateToProps(state)
 {
     return{
-        visible:state.editProfile.u2e_visible,
+        visible:state.u2e_ine.u2e_visible,
         username:state.login.username,
         all_data:state.profile.all_data,
         token:state.login.token,
+        expert_uid:state.expert.expert.uid,
+        expert_email:state.expert.expert.email
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
 
-        set_visible:(flag)=>{dispatch({type:"u2e_set_visible",visible:flag})},
+        set_visible:(flag)=>{dispatch({type:"u2e_ine_set_visible",visible:flag})},
         set_profile_account:(account,all_data)=>{dispatch(
             {type: "profile_set_account",account:account,all_data: all_data}
         )},
+        set_expert_email:(email)=>{dispatch({type:"set_expert_email",email:email})}
 
     }
 }
-User2Expert=connect(mapStateToProps,mapDispatchToProps)(User2Expert)
-export default Form.create()(User2Expert);
+User2Expert_inExpertHome=connect(mapStateToProps,mapDispatchToProps)(User2Expert_inExpertHome)
+export default Form.create()(User2Expert_inExpertHome);

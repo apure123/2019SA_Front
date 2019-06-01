@@ -5,8 +5,9 @@ const search_reducer = ( state={
     keyword:"",
     detail_flag:[],
     super_search_flag:false,
-    super_search_filed:{title:"",author:"",type:"P1",keyword:"",time_low:"",time_high:""},
-    search_type:"title"
+    super_search_filed:{title:"",author:"",keyword:"",time_low:"",time_high:""},
+    search_type:"title",
+    article_type:"P1"
 },action) => {
     switch(action.type) {
         case "search":
@@ -45,9 +46,17 @@ const search_reducer = ( state={
                 }
                 /*perdata.detail_flag=false;*/
 
-                //将第一作者加进作者里面
-                perdata.authors=perdata.author1.concat(perdata.authors)
-                newlist.push(perdata);
+
+                //如果是专利的话，把发明人加进作者authors里面,同时修改发表时间
+                if(perdata.inventor){
+                    perdata.authors=perdata.inventor;
+                    perdata.year=perdata.applicant_date
+                    newlist.push(perdata)
+                }else {//论文
+                    //将第一作者加进作者里面
+                    perdata.authors=perdata.author1.concat(perdata.authors)
+                    newlist.push(perdata);
+                }
             }
             return{
             ...state,
@@ -105,6 +114,10 @@ const search_reducer = ( state={
         case "set_search_type":return{
             ...state,
             search_type:action.search_type
+        }
+        case "article_type":return{
+            ...state,
+            article_type:action.article_type
         }
         default:return state
     }

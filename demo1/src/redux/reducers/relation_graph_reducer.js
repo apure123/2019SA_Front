@@ -4,7 +4,8 @@ const relation_graph_reducer = ( state={
             targetWeight: 1,
             source: 0,
             target: 0
-        }]},uid:""
+        }]},
+    uid:""
 },action) => {
     switch(action.type) {
         case "set_relation_graph":{

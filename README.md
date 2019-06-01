@@ -1,16 +1,8 @@
 ## 2019SA 前端说明文档
 
- ** 一些说明：**
+  **一些说明：**
  
- 高级搜索的表单还没写，先用注册框代替
- 接口订好了的话可以帮忙改改专家页和文章页
- 启动之后不用登录，直接在url后面加/systerm进入系统页
- 点击“专家门户”就能看到专家页(输url访问也行)
- ![enter description here](./images/f45f4fb3c511c90bbd1f0de6fc7c05a.png)
- 
- 文章页：链接是/systerm/article
- 
-![c064ea18fa32e080e8e98e5171f3ac7](./images/c064ea18fa32e080e8e98e5171f3ac7.png)
+6.1发布，应该跟最终版本差不多了，目前由于测试数据原因，有一个地方前端加上了但是没数据可测：**在个人中心页，对已收到的消息进行回复的操作**
 
 
 ----------
@@ -37,8 +29,8 @@ npm install -g yarn
  2.事先在本地启动后端的server
  
  3.在FrontEnd\demo1\src\redux\store\store.js 文件中删除这一行代码：()
- ![enter description here](./images/redux工具删除.png)
- 
+
+
 
 ``` javascript
 export const store=createStore(rootReducer,

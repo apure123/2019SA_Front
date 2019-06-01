@@ -3,7 +3,7 @@
     font: 14px/22px Microsoft YaHei,Arial,Helvetica,sans-serif;
     padding: 20px;
     margin: 0;
-    min-width: 1180px;
+    min-width: 880px;
     float: left;
     width: 100%;
     background-color: #eef0f3;
@@ -18,7 +18,8 @@
     margin-bottom: 10px;
 }
 #dtl_l {
-    width: 75%;
+    width: 100%;
+
     float: left;
     padding-top: 35px;
     background-color: #edeff2;
