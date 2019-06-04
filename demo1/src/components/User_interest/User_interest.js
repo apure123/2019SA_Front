@@ -20,11 +20,11 @@ class User_interest extends Component{
     columns = [
 
         {
-        title: '专利id',
+        title: '专利',
         dataIndex: 'patent_id',
         key:"name",
         render: (text,record, index) => <Link to={`/system/article?uid=${text}=P2`} >
-            <a>{text}</a></Link>
+            <a>{record.patent_title}</a></Link>
         },
         {
             title: '接收专家',

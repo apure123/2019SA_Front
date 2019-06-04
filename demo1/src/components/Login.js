@@ -110,12 +110,14 @@ componentDidMount() {
 
                 {/*登录部分*/}
             <div className={"login"}>
-                <h2 >登录部分</h2>
+
                 <br/>
                 <Form onSubmit={this.logintest}style={{margin:"auto",marginTop:"10%",marginBottom:"100%"}}>
 
-                    <Avatar shape="square" size={100} icon="user" style={{display:"inline-block",margin:"50px"}}/>
-                    <Form.Item>
+                    <Avatar shape="square" icon={"user"} size={100}  style={{display:"inline-block",margin:"50px"}}/>
+
+
+         <Form.Item>
                         {getFieldDecorator('loginUserName', {
                             rules: [{ required: true, message: 'Please input your username!' }],
                         })(

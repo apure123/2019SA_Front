@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, Avatar, Table, Tag, List, Skeleton, Button,Drawer} from 'antd';
+import {Card, Avatar, Table, Tag, List, Skeleton, Button,Drawer,Spin} from 'antd';
 import "../css/Home.css"
 import {connect} from "react-redux";
 import SearchPage from "./SearchResult";
@@ -22,7 +22,7 @@ class Expert_Home extends Component{
         const uid=arr[1]
         console.log(uid)
         //保存uid
-        this.state={uid:uid,visible: false}
+        this.state={uid:uid,visible: false,spinning:true}
         this.props.set_uid(uid)
         this.get_expert_data(uid);
     }
@@ -70,9 +70,13 @@ class Expert_Home extends Component{
             .then((response) =>{
                 console.log(response);
                 this.props.set_expert(response.data)
+
+                this.setState({spinning:false})
             })
-            .catch(function (error) {
+            .catch( (error)=>{
                 console.log(error);
+
+                this.setState({spinning:false})
             })
     }
     get_graph=(uid)=>{
@@ -99,29 +103,11 @@ class Expert_Home extends Component{
     render() {
 
 
-        return(<div style={{background: '#eff1f4'}}>
+        return(
+            <Spin spinning={this.state.spinning}>
+            <div style={{background: '#eff1f4'}}>
 
-                  {/*  <div style={{width:"100%",display:"flex"}}>
-                <Card style={{display:"inline-block",width:"50%",float:"left"}}>
-                <img   src={"http://img4.imgtn.bdimg.com/it/u=648251558,316969232&fm=26&gp=0.jpg"}
-                      className={"intro"}
-                />
-                    <p>名字</p>
-                    <p>研究领域</p>
-                    <p>所属机构</p>
-                </Card>
-                        <Card style={{width:"50%",float:"right"}}>
-                            <Expert_echart/>
-                        </Card>
-                    </div>
-                <hr/>
-                <Card style={{float:"left",width:"50%"}}>
-                    <h2>资源</h2>
-                </Card>
-                <Card style={{float:"right",width:"50%"}}>
-                    <h2>合作者</h2>
-                    <Coworkers_echart/>
-                </Card>*/}
+
                 <div style={{width:"78%",float:"left"}}>
                 <Card bordered={false} style={{backgroundColor:"#fff"}}>
                 <div className={"body"}>
@@ -137,11 +123,6 @@ class Expert_Home extends Component{
 
                 <div className="person_baseinfo" >
                     <div className="p_name">{this.props.expert.name}</div>
-                    {/*<div className="p_volume">9191人看过</div>*/}
-                    {/*<div className="p_scholarID">
-                        <div className="p_scholarID_all">本站学术ID:<span className="p_scholarID_id">{this.props.expert.uid}</span>
-                        </div>
-                    </div>*/}
                     <div className="p_affiliate" ></div>
                     <ul className="p_ach_wr">
                         <li className="p_ach_item"><p className="p_ach_type c_gray">被引频次</p>
@@ -214,6 +195,7 @@ class Expert_Home extends Component{
                                                     title={<span style={{float:"left"}}>
 
                                                         <a onClick={()=>{
+                                                            this.setState({spinning:true})
                                                             this.get_expert_data(item.uid)
                                                             this.setState({uid:item.uid})
                                                             this.get_graph(item.uid)
@@ -232,6 +214,7 @@ class Expert_Home extends Component{
                 </div>
                 <User2Expert_inExpertHome/>
             </div>
+            </Spin>
         )
     }
 }

@@ -28,7 +28,7 @@ componentDidMount() {
 
 }
 
-  get_profile_data=()=>{
+  /*get_profile_data=()=>{
         //profile_set_account
 
         axios.get(`Http://127.0.0.1:8000/profile/${this.props.user_id}/`
@@ -44,7 +44,29 @@ componentDidMount() {
             .then(function () {
                 // always executed
             });
+    }*/
+
+    get_profile_data=()=>{
+
+        axios.get(`Http://127.0.0.1:8000/api/profile`,{headers:{
+                Authorization:`Token ${this.props.token}`
+            }}
+        )
+            .then( (response) =>{
+                console.log(response);
+                this.props.set_profile_account(response.data.balance,response.data)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
+
+
+
     state = { visible: false }
 
     showModal = () => {
@@ -63,7 +85,6 @@ componentDidMount() {
     }
 
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -84,7 +105,6 @@ componentDidMount() {
                 <Col span={24}>
                     {/*<Statistic title="用户余额 (CNY)" value={112893} precision={2} />*/}
                     <Button style={{ marginTop: 16 }} type="primary" onClick={this.showModal}>充值</Button>
-                    <Button onClick={()=>this.get_profile_data()}>获取数据</Button>
                 </Col>
             </Row>
             <Modal
@@ -117,7 +137,8 @@ function mapStateToProps(state)
 {
     return{
         account:state.profile.account,
-        user_id:state.login.user_id
+        user_id:state.login.user_id,
+        token:state.login.token
     }
 }
 

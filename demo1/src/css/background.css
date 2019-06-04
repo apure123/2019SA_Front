@@ -1,5 +1,5 @@
 .Login{
-    background: url("../image/背景.jpg") no-repeat;
+    background: url("../image/登录1.jpg") no-repeat;
     background-size: cover;
 
     display:inline-block;
@@ -10,4 +10,7 @@ height: 100%;
 .logo1{
     size: auto;
     float: left;
+}
+.avator1{
+    background-image: url("../image/头像.png");
 }

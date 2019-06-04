@@ -149,7 +149,7 @@ class Register extends Component{
                             <Input type="password" onBlur={this.handleConfirmBlur} />
                         )}
                     </Form.Item>
-                    <Form.Item
+                    {/*<Form.Item
                         label="手机号"
                     >
                         {getFieldDecorator('phone', {
@@ -157,7 +157,7 @@ class Register extends Component{
                         })(
                             <Input  style={{ }} />
                         )}
-                    </Form.Item>
+                    </Form.Item>*/}
                     <Form.Item {...tailFormItemLayout}>
                         {getFieldDecorator('agreement', {
                             valuePropName: 'checked',//输入框什么的默认是value，但是checkbox必须把值的名字改成checked

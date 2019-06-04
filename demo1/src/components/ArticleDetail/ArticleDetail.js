@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import  "./ArticleDetail.css"
-import {Card, Layout, Tag, Menu, Row, Col, Button, Form, message} from "antd"
+import {Card, Layout, Tag, Menu, Row, Col, Button, Form, message,Spin} from "antd"
 import axios from "axios"
 
 import {Link} from "react-router-dom";
@@ -14,6 +14,7 @@ class ArticleDetail extends Component{
 
     constructor(props) {
         super(props);
+        this.state={spinning:true}
         const query = props.location.search// '?uid=123=P1'
         const arr = query.split('=')
         const uid=arr[1]
@@ -45,10 +46,14 @@ get_detail_login=(uid,article_type)=>{
             if(article_type==="P1")
                 this.props.set_article_data(response.data)
             else this.props.set_patent(response.data)
+
+            this.setState({spinning:false})
         })
-        .catch(function (error) {
+        .catch( (error)=> {
             console.log(error);
-        })
+            this.setState({spinning:false})
+        }
+        )
 }
 get_detail_not_login=(uid,article_type)=>{
     axios({
@@ -62,9 +67,12 @@ get_detail_not_login=(uid,article_type)=>{
             if(article_type==="P1")
             this.props.set_article_data(response.data)
             else this.props.set_patent(response.data)
+
+            this.setState({spinning:false})
         })
-        .catch(function (error) {
+        .catch( (error)=> {
             console.log(error);
+            this.setState({spinning:false})
         })
 }
 
@@ -100,6 +108,7 @@ get_detail_not_login=(uid,article_type)=>{
     render() {
         return(
             <div >
+                <Spin spinning={this.state.spinning}>
                 <div id="dtl_l">
 
 
@@ -300,6 +309,7 @@ get_detail_not_login=(uid,article_type)=>{
                         <Col span={12}><Button icon="bar-chart">Search</Button></Col>
                     </Row>
                 </div>*/}
+                </Spin>
             </div>
         )
     }

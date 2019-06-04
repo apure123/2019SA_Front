@@ -119,11 +119,11 @@ render()
             <Col span={24} >
             <Card style={{display:"block"/*,background: '#ECECEC'*/}} bordered={false}>
             <p style={pStyle}>联系方式</p>
-            <Row>
+                {this.props.loginflag?<Row>
 
-                    <DescriptionItem title="邮箱" content={this.props.all_data.email} />
+                    <DescriptionItem title="邮箱" content={"1007720616@qq.com"} />
 
-            </Row>
+                </Row>:<div></div>}
 
             {/*<Row>
                     <DescriptionItem
@@ -144,15 +144,15 @@ render()
                 <Card style={{display:"block"}}>
                     <p style={pStyle}>专家信息</p>
                 <Row>
-                        <DescriptionItem title="所属机构" content={this.props.all_data.institute} />
+                        <DescriptionItem title="所属机构" content={"北京航空航天大学"} />
                 </Row>
                 <Row>
-                        <DescriptionItem title="研究领域" content={this.props.all_data.domain} />
+                        <DescriptionItem title="研究领域" content={"六学"} />
                 </Row>
                 <Row>
                         <DescriptionItem
                             title="简介"
-                            content={this.props.all_data.introduction}
+                            content={"我继续扮演美猴王孙悟空，我会用美猴王艺术形象努力创造一个正能量的形象，文体两开花，弘扬中华文化，希望大家多多关注。"}
                         />
                 </Row>
                 </Card>

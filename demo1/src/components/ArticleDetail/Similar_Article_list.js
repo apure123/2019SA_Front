@@ -29,7 +29,7 @@ class Similar_Article_list extends React.Component {
                 //console.log(response)
                 callback(response.data);
             })*/
-        if(this.props.article.keyword_list[0]!=""){
+        if(this.props.article.keyword_list[0]&&this.props.article.keyword_list[0]!=""){
             axios.post(`http://127.0.0.1:8000/api/search/`, {
                 field:"Title",
                 content:this.props.article.keyword_list[0],
