@@ -15,8 +15,6 @@ class Rsource_Detail extends Component{
 
         return(<div style={{/*background: '#ECECEC'*/}}>
 
-
-
                 <div style={{  padding: '30px' }}>
                     <p>这里是文章详情页</p>
                 </div>

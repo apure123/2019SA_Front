@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Table, Button, Tag, Popconfirm,message} from 'antd';
 import {connect} from "react-redux";
 import axios from "axios"
+import {Link} from "react-router-dom";
 
 
 
@@ -22,8 +23,9 @@ class User_interest extends Component{
         title: '专利id',
         dataIndex: 'patent_id',
         key:"name",
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
-    },
+        render: (text,record, index) => <Link to={`/system/article?uid=${text}=P2`} >
+            <a>{text}</a></Link>
+        },
         {
             title: '接收专家',
             dataIndex: 'receive_user',
@@ -35,15 +37,6 @@ class User_interest extends Component{
             dataIndex: 'message',
             key:"",
             render: (text,record, index) => <p  >{text}</p>
-        },
-        {
-            title: '消息状态',
-            dataIndex: 'status',
-            render: (text, record, index) => (
-                <span>
-                    {record==="true"?<Tag>已读</Tag>:<Tag>未读</Tag>}
-    </span>
-            ),
         }
     ];
     get_data=()=>{

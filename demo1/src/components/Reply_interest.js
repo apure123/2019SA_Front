@@ -60,8 +60,8 @@ class Reply_interest extends React.Component {
         })
             .then( (response) =>{
                 console.log(response);
-                if (response.data.msg==="消息发送成功！"){
-                    message.success("消息发送成功！")
+                if (response.data.msg==="消息回复成功！"){
+                    message.success("消息回复成功！")
                 }else {message.error(response.data.msg)}
             })
             .catch(function (error) {
@@ -76,7 +76,7 @@ class Reply_interest extends React.Component {
             <div style={{display:"flex"}}>
 
                 <Modal
-                    title="联系作者"
+                    title="回复"
                     visible={this.props.visible}
                     onOk={this.handleOk}
                     confirmLoading={confirmLoading}

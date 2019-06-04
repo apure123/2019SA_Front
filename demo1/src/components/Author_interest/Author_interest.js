@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Table, Button, Tag, Popconfirm,message} from 'antd';
 import {connect} from "react-redux";
 import axios from "axios"
+import Reply_interest from "../Reply_interest";
+import {Link} from "react-router-dom";
 
 
 
@@ -17,13 +19,21 @@ class Author_interest extends Component{
         title: '专利id',
         dataIndex: 'patent_id',
         key:"name",
-        render: (text,record, index) => <a href={record.url} target="_Blank" >{text}</a>
+        render: (text,record, index) =><Link to={`/system/article?uid=${text}=P2`} >
+            <a>{text}</a></Link>
     },
         {
             title: '发送者',
             dataIndex: 'send_user',
             key:"",
-            render: (text,record, index) => <a  >{text}</a>
+            render: (text,record, index) => <a  onClick={()=>{
+                console.log(record.message_id);
+                //选中要回复的消息id
+                this.props.set_message_id(record.message_id)
+                //打开消息框
+                this.props.set_reply_visible(true)
+            }
+            }>{text}</a>
         },
         {
             title: '消息',
@@ -32,20 +42,11 @@ class Author_interest extends Component{
             render: (text,record, index) => <p  >{text}</p>
         },
         {
-        title: '消息状态',
-        dataIndex: 'status',
-            render: (text, record, index) => (
-                <span>
-                    {record==="true"?<Tag>已读</Tag>:<Tag>未读</Tag>}
-    </span>
-            ),
-    },
-        {
             title:"回复",
             render:(text,record,index)=>(<Button onClick={()=>{
                 console.log(record.message_id);
                 //选中要回复的消息id
-                this.props.set_message_id(record.id)
+                this.props.set_message_id(record.message_id)
                 //打开消息框
                 this.props.set_reply_visible(true)
             }
@@ -75,6 +76,7 @@ class Author_interest extends Component{
     render(){return (
         <div >
             <Table  columns={this.columns} dataSource={this.props.interest} pagination={{pageSize:7}} />
+            <Reply_interest/>
         </div>
     )
 

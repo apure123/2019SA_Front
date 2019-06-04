@@ -79,8 +79,7 @@ render()
         <Card
             style={{ width:"28%" ,float:"left",marginRight:"2%"}}
             actions={this.props.all_data.Type=="E"? [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>]:
-                [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>,
-                    <a onClick={()=>this.props.set_u2e_visible(true)}> <Icon type="arrow-up" /> 申请成为专家</a>
+                [<a onClick={()=>this.props.set_visible(true)}> <Icon type="edit" /> 编辑</a>
                 ]}
         >
             <Meta
@@ -211,7 +210,7 @@ render()
 
 
         <Edit_profile/>
-        <User2Expert/>
+        {/*<User2Expert/>*/}
         </div>
     )
 }
